@@ -3,7 +3,7 @@ AG_VERSION := 1.0.2
 BIN := $(HOME)/bin
 
 # --- all ---
-all: $(BIN) ack ag ansi
+all: $(BIN) ack ag ansi h.sh
 
 # --- bin ---
 bin: $(BIN)
@@ -31,6 +31,10 @@ $(HOME)/.ag/$(ag.tar.gz):
 ansi:
 	@curl -o $@ -OL git.io/ansi
 	@chmod +x $@
+
+# --- h.sh ---
+h.sh:
+	curl -o $@ https://raw.githubusercontent.com/paoloantinori/hhighlighter/master/h.sh
 
 # --- clean ---
 clean:
