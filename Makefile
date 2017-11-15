@@ -1,14 +1,14 @@
 
 AG_VERSION := 1.0.2
 BIN := $(HOME)/bin
+FZF := $(PWD)/fzf
 
-targets := ack ag ansi tldr
+targets := ack ansi h.sh tldr $(HOME)/.fzf.zsh
 
 # --- all ---
 all: $(BIN) $(targets)
 
 # --- bin ---
-bin: $(BIN)
 $(BIN):
 	@ln -fs $(PWD) $(BIN)
 
@@ -18,6 +18,7 @@ ack:
 	@chmod +x $@
 
 # --- ag ---
+# TODO: Finish installation script
 ag.tar.gz := the_silver_searcher-$(AG_VERSION).tar.gz
 ag: $(HOME)/.ag/$(ag.tar.gz)
 $(HOME)/.ag/$(ag.tar.gz):
@@ -34,6 +35,14 @@ ansi:
 	@curl -o $@ -OL git.io/ansi
 	@chmod +x $@
 
+# --- fzf ---
+$(HOME)/.fzf.zsh: $(HOME)/.fzf
+	$(HOME)/.fzf/install --no-key-bindings --no-completion --no-update-rc
+$(HOME)/.fzf: $(FZF)
+	ln -s $(FZF) $(@)
+$(FZF):
+	git clone --depth 1 https://github.com/junegunn/fzf
+
 # --- h.sh ---
 h.sh:
 	@curl -o $@ https://raw.githubusercontent.com/paoloantinori/hhighlighter/master/h.sh
@@ -45,5 +54,5 @@ tldr:
 
 # --- clean ---
 clean:
-	rm $(targets)
+	rm -rf $(targets)
 
