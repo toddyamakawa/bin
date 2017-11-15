@@ -5,13 +5,6 @@ if [[ -f ~/bin/ack ]]; then
 fi
 
 
-# --- fzf ---
-if [[ -f ~/.fzf.zsh ]]; then
-	source ~/.fzf.zsh
-	alias vif='vi $(fzf)'
-fi
-
-
 # --- h ---
 if [[ -f ~/bin/h.sh ]]; then
 	source $(readlink -f ~/bin/h.sh)
