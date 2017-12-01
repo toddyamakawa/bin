@@ -1,7 +1,9 @@
 
+ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+
 AG_VERSION := 1.0.2
 BIN := $(HOME)/bin
-FZF := $(PWD)/fzf
+FZF := $(ROOT_DIR)/fzf
 
 targets := ack ansi h.sh tldr $(HOME)/.fzf.zsh
 
@@ -10,7 +12,7 @@ all: $(BIN) $(targets)
 
 # --- bin ---
 $(BIN):
-	@ln -fs $(PWD) $(BIN)
+	ln -fs $(ROOT_DIR) $(BIN)
 
 # --- ack ---
 ack:
