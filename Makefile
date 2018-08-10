@@ -12,7 +12,7 @@ all: $(BIN) $(targets)
 
 # --- bin ---
 $(BIN):
-	ln -fs $(CURDIR) $(BIN)
+	ln -fns $(CURDIR) $(BIN)
 
 # --- ack ---
 ack:
@@ -41,7 +41,7 @@ ansi:
 $(HOME)/.fzf.zsh: $(HOME)/.fzf
 	$(HOME)/.fzf/install --no-key-bindings --no-completion --no-update-rc
 $(HOME)/.fzf: $(FZF)
-	ln -s $(FZF) $(@)
+	ln -fns $(FZF) $(@)
 $(FZF):
 	git clone --depth 1 https://github.com/junegunn/fzf
 
