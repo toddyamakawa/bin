@@ -1,4 +1,5 @@
 *
 !.gitignore
 !bin.plugin.zsh
+!git-logf
 !Makefile
