@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+cmd=${1?cmd not specifed} && shift
+emacs -f magit-$cmd -f delete-other-windows -nw $@
+
