@@ -2,6 +2,7 @@
 !.gitignore
 !bin.plugin.zsh
 !diff-csv.rb
+!git-clone-hub
 !git-logf
 !git-magit
 !Makefile
