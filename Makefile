@@ -4,6 +4,7 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 AG_VERSION := 1.0.2
 BIN := $(HOME)/bin
 FZF := $(CURDIR)/fzf
+TIG_VERSION := 2.4.1
 
 targets := ack ansi h.sh tldr $(HOME)/.fzf.zsh
 
@@ -48,6 +49,12 @@ $(FZF):
 # --- h.sh ---
 h.sh:
 	@curl -o $@ https://raw.githubusercontent.com/paoloantinori/hhighlighter/master/h.sh
+
+# --- tig ---
+tig: tig-repo
+tig-repo:
+	git clone https://github.com/jonas/tig $@
+	git -C $@ checkout tig-$(TIG_VERSION)
 
 # --- tldr ---
 tldr:
