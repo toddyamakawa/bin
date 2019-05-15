@@ -38,6 +38,15 @@ ansi:
 	@curl -o $@ -OL git.io/ansi
 	@chmod +x $@
 
+# --- cowsay ---
+cowsay: cowsay-repo/cli.js
+	ln -s $^ $@
+cowsay-repo:
+	git clone https://github.com/piuccio/cowsay $@
+cowsay-repo/node_modules: cowsay-repo
+	npm install --prefix $^ $^
+cowsay-repo/cli.js: cowsay-repo/node_modules
+
 # --- fzf ---
 $(HOME)/.fzf.zsh: $(HOME)/.fzf
 	$(HOME)/.fzf/install --no-key-bindings --no-completion --no-update-rc
