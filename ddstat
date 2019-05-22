@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+declare -r dir=${1-$(readlink -f $PWD)}
+tmpfile=$(TMPDIR=$dir mktemp)
+
+# Clean up temp file
+function finish() {
+	local RETVAL=$?
+	rm -f $tmpfile
+}
+eval trap "'finish $0 $@'" EXIT
+
+# Print stats
+df -Ph $dir
+dd if=/dev/zero of=$tmpfile bs=32768 count=1000
+

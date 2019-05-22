@@ -1,6 +1,7 @@
 *
 !.gitignore
 !bin.plugin.zsh
+!ddstat
 !diff-csv.rb
 !git-clone-hub
 !git-logf
