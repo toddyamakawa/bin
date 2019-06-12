@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Hacky man script to fix the following error:
+# man: manpath list too long
+cmd=${1?cmd not found}
+fullcmd=$(which $cmd)
+[[ -f $fullcmd ]] || { echo $1 not found; exit 16; }
+bin=$(dirname $fullcmd)
+version=$(dirname $(dirname $bin))
+MANPATH=$version/common/man man $cmd
