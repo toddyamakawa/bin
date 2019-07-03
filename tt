@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+exec /arm/tools/setup/bin/mrun +ruby/ruby/2.5.1 ruby $0 "$@"
+#!/usr/bin/env ruby
+# vi: ft=ruby
+
+if __FILE__ == $0
+	# TODO: Shift ARGV until first subcmd
+	base = File.basename($0)
+	subcmd = ARGV.shift
+	commands = ENV['PATH'].split(':').map { |path| "#{path}/#{base}-#{subcmd}" }
+	commands.keep_if { |command| File.file? command }
+	if commands.empty?
+		puts "Command '#{subcmd}' not found"
+		exit
+	end
+	command = commands.first
+	puts "=> #{command} #{ARGV.join(' ')}"
+end
+
