@@ -3,6 +3,19 @@ exec /arm/tools/setup/bin/mrun +ruby/ruby/2.5.1 ruby $0 "$@"
 #!/usr/bin/env ruby
 # vi: ft=ruby
 
+require 'pty'
+
+
+# List valid commands
+def help(base)
+	patterns = ENV['PATH'].split(':').map { |path| "#{path}/#{base}-*" }
+	commands = Dir.glob(patterns).map { |file| File.basename(file).sub(/^#{base}-/, '') }
+	puts "Valid commands are:"
+	puts commands.map { |cmd| "- #{cmd}" }.join("\n")
+	exit
+end
+
+
 if __FILE__ == $0
 	# TODO: Shift ARGV until first subcmd
 	base = File.basename($0)
@@ -10,10 +23,17 @@ if __FILE__ == $0
 	commands = ENV['PATH'].split(':').map { |path| "#{path}/#{base}-#{subcmd}" }
 	commands.keep_if { |command| File.file? command }
 	if commands.empty?
+		help(base) if subcmd == 'help'
 		puts "Command '#{subcmd}' not found"
 		exit
 	end
-	command = commands.first
-	puts "=> #{command} #{ARGV.join(' ')}"
+
+	# Run command
+	command = "#{commands.first} #{ARGV.join(' ')}"
+	puts "=> #{command}"
+	PTY.spawn(command) do |stdout, stdin, pid|
+		stdout.each { |line| puts "#{Time.now} #{line}" }
+		rescue Errno::EIO
+	end
 end
 
