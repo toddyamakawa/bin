@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+width=$(tput cols || echo 80)
+for column in $(eval echo {1..$width}); do
+	r=$((255-(column*255/width)))
+	g=$((column*510/width))
+	b=$((column*255/width))
+	(( g > 255 )) && g=$((510-g))
+	printf "\033[48;2;$r;$g;${b}m "
+done
+echo -e "\033[0m"
