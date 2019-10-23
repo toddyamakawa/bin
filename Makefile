@@ -6,7 +6,7 @@ BIN := $(HOME)/bin
 FZF := $(CURDIR)/fzf
 TIG_VERSION := 2.4.1
 
-targets := ack ansi h.sh tldr $(HOME)/.fzf.zsh
+targets := ansi h.sh tldr $(HOME)/.fzf.zsh
 
 # --- all ---
 all: $(BIN) $(targets)
@@ -58,6 +58,10 @@ $(FZF):
 # --- h.sh ---
 h.sh:
 	@curl -o $@ https://raw.githubusercontent.com/paoloantinori/hhighlighter/master/h.sh
+
+# --- ticker.sh ---
+ticker.sh:
+	@curl -o $@ https://raw.githubusercontent.com/pstadler/ticker.sh/master/ticker.sh
 
 # --- tig ---
 tig: tig-repo
