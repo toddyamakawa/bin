@@ -5,5 +5,7 @@
 !diff-csv.rb
 !manhack
 !Makefile
+!setup/
+!setup/*
 !tt
 !true-color-test
