@@ -1,0 +1,100 @@
+#!/usr/bin/env ruby
+# vi: ft=ruby
+
+# ==============================================================================
+# REQUIRE
+# ==============================================================================
+require 'optparse'
+require 'yaml'
+
+
+# ==============================================================================
+# PARSE ARGUMENTS
+# ==============================================================================
+options = Hash.new
+parser = OptionParser.new do |opts|
+	opts.banner = "Usage: #{$0} [options] [ACTION]"
+	opts.separator ''
+	opts.separator 'Options:'
+	opts.on '-h', '--help', 'Show this message' do
+		puts opts
+		exit
+	end
+	opts.on('-v', '--[no-]verbose', 'Run verbosely') do |v|
+		options[:verbose] = v
+	end
+end
+
+begin
+	parser.parse!
+rescue OptionParser::InvalidOption => e
+	puts e
+	puts parser
+	exit
+end
+
+subcmd = ARGV.shift
+subcmd = 'ls' if subcmd.nil?
+
+# TODO: Unhardcode this
+# Check .yaml file
+toddo_yaml = "#{ENV['HOME']}/.toddo.yaml"
+if File.file?(toddo_yaml)
+	toddo_list = YAML.load(File.read(toddo_yaml).scrub(''))
+else
+	$stderr.puts "# WARNING: #{toddo_yaml} not found"
+	toddo_list = Array.new
+end
+
+# ==============================================================================
+# SUBCOMMANDS
+# ==============================================================================
+
+# Show items
+if subcmd == 'ls' or subcmd == 'l'
+	# TODO: Sort
+	toddo_list.each_with_index do |item, index|
+		id = index.to_s.rjust(3)
+		priority = (item['priority'] == 99) ? '' : "[#{item['priority']}]".rjust(4)
+		summary = item['summary']
+		puts [id, priority, summary].join(' ')
+	end
+
+# Create new entry
+elsif subcmd == 'new' or subcmd == 'n'
+	summary = ARGV.shift
+	new_item = {
+		'summary' => summary,
+		'created' => Time.now.strftime('%Y/%m/%d %A %T'),
+		'priority' => 99,
+		'tags' => [],
+		'description' => []
+	}
+	puts new_item.to_yaml
+	toddo_list.append(new_item)
+	File.write(toddo_yaml, toddo_list.to_yaml)
+
+# Add new field to entry
+elsif subcmd == 'add' or subcmd == 'a'
+	puts "TODO: Implement add"
+
+# Mark as done
+elsif subcmd == 'done' or subcmd == 'd'
+	puts "TODO: Implement done"
+
+# Print everything
+elsif subcmd == 'show'
+	index = ARGV.shift
+	if index.nil? or index == 'all'
+		puts toddo_list.to_yaml
+	else
+		# TODO: Check range
+		puts toddo_list[index.to_i].to_yaml
+	end
+
+# Subcommand not found
+else
+	$stderr.puts "# ERROR: Subcommand '#{subcmd}' not found"
+	exit 2
+end
+
