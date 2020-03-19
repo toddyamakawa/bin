@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+ENV.sort.each do |key, values|
+	if not values =~ /:/
+		puts "#{key}=#{values}"
+		next
+	end
+	values.split(':').each_with_index do |value, index|
+		puts "#{key}[#{index}]=#{value}"
+	end
+end
