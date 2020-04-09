@@ -7,8 +7,8 @@
 !Makefile
 !setup/
 !setup/*
-!showenv
 !tt
 !toddo
 !true-color-test
+!,env
 !,watch
