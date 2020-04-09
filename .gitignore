@@ -12,5 +12,6 @@
 !true-color-test
 !,date
 !,env
+!,hex
 !,ps
 !,watch
