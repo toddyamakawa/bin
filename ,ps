@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+ps --noheader -o "%cpu,%mem,user,pid,ppid,etime,time,cmd" $@ \
+	| grep -v grep \
+	| sort -n \
+	| cut -c 1-$(tput cols)
