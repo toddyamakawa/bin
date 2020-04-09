@@ -1,0 +1,58 @@
+#!/usr/bin/env ruby
+# vim: ft=ruby
+
+require 'open3'
+
+def clear
+	#printf "\033[2J\033[H"
+	#printf "\033c"
+	printf "\033[H\033[2J"
+end
+
+def print_header(left)
+	# Generate header
+	now = Time.now.strftime('%T')
+	right = "#{now}"
+
+	# Print header
+	width = `tput cols`.to_i
+	right_width = width - left.size
+
+	puts left + right.rjust(right_width)
+	puts
+end
+
+def print_result(result)
+	height = `tput lines`.to_i - 4
+	puts result.split("\n").first(height)
+end
+
+def run(command)
+	result = ''
+	output, status = Open3.capture2e(*command)
+	result = "Exited with code: #{status.exitstatus}\n\n"
+	result += output
+	return result
+end
+
+# Run once
+command = ARGV
+prev_result = run(command)
+clear
+print_header("COMMAND: #{command.join(' ')}")
+print_result(prev_result)
+
+begin
+	# Run until interrupt
+	while true
+		sleep 1
+		result = run(command)
+		next if result == prev_result
+		clear
+		print_header("COMMAND: #{command.join(' ')}")
+		print_result(result)
+		prev_result = result
+	end
+rescue Interrupt => error
+end
+
