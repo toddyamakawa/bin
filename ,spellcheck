@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+exec cat "$@" | aspell pipe 2>/dev/null \
+	| awk '
+		/^&/ {print $2}
+		/^#/ {print $2}
+	' | sort | uniq -c | sort -n
+

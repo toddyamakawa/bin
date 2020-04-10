@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -e
+
+while [[ $# -ge 1 ]]; do
+	word="$1" && shift
+	echo "Adding '$word'"
+	echo -e "*${word}\n#" | aspell -a >/dev/null
+done
+
+echo -e "\nUpdated: $HOME/.aspell.en.pws"
+
