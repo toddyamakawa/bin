@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+declare -r script="$(readlink -f $BASH_SOURCE)"
+declare -r script_dir="$(dirname "$script")"
+cd "$script_dir"
+make $@
