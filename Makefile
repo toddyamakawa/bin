@@ -7,9 +7,13 @@ FZF := $(CURDIR)/fzf
 TIG_VERSION := 2.4.1
 
 targets := ansi h.sh tldr $(HOME)/.fzf.zsh
+targets += cowsay
 
 # --- all ---
 all: $(BIN) $(targets)
+
+targets:
+	@echo $(targets)
 
 # --- bin ---
 $(BIN):
@@ -40,12 +44,12 @@ ansi:
 
 # --- cowsay ---
 cowsay: cowsay-repo/cli.js
-	ln -s $^ $@
+	ln -sf $^ $@
 cowsay-repo:
 	git clone https://github.com/piuccio/cowsay $@
-cowsay-repo/node_modules: cowsay-repo
+cowsay-repo/cli.js: cowsay-repo
 	npm install --prefix $^ $^
-cowsay-repo/cli.js: cowsay-repo/node_modules
+	touch $@
 
 # --- fzf ---
 $(HOME)/.fzf.zsh: $(HOME)/.fzf
