@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+page="${!#}"
+if [[ "$page" == "$0" ]]; then
+	echo "Usage: $(basename "$0") <command>"
+	exit
+fi
+echo -e "MANPAGER=$MANPAGER\n"
+echo -e "\033[1;33mPAGE                 - Description\033[0m"
+man -f "$page"
+echo
+man "$page"
+
