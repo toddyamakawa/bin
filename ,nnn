@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Bookmarks
+NNN_BMS='h:~'
+NNN_BMS+=';b:~/bin'
+NNN_BMS+=';d:~/dotfiles'
+NNN_BMS+=';l:~/.links'
+export NNN_BMS
+
+# More info here:
+# https://github.com/jarun/nnn/blob/master/misc/quitcd/quitcd.bash_zsh
+#
+# The default behaviour is to cd on quit (nnn checks if NNN_TMPFILE is set)
+# To cd on quit only on ^G, remove the "export" as in:
+#     NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+# NOTE: NNN_TMPFILE is fixed, should not be modified
+export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+
+nnn $@
+
+# Print the contents of $NNN_TMPFILE
+cat $NNN_TMPFILE
+rm -f $NNN_TMPFILE
+
