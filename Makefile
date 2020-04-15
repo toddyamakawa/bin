@@ -8,6 +8,7 @@ TIG_VERSION := 2.4.1
 
 targets := ansi h.sh tldr $(HOME)/.fzf.zsh
 targets += cowsay
+targets += nnn
 
 # --- all ---
 all: $(BIN) $(targets)
@@ -62,6 +63,14 @@ $(FZF):
 # --- h.sh ---
 h.sh:
 	@curl -o $@ https://raw.githubusercontent.com/paoloantinori/hhighlighter/master/h.sh
+
+# --- nnn ---
+nnn: nnn.git/nnn
+	ln -sf $^ $@
+nnn.git:
+	git clone https://github.com/jarun/nnn $@
+nnn.git/nnn: nnn.git
+	make -C $(@D)
 
 # --- ticker.sh ---
 ticker.sh:
