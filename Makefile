@@ -68,7 +68,8 @@ h.sh:
 nnn: nnn.git/nnn
 	ln -sf $^ $@
 nnn.git:
-	git clone https://github.com/jarun/nnn $@
+	git clone https://github.com/toddyamakawa/nnn $@
+	git -C $@ remote add main https://github.com/jarun/nnn
 nnn.git/nnn: nnn.git
 	make -C $(@D)
 
