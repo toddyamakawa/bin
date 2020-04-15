@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# More examples:
+# https://github.com/tmux-plugins/tmux-yank/blob/master/scripts/helpers.sh
+# https://github.com/jarun/nnn/blob/master/plugins/x2sel
+
+if (which xclip &>/dev/null); then
+	xclip -o
+elif (which xsel &>/dev/null); then
+	xsel -bo
+elif (which pbpaste &>/dev/null); then
+	pbpaste
+elif (which termux-clipboard-get &>/dev/null); then
+	termux-clipboard-get
+elif [[ -r /dev/clipboard ]] ; then
+	cat /dev/clipboard
+else
+	echo 'paste command not found'
+	exit 2
+fi
+
