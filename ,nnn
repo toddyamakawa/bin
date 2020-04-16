@@ -28,9 +28,23 @@ export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
 # 7 = white
 export NNN_COLORS='4231'
 
-export NNN_PLUG='g:_git status'
-export NNN_PLUG+=';l:_less -r $nnn*'
+NNN_PLUG='g:_git status'
+NNN_PLUG+=';s:_nnn-show-selection'
+#export NNN_PLUG+=';e:_,env'
+export  NNN_PLUG
 
+# TODO: Figure out how to get this to work
+#open_with="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins/nuke"
+#[[ -f "$open_with" ]] && export NNN_OPENER="$open_with"
+
+# I don't like the NNN_OPENER
+#export NNN_OPENER=notify-send
+export NNN_OPENER=echo
+
+# Check key collisions
+nnn -K
+
+# Run nnn
 nnn -d $@
 
 # Print the contents of $NNN_TMPFILE

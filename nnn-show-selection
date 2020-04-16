@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -e
+selection="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection"
+if [[ ! -f "$selection" ]]; then
+	exit
+fi
+entries=($(tr '\0' ' ' < "$selection"))
+clear
+echo -en "\033[33;1m"
+echo '================================================================================'
+echo 'CURRENT SELECTION'
+echo '================================================================================'
+echo -en "\033[0m"
+for entry in "${entries[@]}"; do
+	if [[ -f "$entry" ]]; then
+		echo "File: $entry"
+	elif [[ -d "$entry" ]]; then
+		echo "Directory: $entry"
+	else
+		echo "Unknown: $entry"
+	fi
+done
+
