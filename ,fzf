@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Uncomment to debug
+#verbosity=1
+
+# Get config
+config=${1-default}
+shift
+if ((verbosity)); then
+	echo "CONFIG: '$config'"
+fi
+
+# Default args
+declare -A args
+args['multi']="-m"
+args['height']='--height 40%'
+args['tiebreak']='--tiebreak=length'
+args['reverse']='--reverse'
+args['keybind']='--bind=ctrl-s:toggle-sort'
+args['query']="--query='$@ '"
+
+# TODO: Set config
+	#--preview-window bottom:50% \
+	#--preview "'my-fzf-preview-dir {}'" \
+	#--exact
+	#--tiebreak=index \
+	#--preview-window down:80% \
+	#--preview "'my-fzf-preview-file {}'" \
+	#--preview "'my-fzf-preview-git-diff {}'" \
+	#--preview "'git show --color=always --numstat {1}'" \
+
+# Combine options
+cmd='fzf'
+for name in "${!args[@]}"; do
+	((verbosity)) && printf "ARG %-8s : %s\n" "$name" "${args[$name]}"
+	cmd+=" ${args[$name]}"
+done
+
+# Print and run
+((verbosity)) && echo "COMMAND: $cmd"
+eval exec $cmd
+
