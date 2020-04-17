@@ -29,6 +29,9 @@ export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
 export NNN_COLORS='4231'
 
 NNN_PLUG='g:_git status'
+NNN_PLUG+=';b:_nnn-bookmarks*'
+NNN_PLUG+=';l:_less -r $nnn*'
+NNN_PLUG+=';o:fzopen'
 NNN_PLUG+=';s:_nnn-show-selection'
 #export NNN_PLUG+=';e:_,env'
 export  NNN_PLUG
@@ -48,8 +51,8 @@ nnn -K
 nnn -d $@
 
 # Print the contents of $NNN_TMPFILE
-if [[ -f  "$NNN_TMPFILE" ]]; then
-	cat $NNN_TMPFILE
-	rm -f $NNN_TMPFILE
-fi
+#if [[ -f  "$NNN_TMPFILE" ]]; then
+#	cat $NNN_TMPFILE
+#	rm -f $NNN_TMPFILE
+#fi
 
