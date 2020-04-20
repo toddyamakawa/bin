@@ -44,6 +44,9 @@ export  NNN_PLUG
 #export NNN_OPENER=notify-send
 export NNN_OPENER=echo
 
+# Fix ordering
+export LC_ALL=C
+
 # Check key collisions
 nnn -K
 
