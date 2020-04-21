@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# Check file
+file="$1"
+[[ -f "$file" ]] || { echo "File '$file' not found"; exit 2; }
+
+# Print info
+info="$(file "$file")"
+echo -e "\e[33;1m ==> info <==\e[0m"
+echo "$info"
+ls -l "$file"
+
+# Print text
+file $file | awk '{$1=""; print}' | grep -v text && exit 0
+
+# TODO: Figure out how to get number of lines in preview window
+# `tput lines` returns full fzf size
+#lines=$(tput lines)
+
+# If log file
+base=$(basename $file .log)
+if [[ $file != $base ]]; then
+	echo -e "\e[33;1m ==> head <==\e[0m"
+	head -n 5 $file
+	echo -e "\e[31m...\e[0m"
+	tail -n 10 $file
+
+# Print generic info
+else
+	echo -e "\e[33;1m ==> head <==\e[0m"
+	head -n 50 $file
+	echo -e "\e[31m...\e[0m"
+fi
+
+# End of preview
+echo -e "\e[33;1m==> end of preview <==\e[0m"
+

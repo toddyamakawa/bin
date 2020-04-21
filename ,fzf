@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+declare -r CURRENT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+declare -r preview="$CURRENT_DIR/fzf-preview"
+
 # Uncomment to debug
 #verbosity=1
 
@@ -11,12 +14,20 @@ fi
 
 # Default args
 declare -A args
-args['multi']="-m"
+args['multi']="--multi"
 args['height']='--height 40%'
 args['tiebreak']='--tiebreak=length'
 args['reverse']='--reverse'
 args['keybind']='--bind=ctrl-s:toggle-sort'
 args['query']="--query='$@ '"
+
+# Custom colorscheme
+args['color']='--color '
+args['color']+='fg:33,bg:233,fg+:39,bg+:236'
+args['color']+=',hl:172,hl+:172'
+args['color']+=',spinner:166,pointer:166,gutter:236,marker:214'
+args['color']+=',prompt:123,info:123'
+args['color']+=',border:33,preview-fg:159,preview-bg:235'
 
 # TODO: Set config
 	#--preview-window bottom:50% \
@@ -27,6 +38,10 @@ args['query']="--query='$@ '"
 	#--preview "'my-fzf-preview-file {}'" \
 	#--preview "'my-fzf-preview-git-diff {}'" \
 	#--preview "'git show --color=always --numstat {1}'" \
+	#--expect=ctrl-t,ctrl-v
+
+# TODO: Preview for things that aren't files
+args['preview']+="--preview '$preview/file {}' --preview-window right:50%"
 
 # Combine options
 cmd='fzf'
