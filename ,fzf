@@ -18,6 +18,7 @@ args['multi']="--multi"
 args['height']='--height 40%'
 args['tiebreak']='--tiebreak=length'
 args['reverse']='--reverse'
+args['info']='--info inline'
 args['keybind']='--bind=ctrl-s:toggle-sort'
 args['query']="--query='$@ '"
 
@@ -41,7 +42,7 @@ args['color']+=',border:33,preview-fg:159,preview-bg:235'
 	#--expect=ctrl-t,ctrl-v
 
 # TODO: Preview for things that aren't files
-args['preview']+="--preview '$preview/file {}' --preview-window right:50%"
+args['preview']+="--preview '$preview/file {}' --preview-window right:80"
 
 # Combine options
 cmd='fzf'

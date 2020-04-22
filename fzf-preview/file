@@ -6,7 +6,7 @@ file="$1"
 
 # Print info
 info="$(file "$file")"
-echo -e "\e[33;1m ==> info <==\e[0m"
+echo -e "\e[33;1m==> info <==\e[0m"
 echo "$info"
 ls -lh "$file"
 
@@ -30,7 +30,7 @@ function colorgrep() {
 
 # Handle UART files
 if [[ "$file" =~ uart.* ]]; then
-	echo -e "\e[33;1m ==> uart file <==\e[0m"
+	echo -e "\e[33;1m==> uart file <==\e[0m"
 	colorgrep '31;1' -n -e '/Failing at test/p' "$file"
 	tail -n 10 "$file" | strings
 	echo -e "\e[33;1m==> end <==\e[0m"
@@ -40,14 +40,14 @@ fi
 # If log file
 base=$(basename $file .log)
 if [[ $file != $base ]]; then
-	echo -e "\e[33;1m ==> head <==\e[0m"
+	echo -e "\e[33;1m==> head <==\e[0m"
 	head -n 5 $file
 	echo -e "\e[31m...\e[0m"
 	tail -n 10 $file
 
 # Print generic info
 else
-	echo -e "\e[33;1m ==> head <==\e[0m"
+	echo -e "\e[33;1m==> head <==\e[0m"
 	head -n 50 $file
 	echo -e "\e[31m...\e[0m"
 fi
