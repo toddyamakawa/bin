@@ -8,7 +8,7 @@ file="$1"
 info="$(file "$file")"
 echo -e "\e[33;1m ==> info <==\e[0m"
 echo "$info"
-ls -l "$file"
+ls -lh "$file"
 
 # Print text
 file $file | awk '{$1=""; print}' | grep -v text && exit 0
@@ -16,6 +16,26 @@ file $file | awk '{$1=""; print}' | grep -v text && exit 0
 # TODO: Figure out how to get number of lines in preview window
 # `tput lines` returns full fzf size
 #lines=$(tput lines)
+
+# grep things and print in color
+esc=$(printf '\033')
+function colorgrep() {
+	local color="$1"
+	shift
+	sed \
+		-e "s/^/${esc}[${color}m/" \
+		-e "s/\$/${esc}[0m/" \
+		"$@"
+}
+
+# Handle UART files
+if [[ "$file" =~ uart.* ]]; then
+	echo -e "\e[33;1m ==> uart file <==\e[0m"
+	colorgrep '31;1' -n -e '/Failing at test/p' "$file"
+	tail -n 10 "$file" | strings
+	echo -e "\e[33;1m==> end <==\e[0m"
+	exit
+fi
 
 # If log file
 base=$(basename $file .log)
@@ -33,5 +53,5 @@ else
 fi
 
 # End of preview
-echo -e "\e[33;1m==> end of preview <==\e[0m"
+echo -e "\e[33;1m==> end <==\e[0m"
 
