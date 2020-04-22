@@ -12,15 +12,27 @@ if ((verbosity)); then
 	echo "CONFIG: '$config'"
 fi
 
+# Get width/height
+width=$(tput cols)
+height=$(tput lines)
+
 # Default args
 declare -A args
 args['multi']="--multi"
+# TODO: Dynamically set height based on current height
 args['height']='--height 40%'
+#args['height']='--height 100%'
 args['tiebreak']='--tiebreak=length'
 args['reverse']='--reverse'
 args['info']='--info inline'
 args['keybind']='--bind=ctrl-s:toggle-sort'
+args['preview']="--preview '$preview/unknown {}'"
+# TODO: Dynamically set preview-window size and position
+args['preview-window']="--preview-window right:50%"
 args['query']="--query='$@ '"
+#args['exact']='--exact'
+#args['tiebreak']='--tiebreak=index'
+#args['expect']='--expect=ctrl-t,ctrl-v'
 
 # Custom colorscheme
 args['color']='--color '
@@ -30,19 +42,15 @@ args['color']+=',spinner:166,pointer:166,gutter:236,marker:214'
 args['color']+=',prompt:123,info:123'
 args['color']+=',border:33,preview-fg:159,preview-bg:235'
 
-# TODO: Set config
-	#--preview-window bottom:50% \
-	#--preview "'my-fzf-preview-dir {}'" \
-	#--exact
-	#--tiebreak=index \
-	#--preview-window down:80% \
-	#--preview "'my-fzf-preview-file {}'" \
+# TODO: More previews
 	#--preview "'my-fzf-preview-git-diff {}'" \
 	#--preview "'git show --color=always --numstat {1}'" \
-	#--expect=ctrl-t,ctrl-v
 
-# TODO: Preview for things that aren't files
-args['preview']+="--preview '$preview/file {}' --preview-window right:80"
+case "$config" in
+	default);;
+	dir) args['preview']="--preview '$preview/dir {}'";;
+	*) echo "WARNING: config '$config' not recognized";;
+esac
 
 # Combine options
 cmd='fzf'
