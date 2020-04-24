@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# Stolen from here:
+# https://wiki.archlinux.org/index.php/Bash/Functions#Extract
+
+# Check input
+file="$1"
+if [[ -z "$file" ]]; then
+	echo "Usage: $(basename "$0") <file>"
+	exit 2
+fi
+if [[ ! -f "$file" ]]; then
+	echo "File not found: '$file'" >&2
+	exit 2
+fi
+
+# Find command
+cmd=''
+case $file in
+	# TODO: Fix this giant mess
+	#*.t@(gz|lz|xz|b@(2|z?(2))|a@(z|r?(.@(Z|bz?(2)|gz|lzma|xz)))))
+	*.tgz)
+		   cmd=(bsdtar xvf);;
+	*.7z)  cmd=(7z x);;
+	*.Z)   cmd=(uncompress);;
+	*.bz2) cmd=(bunzip2);;
+	*.exe) cmd=(cabextract);;
+	*.gz)  cmd=(gunzip);;
+	*.rar) cmd=(unrar x);;
+	*.xz)  cmd=(unxz);;
+	*.zip) cmd=(unzip);;
+	*)
+		echo "Unrecognized file extension: \`$file'" >&2
+		exit 2;;
+esac
+
+# Extract
+echo "\$> ${cmd[@]}" "$file"
+exec command "${cmd[@]}" "$file"
+
