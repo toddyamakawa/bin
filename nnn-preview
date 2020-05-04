@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+declare -r CURRENT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+declare -r preview="$CURRENT_DIR/preview"
+
+# Check FIFO
+NNN_FIFO=${NNN_FIFO:-$1}
+if [[ ! -r "$NNN_FIFO" ]]; then
+	echo "Unable to open \$NNN_FIFO='$NNN_FIFO'"
+	exit 2
+fi
+
+# Close tmux pane on exit
+if [[ -n "$TMUX_PANE" ]]; then
+	#tmux set-option -t $TMUX_PANE remain-on-exit on
+	tmux set-option -t $TMUX_PANE remain-on-exit off
+fi
+
+# REVISIT: Use $NNN_PWD for something
+#NNN_PWD=$PWD
+
+# Read selection
+while read -r selection; do
+	# REVISIT: Use this for something
+	#basedir="$(dirname "$selection")"
+	#if [[ "$basedir" != "$NNN_PWD" ]]; then
+		#NNN_PWD="$basedir"
+	#fi
+	clear
+
+	# Handle directory
+	if [[ -d "$selection" ]]; then
+		$preview/dir "$selection"
+		continue
+	fi
+
+	# Handle file
+	if [[ -f "$selection" ]]; then
+		clear
+		$preview/file "$selection"
+		continue
+	fi
+
+	echo "Unknown type: '$selection'"
+done < "$NNN_FIFO"
+

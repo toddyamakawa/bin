@@ -50,12 +50,25 @@ export LC_ALL=C
 # Check key collisions
 nnn -K
 
+# Open FIFO
+export NNN_FIFO="$(mktemp --suffix=-nnn -u)"
+echo "$NNN_FIFO"
+(umask 077; mkfifo "$NNN_FIFO")
+
+if [[ -e ${TMUX%%,*} ]]; then
+	tmux split-window -dh nnn-preview $NNN_FIFO
+fi
+
 # Run nnn
 nnn -d $@
 
+
+# Clean up FIFO
+rm "$NNN_FIFO"
+
 # Print the contents of $NNN_TMPFILE
 #if [[ -f  "$NNN_TMPFILE" ]]; then
-#	cat $NNN_TMPFILE
-#	rm -f $NNN_TMPFILE
+	#echo "NNN_TMPFILE: $(cat $NNN_TMPFILE)"
+	#rm -f $NNN_TMPFILE
 #fi
 
