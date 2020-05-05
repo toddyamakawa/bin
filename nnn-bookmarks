@@ -24,5 +24,7 @@ function get_links() {
 cddir="$(get_links "$BOOKMARKS_DIR" | fzf | awk 'END { print "'$BOOKMARKS_DIR'/"$1 }')"
 
 # Writing result to NNN_PIPE will change nnn's active directory
-printf "%s" "0$(readlink -f "$cddir")" > "$NNN_PIPE"
+# https://github.com/jarun/nnn/tree/master/plugins#send-data-to-nnn
+context=0
+printf "%s" "${context}c$(readlink -f "$cddir")" > "$NNN_PIPE"
 
