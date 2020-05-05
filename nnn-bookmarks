@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
+# This is plugin for adding named bookmarks to `nnn`
+#
+# This plugin will search for all symlinks in $BOOKMARKS_DIR using `fzf`
+BOOKMARKS_DIR="$HOME/.links"
 set -e
 
+# Check if NNN_PIPE is set
+[[ -z "$NNN_PIPE" ]] && { echo 'NNN_PIPE is not set'; exit 2; }
+
+# Get all directory symlinks
 function get_links() {
 	for entry in $1/*; do
 
@@ -9,12 +17,12 @@ function get_links() {
 		[[ -d "$entry" ]] || continue
 
 		echo "$(basename "$entry") ->  $(readlink -f "$entry")"
-	done
+	done | column -t
 }
 
-dir="$HOME/.links"
-cddir="$(get_links "$dir" | column -t | fzf | awk 'END { print "'$dir'/"$1 }')"
+# Choose symlink with fzf
+cddir="$(get_links "$BOOKMARKS_DIR" | fzf | awk 'END { print "'$BOOKMARKS_DIR'/"$1 }')"
 
-[[ -z "$NNN_PIPE" ]] && { echo 'NNN_PIPE is not set'; exit 2; }
+# Writing result to NNN_PIPE will change nnn's active directory
 printf "%s" "0$(readlink -f "$cddir")" > "$NNN_PIPE"
 
