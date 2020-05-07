@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Create a new repository out of a subdirectory
+# https://help.github.com/en/articles/splitting-a-subfolder-out-into-a-new-repository
+dir=${1?directory not specified}
+[[ -d $dir ]] || { echo "No such directory: $dir"; exit 2; }
+branch=${2-$(git rev-parse --abbrev-ref HEAD)}
+exec git filter-branch --prune-empty --subdirectory-filter $dir $branch

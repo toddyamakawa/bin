@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+declare -r top=$(git rev-parse --show-toplevel 2>/dev/null)
+cd $top
+git ls-files --deleted | exec xargs -n 1 git checkout

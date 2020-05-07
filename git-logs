@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+declare -r top=$(git rev-parse --show-toplevel 2>/dev/null)
+files=$(git diff --staged --name-only)
+[[ -z $files ]] && exit
+eval exec git -C $top logf $@ $files

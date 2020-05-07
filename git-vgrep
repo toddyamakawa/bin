@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Check usage
+usage="Usage: git ${0##*git-} <pattern>"
+query="$@"
+[[ -z $query ]] && { echo $usage; exit 2; }
+
+# Run git grep
+result=$(git grep -i -n "$query" | \
+	fzf --height 40% --tiebreak=length --reverse --exact --query="$query ")
+
+# Check exit code
+ret=$?
+[[ $ret != 0 ]] && exit $ret
+
+# Open result with vim
+read -r file line <<<$(echo $result | awk -v FS=: '{print $1, $2}')
+echo vim +$line $file
+exec vim +$line $file
+

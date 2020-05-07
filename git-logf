@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec git log --pretty=format:"%C(yellow)%h %C(blue)%<(14)[%ar] %C(green)%<(20)%an %Creset:%C(auto)%d %Creset%s" $@

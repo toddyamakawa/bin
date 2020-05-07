@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+git fetch origin refs/meta/config:refs/remotes/origin/meta/config
+git checkout --track origin/meta/config -b meta/config

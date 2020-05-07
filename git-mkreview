@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+top="$(git rev-parse --show-toplevel)"
+branch="$(git rev-parse --abbrev-ref HEAD)"
+url="$(git remote get-url origin)"
+
+# Check .gitreview file
+review="$top/.gitreview"
+if [[ -f "$review" ]]; then
+	echo "ERROR: .gireview file already exists" 1>&2
+	exit 2
+fi
+
+# TODO: Unhardcode this
+port=29418
+
+# Parse URL
+project="${url#*$port/}"
+host="${url%:$port*}"
+host="${host#*//}"
+host="${host#*@}"
+
+# Write file
+echo "$(cat <<-DOTGITREVIEW
+[gerrit]
+host=$host
+port=$port
+project=$project
+defaultbranch=$branch
+DOTGITREVIEW
+)" > "$review"
+
