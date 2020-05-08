@@ -16,6 +16,9 @@ fi
 width=$(tput cols)
 height=$(tput lines)
 
+# Filter command
+filter='cat'
+
 # Default args
 declare -A args
 args['multi']="--multi"
@@ -49,6 +52,7 @@ args['color']+=',border:33,preview-fg:159,preview-bg:235'
 case "$config" in
 	default);;
 	dir) args['preview']="--preview '$preview/dir {}'";;
+	lsf) args['preview']="--preview '$preview/lsf-job {1}'"; filter="awk '{print \$1}'";;
 	*) echo "WARNING: config '$config' not recognized";;
 esac
 
@@ -61,5 +65,5 @@ done
 
 # Print and run
 ((verbosity)) && echo "COMMAND: $cmd"
-eval exec $cmd
+eval exec $cmd | eval $filter
 

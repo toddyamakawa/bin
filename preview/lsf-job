@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+jobid="$1"
+bjobs -UF "$jobid" | awk 'BEGIN{RS=", +|;?\n"}{$1=$1;print}'
+

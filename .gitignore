@@ -5,8 +5,9 @@
 !/ddstat
 !/diff-csv.rb
 !//f
-!/fzf-preview
-!/fzf-preview/*
+!/preview
+!/preview/*
+!/git-*
 !/manhack
 !/Makefile
 !/setup/
