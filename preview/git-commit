@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+git show --color=always $@
+
+exit
+
+# ==============================================================================
+# FORGIT EXAMPLE
+# ==============================================================================
+cmd="echo {} |grep -Eo '[a-f0-9]+' |head -1 |xargs -I% git show --color=always % $* | $forgit_pager"
+opts="
+	$FORGIT_FZF_DEFAULT_OPTS
+	+s +m --tiebreak=index
+	--bind=\"enter:execute($cmd | LESS='-R' less)\"
+	--bind=\"ctrl-y:execute-silent(echo {} |grep -Eo '[a-f0-9]+' | head -1 | tr -d '\n' |${FORGIT_COPY_CMD:-pbcopy})\"
+	$FORGIT_LOG_FZF_OPTS
+"
+graph=--graph
+[[ $FORGIT_LOG_GRAPH_ENABLE == false ]] && graph=
+eval "git log $graph --color=always --format='%C(auto)%h%d %s %C(black)%C(bold)%cr' $* $forgit_emojify" |
+	FZF_DEFAULT_OPTS="$opts" fzf --preview="$cmd"
+
+
+# Show a stash
+    cmd="git stash show \$(echo {}| cut -d: -f1) --color=always --ext-diff | $forgit_pager"
+
