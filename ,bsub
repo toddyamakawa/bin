@@ -1,0 +1,105 @@
+#!/usr/bin/env ruby
+
+# ==============================================================================
+# ARGUMENTS
+# ==============================================================================
+require 'optparse'
+
+# Default values
+submit = true
+user_options = Hash.new
+bsub_options = Hash.new
+bsub_options['P']  = ENV['LSB_DEFAULTPROJECT'] || 'PJ02911HIGH'
+bsub_options['R']  = 'select[rhe7 && x86_64 && os64]'
+bsub_options['Jd'] = 'svos-build'
+bsub_options['W']  = '59'
+bsub_options['M']  = ((2 ** 13) * 1000).to_s
+bsub_options['q']  = ENV['LSB_DEFAULTQUEUE'] || 'PD'
+bsub_options['o']  = 'output-lsf.%J.log'
+
+parser = OptionParser.new do |opts|
+	opts.banner = "Usage: ,bsub [options] -- [COMMAND]"
+	opts.separator ''
+	opts.separator 'Options:'
+
+	opts.on '-h', '--help', 'Show this message' do
+		puts opts
+		exit
+	end
+	opts.on '-n', '--no-submit', 'Do not submit job' do
+		submit = false
+	end
+
+	opts.separator ''
+	opts.on '-f', '--fg', 'Foreground job' do |opt|
+		user_options['app'] = 'FG'
+		bsub_options.delete('q')
+	end
+	opts.on '-i', '--interactive', 'Interactive job' do |opt|
+		user_options['Is'] = nil
+		user_options['XF'] = nil
+		bsub_options.delete('o')
+	end
+	opts.on '-m', '--memory [GB]', 'Max memory usage in GB (default=8)' do |opt|
+		user_options['M'] = (opt.to_i * 1024000).to_s
+	end
+	opts.on '-t', '--time [HOURS]', 'Max run time in hours (default=1)' do |opt|
+		user_options['W'] = (60 * opt.to_f).to_i.to_s
+	end
+	opts.on '--name [STRING]', 'Job name' do |opt|
+		user_options['J'] = opt
+	end
+
+	opts.separator ''
+	opts.on '--max-time', 'Use max LSF time' do
+		# This is just an estimate
+		max_hours = 685.5
+		user_options['W'] = (60 * max_hours).to_i.to_s
+	end
+end
+
+# Parse arguments
+separator = ARGV.include? '--'
+begin
+	parser.parse!(ARGV)
+rescue OptionParser::InvalidOption => e
+	p e
+	exit
+end
+if not separator
+	puts 'ERROR: No separator found'
+	submit = false
+end
+if ARGV.empty?
+	puts 'ERROR: Command not specified'
+	submit = false
+end
+
+
+# ==============================================================================
+# BSUB
+# ==============================================================================
+user_options.each { |option, value| bsub_options[option] = value }
+
+# Create bsub command
+command = ['bsub']
+readable_command = 'bsub'
+bsub_options.each do |option, value|
+	command.append("-#{option}")
+	readable_command += " -#{option}"
+	if value
+		command.append(value)
+		if value =~ /[\[\]]/
+			readable_command += " '#{value}'"
+		else
+			readable_command += " #{value}"
+		end
+	end
+end
+
+command += ARGV
+readable_command += ' ' + ARGV.join(' ')
+puts readable_command
+exit 1 if not submit
+Kernel.exec(*command)
+
