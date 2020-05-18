@@ -40,9 +40,10 @@ export  NNN_PLUG
 #open_with="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins/nuke"
 #[[ -f "$open_with" ]] && export NNN_OPENER="$open_with"
 
-# I don't like the NNN_OPENER
-#export NNN_OPENER=notify-send
-export NNN_OPENER=echo
+# Use `less` as opener
+export PAGER='less'
+export LESS='-Ri'
+export NNN_OPENER=less
 
 # Fix ordering
 export LC_ALL=C
@@ -52,7 +53,6 @@ nnn -K
 
 # Open FIFO
 export NNN_FIFO="$(mktemp --suffix=-nnn -u)"
-echo "$NNN_FIFO"
 (umask 077; mkfifo "$NNN_FIFO")
 
 if [[ -e ${TMUX%%,*} ]]; then
@@ -60,8 +60,9 @@ if [[ -e ${TMUX%%,*} ]]; then
 fi
 
 # Run nnn
-nnn -d $@
-
+# -c: cli-opener
+# -d: detail mode
+nnn -c -d $@
 
 # Clean up FIFO
 rm "$NNN_FIFO"
