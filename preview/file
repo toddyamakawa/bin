@@ -5,13 +5,21 @@ file="$1"
 [[ -f "$file" ]] || { echo "File '$file' not found"; exit 2; }
 
 # Print info
-info="$(file "$file")"
+info="$(file -b "$file")"
+mimetype="$(file -b --mime-type "$file")"
 echo -e "\e[33;1m==> file info <==\e[0m"
+echo "MIME type: '$mimetype'"
 echo "$info"
 ls -lh "$file"
 
-# TODO: Figure out what to do with this
-#file $file | awk '{$1=""; print}' | grep -v text && exit 0
+
+if [[ "$mimetype" =~ ^application ]]; then
+	exit
+elif [[ "$mimetype" =~ ^audio ]]; then
+	exit
+elif [[ "$mimetype" =~ ^image ]]; then
+	exit
+fi
 
 # TODO: Figure out how to get number of lines in preview window
 # `tput lines` returns full fzf size
