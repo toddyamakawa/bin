@@ -24,6 +24,20 @@ fi
 # TODO: Figure out how to get number of lines in preview window
 # `tput lines` returns full fzf size
 #lines=$(tput lines)
+width=$(tput cols)
+function cutw() {
+	cut -c 1-$width
+}
+function headn() {
+	local n=$1
+	shift
+	head -n $n $@ | cutw
+}
+function tailn() {
+	local n=$1
+	shift
+	tail -n $n $@ | cutw
+}
 
 # grep things and print in color
 esc=$(printf '\033')
@@ -46,7 +60,7 @@ function colorgrep() {
 if [[ "$file" =~ uart.* ]]; then
 	echo -e "\e[33;1m==> uart file <==\e[0m"
 	colorgrep '31;1' -n -e '/Failing at test/p' "$file"
-	tail -n 10 "$file" | strings
+	tailn 10 "$file" | strings | cutw
 	echo -e "\e[33;1m==> end <==\e[0m"
 	exit
 
@@ -54,10 +68,10 @@ if [[ "$file" =~ uart.* ]]; then
 elif [[ "$file" =~ .*\.json ]]; then
 	echo -e "\e[33;1m==> json <==\e[0m"
 	if (which jq &>/dev/null); then
-		jq -C . "$file" | head -n 30
+		jq -C . "$file" | headn 30
 	else
 		echo -e "\e[31mjq not found\e[0m"
-		head -n 30 "$file"
+		headn 30 "$file"
 	fi
 	echo -e "\e[31m...\e[0m"
 	echo -e "\e[33;1m==> end <==\e[0m"
@@ -65,14 +79,14 @@ elif [[ "$file" =~ .*\.json ]]; then
 
 elif [[ "$file" =~ .*\.log ]]; then
 	echo -e "\e[33;1m==> head <==\e[0m"
-	head -n 5 $file
+	headn 5 $file
 	echo -e "\e[31m...\e[0m"
-	tail -n 10 $file
+	tailn 10 $file
 
 # Print generic info
 else
 	echo -e "\e[33;1m==> head <==\e[0m"
-	head -n 50 $file
+	headn 50 $file
 	echo -e "\e[31m...\e[0m"
 fi
 
