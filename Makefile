@@ -3,10 +3,9 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 AG_VERSION := 1.0.2
 BIN := $(HOME)/bin
-FZF := $(CURDIR)/fzf
 TIG_VERSION := 2.4.1
 
-targets := ansi h.sh tldr $(HOME)/.fzf.zsh
+targets := ansi fzf h.sh tldr
 targets += cowsay
 targets += nnn
 
@@ -52,13 +51,16 @@ cowsay-repo/cli.js: cowsay-repo
 	npm install --prefix $^ $^
 	touch $@
 
+
 # --- fzf ---
-$(HOME)/.fzf.zsh: $(HOME)/.fzf
-	$(HOME)/.fzf/install --no-key-bindings --no-completion --no-update-rc
-$(HOME)/.fzf: $(FZF)
-	ln -fns $(FZF) $(@)
-$(FZF):
-	git clone --depth 1 https://github.com/junegunn/fzf
+fzf: $(HOME)/.fzf
+$(HOME)/.fzf: fzf.git/bin/fzf
+	ln -fns $(CURDIR)/fzf.git $@
+fzf.git/bin/fzf: fzf.git
+	fzf.git/install --no-key-bindings --no-completion --no-update-rc
+	touch $@
+fzf.git:
+	git clone --depth 1 https://github.com/junegunn/fzf $@
 
 # --- h.sh ---
 h.sh:
@@ -68,7 +70,7 @@ h.sh:
 nnn: nnn.git/nnn
 	ln -sf $^ $@
 nnn.git:
-	git clone https://github.com/toddyamakawa/nnn $@
+	git clone --depth 1 https://github.com/toddyamakawa/nnn $@
 	git -C $@ remote add main https://github.com/jarun/nnn
 nnn.git/nnn: nnn.git
 	make -C $(@D)
