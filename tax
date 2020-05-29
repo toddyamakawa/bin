@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+# vim: ft=ruby
+
+single = {
+	10 =>   9875,
+	12 =>  40125,
+	22 =>  85525,
+	24 => 163300,
+	32 => 207350,
+	35 => 518400,
+	37 =>  1/0.0
+}
+
+married = {
+	10 =>  19750,
+	12 =>  80250,
+	22 => 171050,
+	24 => 326600,
+	32 => 414700,
+	35 => 622050,
+	37 =>  1/0.0
+}
+
+bracket = single
+
+income = ARGV.first.to_i
+min = 0
+tax = 0
+
+bracket.each do |percent, max|
+	#puts "bracket: #{percent} - $#{max}"
+
+	if income < max
+		tax += percent/100.0 * (income-min)
+		break
+	end
+
+	tax += percent/100.0 * (max-min)
+	min = max
+end
+
+puts "income: $#{income}"
+puts "tax: $#{tax}"
+puts "percent: #{100*tax/income}%"
+
