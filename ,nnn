@@ -56,14 +56,16 @@ nnn -K
 export NNN_FIFO="$(mktemp --suffix=-nnn -u)"
 (umask 077; mkfifo "$NNN_FIFO")
 
+# Open preview pane
 if [[ -e ${TMUX%%,*} ]]; then
-	tmux split-window -dh nnn-preview $NNN_FIFO
+	width=$(($(tput cols)-50))
+	tmux split-window -dh -l $width nnn-preview $NNN_FIFO
 fi
 
 # Run nnn
 # -c: cli-opener
 # -d: detail mode
-nnn -c -d $@
+nnn -c $@
 
 # Clean up FIFO
 rm "$NNN_FIFO"
