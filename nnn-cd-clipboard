@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+# Check if NNN_PIPE is set
+if [[ -z "$NNN_PIPE" ]]; then
+	echo 'ERROR: NNN_PIPE is not set' | ${PAGER:-less}
+	exit 2
+fi
+
+# Get path from clipboard
+clipboard="$(xclip -o)"
+if ! fullpath="$(readlink -f "$clipboard")"; then
+	exit 2
+fi
+
+# Writing result to NNN_PIPE will change nnn's active directory
+# https://github.com/jarun/nnn/tree/master/plugins#send-data-to-nnn
+context=0
+if [[ -d "$fullpath" ]]; then
+	printf "%s" "${context}c$fullpath" > "$NNN_PIPE"
+elif [[ -f "$fullpath" ]]; then
+	printf "%s" "${context}c$(dirname "$fullpath")" > "$NNN_PIPE"
+fi
+
