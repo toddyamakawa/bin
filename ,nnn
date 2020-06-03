@@ -32,10 +32,11 @@ NNN_PLUG='g:_git status'
 NNN_PLUG+=';b:_nnn-bookmarks*'
 NNN_PLUG+=';l:_less -r $nnn*'
 NNN_PLUG+=';o:fzopen'
+NNN_PLUG+=';p:_nnn-cd-clipboard*'
 NNN_PLUG+=';s:_nnn-show-selection'
-NNN_PLUG+=';y:_,clip $nnn*'
+NNN_PLUG+=';y:-_,clip $nnn*'
 #export NNN_PLUG+=';e:_,env'
-export  NNN_PLUG
+export NNN_PLUG
 
 # TODO: Figure out how to get this to work
 #open_with="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins/nuke"
