@@ -5,15 +5,34 @@ AG_VERSION := 1.0.2
 BIN := $(HOME)/bin
 TIG_VERSION := 2.4.1
 
-targets := ansi fzf h.sh tldr
-targets += cowsay
+# Useful
+targets += fzf
+targets += abduco
 targets += nnn
+
+targets += h.sh
+targets += tldr
+targets += ansi
+targets += cowsay
 
 # --- all ---
 all: $(BIN) $(targets)
 
 targets:
 	@echo $(targets)
+
+
+# ==============================================================================
+# TARGETS
+# ==============================================================================
+
+# --- abduco ---
+abduco: abduco.git/abduco
+	cp $^ $@
+abduco.git/abduco: abduco.git
+	make -C abduco.git
+abduco.git:
+	git clone --depth 1 https://github.com/martanne/abduco $@
 
 # --- bin ---
 $(BIN):
@@ -89,8 +108,4 @@ tig-repo:
 tldr:
 	@curl -o $@ https://raw.githubusercontent.com/pepa65/tldr-bash-client/master/tldr
 	@chmod +x $@
-
-# --- clean ---
-clean:
-	rm -rf $(targets)
 
