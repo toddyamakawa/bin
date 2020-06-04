@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -e
+declare -r CURRENT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+
+# List sessions
+if [[ "$#" -eq 0 ]]; then
+	exec abduco
+fi
+
+# Run abduco normally
+if [[ "${1:0:1}" == "-" ]]; then
+	exec abduco $@
+fi
+
+# Get sessions
+sessions=()
+for session in $(abduco | awk '(NR>1) {print $NF}'); do
+	sessions+=($session)
+done
+
+# Attach to session
+if [[ "$#" -eq 1 ]] && [[ "${1:0:1}" == "." ]]; then
+	#name=$(abduco | awk '($NF=="'$1'") {print $NF}')
+	#[[ -n "$name" ]] && exec abduco -a $1
+	[[ " ${sessions[@]} " =~ "$1" ]] && exec abduco -a $1
+fi
+
+# Create new session
+i=0
+cmd="${1%% *}"
+echo $i
+while [[ " ${sessions[@]} " =~ " .$cmd.$i " ]]; do
+	i=$((i+1))
+done
+exec abduco -c ".$cmd.$i" $@
+

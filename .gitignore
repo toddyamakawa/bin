@@ -9,6 +9,7 @@
 !/setup/
 !/setup/*
 
+!/a
 !/bin.plugin.zsh
 !/ddstat
 !/diff-csv.rb
