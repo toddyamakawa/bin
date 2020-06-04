@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# https://gist.githubusercontent.com/romainl/a3ddb1d08764b93183260f8cdf0f524f/raw/080097037895cbe52d051d58606a09594a5110ee/git-jump
+
+# Get editor
+editor='cat'
+if test -t 1; then
+	editor="$(git var GIT_EDITOR) -q"
+fi
+
+# Open quickfix in editor
+$editor <(git ls-files -u | awk '!file[$NF]++ { print $NF }' | xargs grep -Hn '^<<<<<<<')
+
