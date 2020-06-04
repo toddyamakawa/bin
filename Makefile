@@ -32,7 +32,8 @@ abduco: abduco.git/abduco
 abduco.git/abduco: abduco.git
 	make -C abduco.git
 abduco.git:
-	git clone --depth 1 https://github.com/martanne/abduco $@
+	git clone --depth 1 https://github.com/toddyamakawa/abduco $@
+	git -C $@ remote add main https://github.com/martanne/abduco
 
 # --- bin ---
 $(BIN):
