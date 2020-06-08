@@ -26,3 +26,5 @@
 !/true-color-test
 !/tmux-*
 !/yaml2json
+!/zsh.rb
+
