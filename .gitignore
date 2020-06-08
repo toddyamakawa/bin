@@ -17,9 +17,10 @@
 !/git-*
 !/manhack
 !/Makefile
+!/nnn-*
 !/tax
 !/tt
 !/toddo
 !/true-color-test
-!/nnn-*
+!/tmux-*
 !/yaml2json

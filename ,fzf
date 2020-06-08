@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 declare -r CURRENT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 declare -r preview="$CURRENT_DIR/preview"
+set -eo pipefail
 
 # Uncomment to debug
 #verbosity=1
 
 # Get config
 config=${1-default}
-shift
+shift ||
 if ((verbosity)); then
 	echo "CONFIG: '$config'"
 fi
@@ -53,6 +54,11 @@ case "$config" in
 	default);;
 	dir) args['preview']="--preview '$preview/dir {}'";;
 	lsf) args['preview']="--preview '$preview/lsf-job {1}'"; filter="awk '{print \$1}'";;
+	tmux)
+		args['preview']="--preview '$preview/tmux-pane {1}'"
+		args['preview-window']="--preview-window bottom:50%"
+		filter="awk '{print \$1}'"
+		;;
 	*) echo "WARNING: config '$config' not recognized";;
 esac
 
