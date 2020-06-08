@@ -2,6 +2,8 @@
 !/.gitignore
 !/,*
 
+!/sourceme
+!/sourceme/*
 !/list
 !/list/*
 !/preview
