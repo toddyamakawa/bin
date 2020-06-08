@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# https://raw.githubusercontent.com/sdushantha/bin/master/utils/ocr
+set -e
+
+# Dependencies:
+# - maim
+# - tesseract
+# - xclip
+
+TEXT_FILE="$(mktemp -u --suffix="-ocr.txt")"
+IMAGE_FILE="$(mktemp -u --suffix="-ocr.png")"
+trap "rm -f $TEXT_FILE $IMAGE_FILE" EXIT
+
+# Take screenshot by selecting the area
+maim -s "$IMAGE_FILE"
+
+# Strip .txt because tesseract adds it
+tesseract "$IMAGE_FILE" "${TEXT_FILE//\.txt/}"
+
+xclip < "$TEXT_FILE"
+
