@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+num="$1" && shift || { echo "usage: git show-stash <number> <options>"; exit; }
+exec git show $@ "stash@{$num}"
