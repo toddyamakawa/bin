@@ -15,6 +15,12 @@ targets += tldr
 targets += ansi
 targets += cowsay
 
+# TODO: Add rust targets
+rust_targets += rg
+rust_targets += fd
+rust_targets += bat
+rust_targets += exa
+
 # --- all ---
 all: $(BIN) $(targets)
 
