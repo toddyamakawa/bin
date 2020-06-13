@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# https://gist.github.com/developius/c81f021eb5c5916013dc
+ssh -T git@github.com
