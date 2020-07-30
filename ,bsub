@@ -59,16 +59,11 @@ parser = OptionParser.new do |opts|
 end
 
 # Parse arguments
-separator = ARGV.include? '--'
 begin
-	parser.parse!(ARGV)
+	parser.order!(ARGV)
 rescue OptionParser::InvalidOption => e
 	p e
 	exit
-end
-if not separator
-	puts 'ERROR: No separator found'
-	submit = false
 end
 if ARGV.empty?
 	puts 'ERROR: Command not specified'
