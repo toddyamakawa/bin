@@ -15,11 +15,12 @@ targets += tldr
 targets += ansi
 targets += cowsay
 
-# TODO: Add rust targets
-rust_targets += rg
-rust_targets += fd
+# Rust targets
 rust_targets += bat
 rust_targets += exa
+rust_targets += fd
+rust_targets += rg
+CARGO_HOME := $(mktemp -d)/cargo
 
 # --- all ---
 all: $(BIN) $(targets)
@@ -115,4 +116,22 @@ tig-repo:
 tldr:
 	@curl -o $@ https://raw.githubusercontent.com/pepa65/tldr-bash-client/master/tldr
 	@chmod +x $@
+
+
+# ==============================================================================
+# RUST TARGETS
+# ==============================================================================
+rust_targets: $(rust_targets)
+bat:
+	CARGO_HOME=$(CARGO_HOME) cargo install --git https://github.com/sharkdp/bat
+	cp $(CARGO_HOME)/bin/bat .
+exa:
+	CARGO_HOME=$(CARGO_HOME) cargo install --git https://github.com/ogham/exa
+	cp $(CARGO_HOME)/bin/$@ .
+fd:
+	CARGO_HOME=$(CARGO_HOME) cargo install --git https://github.com/sharkdp/fd
+	cp $(CARGO_HOME)/bin/$@ .
+rg:
+	CARGO_HOME=$(CARGO_HOME) cargo install --git https://github.com/BurntSushi/ripgrep
+	cp $(CARGO_HOME)/bin/$@ .
 
