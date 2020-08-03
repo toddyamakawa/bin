@@ -20,7 +20,7 @@ rust_targets += bat
 rust_targets += exa
 rust_targets += fd
 rust_targets += rg
-CARGO_HOME := $(mktemp -d)/cargo
+CARGO_HOME := $(shell mktemp -d)/cargo
 
 # --- all ---
 all: $(BIN) $(targets)
