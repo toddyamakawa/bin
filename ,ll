@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+# Use `ls if `exa` not installed
+if ! (which exa &> /dev/null); then
+	export LC_ALL=C
+	ls \
+		-F \
+		-lrth \
+		--color=auto \
+		--group-directories-first \
+		$@
+	exit $?
+fi
+
+
+# ==============================================================================
+# https://the.exa.website/docs/colour-themes
+# ==============================================================================
+# FOREGROUND
+# - 30 Black
+# - 31 Red
+# - 32 Green
+# - 33 Yellow
+# - 34 Blue
+# - 35 Purple
+# - 36 Cyan
+# - 37 White
+# BACKGROUND
+# - 40 On black
+# - 41 On red
+# - 42 On green
+# - 43 On yellow
+# - 44 On blue
+# - 45 On purple
+# - 46 On cyan
+# - 47 On white
+# EFFECTS
+# - 01 Bold
+# - 04 Underline
+# 256 COLOURS
+# - 38;5;nnn Foreground
+# - 48;5;nnn Background
+export EXA_COLORS=""
+
+# Permissions
+EXA_COLORS+=':ur=38;5;229:uw=38;5;229:ux=38;5;229'
+EXA_COLORS+=':gr=38;5;222:gw=38;5;222:gx=38;5;222'
+EXA_COLORS+=':tr=38;5;217:tw=38;5;217:tx=38;5;217'
+#EXA_COLORS+=':su=37'
+EXA_COLORS+=':sf=1;36'
+#EXA_COLORS+=':xa=37'
+#EXA_COLORS+=':df=37'
+#EXA_COLORS+=':ds=37'
+#EXA_COLORS+=':lp=1;36'
+
+# Owners and Groups
+EXA_COLORS+=':uu=38;5;158:un=38;5;217'
+EXA_COLORS+=':gu=38;5;158:gn=38;5;217'
+
+# Details
+EXA_COLORS+=':sn=37:sb=37'
+EXA_COLORS+=':da=37'
+
+# Git
+EXA_COLORS+=':ga=1;32'
+EXA_COLORS+=':gm=1;33'
+EXA_COLORS+=':gd=1;31'
+EXA_COLORS+=':gv=1;33'
+EXA_COLORS+=':gt=1;33'
+
+
+# ==============================================================================
+# https://manpages.debian.org/unstable/exa/exa.1.en.html
+# ==============================================================================
+exa \
+	-lg \
+	--git \
+	--group-directories-first \
+	--time-style default \
+	--sort time \
+	$@
+
