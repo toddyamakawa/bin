@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+branch="$(git rev-parse --abbrev-ref HEAD)"
+echo "source: '$branch'"
+
+destination="refs/for/$branch"
+if [[ "$branch" == 'meta/config' ]]; then
+	destination="refs/for/refs/$branch"
+fi
+echo "destination '$destination'"
+echo
+
+exec git push origin "$branch:$destination"
+
