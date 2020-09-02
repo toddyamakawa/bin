@@ -6,8 +6,9 @@ BIN := $(HOME)/bin
 TIG_VERSION := 2.4.1
 
 # Useful
-targets += fzf
 targets += abduco
+targets += devour
+targets += fzf
 targets += nnn
 
 targets += h.sh
@@ -30,7 +31,7 @@ targets:
 
 
 # ==============================================================================
-# TARGETS
+# GITHUB TARGETS
 # ==============================================================================
 
 # --- abduco ---
@@ -40,7 +41,39 @@ abduco.git/abduco: abduco.git
 	make -C abduco.git
 abduco.git:
 	git clone --depth 1 https://github.com/toddyamakawa/abduco $@
-	git -C $@ remote add main https://github.com/martanne/abduco
+	git -C $@ remote add upstream https://github.com/martanne/abduco
+
+# --- devour ---
+devour: devour.git/devour
+	cp $^ $@
+devour.git/devour: devour.git
+	make -C devour.git
+devour.git:
+	git clone --depth 1 https://github.com/salman-abedin/devour $@
+
+# --- fzf ---
+fzf: $(HOME)/.fzf
+$(HOME)/.fzf: fzf.git/bin/fzf
+	ln -fns $(CURDIR)/fzf.git $@
+fzf.git/bin/fzf: fzf.git
+	fzf.git/install --no-key-bindings --no-completion --no-update-rc
+	touch $@
+fzf.git:
+	git clone --depth 1 https://github.com/junegunn/fzf $@
+
+# --- nnn ---
+nnn: nnn.git/nnn
+	ln -sf $^ $@
+nnn.git:
+	git clone --depth 1 https://github.com/toddyamakawa/nnn $@
+	git -C $@ remote add upstream https://github.com/jarun/nnn
+nnn.git/nnn: nnn.git
+	make -C $(@D)
+
+
+# ==============================================================================
+# TARGETS
+# ==============================================================================
 
 # --- bin ---
 $(BIN):
@@ -78,29 +111,9 @@ cowsay-repo/cli.js: cowsay-repo
 	npm install --prefix $^ $^
 	touch $@
 
-
-# --- fzf ---
-fzf: $(HOME)/.fzf
-$(HOME)/.fzf: fzf.git/bin/fzf
-	ln -fns $(CURDIR)/fzf.git $@
-fzf.git/bin/fzf: fzf.git
-	fzf.git/install --no-key-bindings --no-completion --no-update-rc
-	touch $@
-fzf.git:
-	git clone --depth 1 https://github.com/junegunn/fzf $@
-
 # --- h.sh ---
 h.sh:
 	@curl -o $@ https://raw.githubusercontent.com/paoloantinori/hhighlighter/master/h.sh
-
-# --- nnn ---
-nnn: nnn.git/nnn
-	ln -sf $^ $@
-nnn.git:
-	git clone --depth 1 https://github.com/toddyamakawa/nnn $@
-	git -C $@ remote add main https://github.com/jarun/nnn
-nnn.git/nnn: nnn.git
-	make -C $(@D)
 
 # --- ticker.sh ---
 ticker.sh:
