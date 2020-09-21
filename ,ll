@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Use `ls if `exa` not installed
-if ! (which exa &> /dev/null); then
+if ! (exa --help &> /dev/null); then
 	export LC_ALL=C
 	ls \
 		-F \
