@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+remote_url="$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}')"
+echo "git reset --hard '$remote_url'"
+exec git reset --hard "$remote_url"
