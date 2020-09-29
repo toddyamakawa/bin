@@ -18,6 +18,7 @@ targets += cowsay
 
 # Rust targets
 rust_targets += bat
+rust_targets += code-minimap
 rust_targets += exa
 rust_targets += fd
 rust_targets += rg
@@ -138,6 +139,9 @@ rust_targets: $(rust_targets)
 bat:
 	CARGO_HOME=$(CARGO_HOME) cargo install --git https://github.com/sharkdp/bat
 	cp $(CARGO_HOME)/bin/bat .
+code-minimap:
+	CARGO_HOME=$(CARGO_HOME) cargo install --git https://github.com/wfxr/code-minimap
+	cp $(CARGO_HOME)/bin/$@ .
 exa:
 	CARGO_HOME=$(CARGO_HOME) cargo install --git https://github.com/ogham/exa
 	cp $(CARGO_HOME)/bin/$@ .
