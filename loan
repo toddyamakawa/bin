@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 # vim: ft=ruby
 
-loan = 10000
+# ==============================================================================
+# INPUTS
+# ==============================================================================
+loan = 100000
 
 loan_rates = {
 	# Years => Interest Rate
@@ -10,6 +13,12 @@ loan_rates = {
 	15      => 3.75
 }
 
+monthly_budget = 1500
+
+
+# ==============================================================================
+# CALCULATIONS
+# ==============================================================================
 
 def calc_monthly(loan, years, rate)
 	months = years * 12
@@ -36,15 +45,38 @@ def calc_total(loan, rate, payment)
 	return payment + calc_total(new_loan, rate, payment)
 end
 
-
 monthlies = Hash.new
-puts "Years | Interest Rate | Monthly"
+rows = Array.new
 loan_rates.each do |years, rate|
 	monthly = calc_monthly(loan, years, rate)
 	monthlies[years] = monthly
-	printf("%5d | %12.2f%% | $%07.2f \n", years, rate, monthly)
 	total = calc_total(loan, rate, monthly)
-	#puts total
-	#puts total - loan
+	interest = total - loan
+	#rows.append([years, rate, monthly, 0, total, interest])
+end
+
+(monthlies.values + [monthly_budget]).each do |total_payment|
+	loan_rates.each do |years, rate|
+		monthly = monthlies[years]
+		extra = total_payment - monthly
+		next if extra < 0
+		total = calc_total(loan, rate, total_payment)
+		interest = total - loan
+		rows.append([years, rate, monthly, extra, total, interest])
+	end
+end
+
+
+# ==============================================================================
+# PRINT
+# ==============================================================================
+def print_row(years, rate, monthly, extra, total, interest)
+	printf("| %5d | %12.2f%% | $%07.2f | $%07.2f | $%09.2f | $%08.2f |\n", years, rate, monthly, extra, total, interest)
+end
+
+puts "| Years | Interest Rate |  Monthly |    Extra |      Total |  Interest |"
+sorted_rows = rows.sort_by { |row| row[5] }
+sorted_rows.each do |row|
+	print_row(*row)
 end
 
