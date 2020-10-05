@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+# vim: ft=ruby
+
+loan = 10000
+
+loan_rates = {
+	# Years => Interest Rate
+	7       => 3,
+	10      => 3.35,
+	15      => 3.75
+}
+
+
+def calc_monthly(loan, years, rate)
+	months = years * 12
+	interest = 1 + (rate.to_f/100/12)
+	monthly = loan / ((1-(1/(interest))**months)/(interest-1))
+	return monthly
+end
+
+
+def calc_total(loan, rate, payment)
+	interest = 1 + (rate.to_f/100/12)
+	new_loan = loan * interest - payment
+
+	# Loan paid off
+	if new_loan < 0.01
+		return payment
+
+	# Bad input
+	elsif new_loan > loan
+		raise "interest rate too high or payment too low"
+	end
+
+	# Default case
+	return payment + calc_total(new_loan, rate, payment)
+end
+
+
+monthlies = Hash.new
+puts "Years | Interest Rate | Monthly"
+loan_rates.each do |years, rate|
+	monthly = calc_monthly(loan, years, rate)
+	monthlies[years] = monthly
+	printf("%5d | %12.2f%% | $%07.2f \n", years, rate, monthly)
+	total = calc_total(loan, rate, monthly)
+	#puts total
+	#puts total - loan
+end
+
