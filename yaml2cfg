@@ -1,0 +1,65 @@
+#!/usr/bin/env ruby
+require 'yaml'
+
+# ==============================================================================
+# OBJECT FUNCTIONS
+# ==============================================================================
+class Object
+	def to_cfg(parent = '')
+		return ["#{parent}=#{self.to_s}"]
+	end
+end
+
+class Integer
+	def to_cfg(parent = '')
+		return ["#{parent}=#{self.to_s}"]
+	end
+end
+
+class String
+	def to_cfg(parent = '')
+		return ["#{parent}='#{self}'"]
+	end
+end
+
+class Array
+	def to_cfg(parent = '')
+		config = Array.new
+		self.each_with_index do |item, index|
+			config << [item.to_cfg("#{parent}[#{index}]")]
+		end
+		return config
+	end
+end
+
+class Hash
+	def to_cfg(parent = '')
+		config = Array.new
+		parent = "#{parent}." unless parent.empty?
+
+		self.keys.sort.each do |key|
+			config << self[key].to_cfg("#{parent}#{key}")
+		end
+
+		return config
+	end
+end
+
+
+# ==============================================================================
+# RUN
+# ==============================================================================
+yaml_file = ARGV[0]
+if yaml_file.nil?
+	p "Usage: #{$0} <filename.json>"
+	exit
+end
+unless File.file? yaml_file
+	puts "USER_ERROR: File '#{yaml_file}' doesn't exist"
+	exit 1
+end
+
+cfg_file = "#{File.dirname(yaml_file)}/#{File.basename(yaml_file, File.extname(yaml_file))}.cfg"
+hash = YAML.load(File.read(yaml_file))
+File.write(cfg_file, hash.to_cfg.flatten.join("\n"))
+

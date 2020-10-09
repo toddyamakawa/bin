@@ -26,6 +26,7 @@
 !/toddo
 !/true-color-test
 !/tmux-*
+!/yaml2cfg
 !/yaml2json
 !/zsh.rb
 
