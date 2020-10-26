@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -e
+
+# ==============================================================================
+# ARGUMENTS
+# ==============================================================================
+usage=$(cat <<-EOF
+USAGE: ,which [name] [var] [type]
+
+Arguments:
+    name           Name of item
+	var            \$ENV_VAR (default=PATH)
+    type           Type to find: x (executable), f (file), d (directory)
+EOF
+)
+
+find_name="$1"
+find_var="${2:-PATH}"
+find_type="${3:-x}"
+
+if [[ -z "$find_name" ]]; then
+	echo "$usage"
+	echo
+	echo "USER_ERROR: name not specified"
+	exit 2
+fi
+
+
+# ==============================================================================
+# FIND
+# ==============================================================================
+function check_type() {
+	if (test "-$find_type" "$1"); then
+		echo "$1"
+		exit
+	fi
+}
+
+paths="${!find_var}"
+if [[ -z "$paths" ]]; then
+	echo "USER_ERROR: Variable '\$$find_var' is empty"
+	exit 2
+fi
+
+while read path; do
+	check_type "$path/$find_name"
+done < <(echo "$paths" | tr ':' $'\n')
+exit 1
+
