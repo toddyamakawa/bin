@@ -1,9 +1,31 @@
 #!/usr/bin/env bash
 dir=$(echo $@ | awk '{print $NF}')
 [[ -d $dir ]] || { echo "Directory '$dir' does not exist"; exit 2; }
-echo -e "\e[33;1m==> directory info  <==\e[0m"
 export LC_ALL=C
-ls -ldh  --color=always $(readlink -f $dir)
+modified="$(stat -c '%Z' "$dir")"
+owner="$(stat -c '%U' "$dir")"
+echo -e "\e[33;1mDIRECTORY:\e[0m '$dir'"
+echo -e "\e[33;1mOWNER:    \e[0m $owner"
+echo -e "\e[33;1mGROUP:    \e[0m $(stat -c '%G' "$dir")"
+echo -e "\e[33;1mACCESS:   \e[0m $(stat -c '%a' "$dir")"
+echo -e "\e[33;1mMODIFIED: \e[0m $(date -d @$modified +'%Y-%m-%d %T')"
+
+if [[ -f "$dir/RESULT.xml" ]]; then
+	echo
+	echo -e "\e[33;1mBAMBOO RESULTS:\e[0m "
+	for child_dir in $dir/*; do
+		[[ -d "$child_dir" ]] || continue
+		echo -e "$(stat -c %U "$child_dir") $(basename "$child_dir") \e[31;1m$(grep result "$child_dir/result.yaml" 2>/dev/null)\e[0m"
+	done
+	exit
+fi
+
+if [[ -f "$dir/result.yaml" ]]; then
+	echo
+	echo "RESULT:"
+	grep result "$dir/result.yaml"
+fi
+
 echo
 ls -l --color=always $dir | tail
 
