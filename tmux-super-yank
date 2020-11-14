@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+exec /arm/tools/setup/bin/mrun +swdev +ruby/ruby/2.5.1 ruby $0 "$@"
+#!/usr/bin/env ruby
+# vi: ft=ruby
+
+require 'open3'
+
+def tmux(command)
+	tmux_cmd = ['tmux'] + command
+	#puts "$> #{tmux_cmd.join(' ')}"
+	stdout, stderr, status = Open3.capture3(*tmux_cmd)
+	raise "tmux command failed: '#{tmux_cmd.join(' ')}'" if status.exitstatus != 0
+	return stdout
+end
+
+class Pane
+	attr_accessor :id
+	attr_accessor :tty
+	attr_accessor :mode
+	attr_accessor :x
+	attr_accessor :y
+	attr_accessor :alt_screen
+	attr_accessor :scroll_pos
+	attr_accessor :rows
+	attr_accessor :cols
+	attr_accessor :contents
+
+	def initialize()
+		format = '#{pane_id};#{pane_tty};#{pane_in_mode};#{cursor_x};#{cursor_y};#{alternate_on};#{scroll_position};#{pane_height};#{pane_width}'
+		pane_info = tmux(['display-message', '-p','-F', format]).chomp
+		@id, @tty, @mode, @x, @y, @alt_screen, @scroll_pos, @rows, @cols = pane_info.split(';')
+		@contents = tmux(['capture-pane', '-p', '-e'])
+	end
+
+	def write(string)
+		File.write(@tty, string)
+	end
+	def clear(); self.write("\e[2J\e[H") end
+	def switch_alt(); self.write("\e[?1049h"); end
+	def switch_back(); self.write("\e[?1049l"); end
+	def revert_screen()
+		self.switch_back()
+		self.clear()
+		self.write(@contents.chomp)
+	end
+	def write_at(x, y, string)
+		self.write("\033[#{x};#{y}H#{string}")
+	end
+end
+
+pane = Pane.new
+pane.switch_alt()
+pane.clear()
+pane.write('hello world')
+pane.write_at(pane.rows, 0, 'hello world')
+pane.write_at(pane.rows.to_i/2, 0, 'hello world')
+sleep 1
+pane.revert_screen()
+
