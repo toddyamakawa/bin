@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# man proc
+# https://wizardzines.com/comics/proc/
+
+# ==============================================================================
+# ARGUMENTS
+# ==============================================================================
+pid="${1:?pid not specified}"
+proc="/proc/$pid"
+if [[ ! -d "$proc" ]]; then
+	echo "proc '$proc' not found"
+	exit 2
+fi
+ls $proc/root >/dev/null || exit $?
+
+
+# ==============================================================================
+# PRINT
+# ==============================================================================
+
+#echo -e "\e[33;1mCOMMAND:\e[0m $(sed -e "s/\x00/ /g" "$proc/cmdline")"
+echo -e "$(cat <<-EOF
+\e[33;1mCOMMAND:\e[0m $(xargs -0 < $proc/cmdline)
+\e[33;1mEXE:\e[0m $(ls $proc/exe)
+\e[33;1mCWD:\e[0m $(readlink -f $proc/cwd)
+
+\e[33;1mSTACK:\e[0m\n$(cat "$proc/stack")
+
+\e[33;1mFILES:\e[0m\n$(ls -lth $proc/fd)
+EOF
+)"
+
+#\e[33;1mSTATUS:\e[0m\n$(xargs -0 < "$proc/status")
+#\e[33;1mLIMITS:\e[0m\n$(cat $proc/limits)
+#\e[33;1mENVIRONMENT:\e[0m\n$(cat "$proc/environ")
+
