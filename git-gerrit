@@ -13,4 +13,6 @@ echo "host: $host" 1>&2
 echo "port: $port" 1>&2
 echo "project: $project" 1>&2
 
-exec ssh "-xp$port" "$USER@$host" gerrit $@
+echo "\$> ssh -xp$port $USER@$host -- gerrit $@"
+exec ssh "-xp$port" "$USER@$host" -- gerrit "$(printf '%q ' "$@")"
+
