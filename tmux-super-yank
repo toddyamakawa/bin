@@ -5,6 +5,10 @@ exec /arm/tools/setup/bin/mrun +swdev +ruby/ruby/2.5.1 ruby $0 "$@"
 
 require 'open3'
 
+# ==============================================================================
+# FUNCTIONS
+# ==============================================================================
+# Run `tmux` command
 def tmux(command)
 	tmux_cmd = ['tmux'] + command
 	#puts "$> #{tmux_cmd.join(' ')}"
@@ -13,6 +17,21 @@ def tmux(command)
 	return stdout
 end
 
+# Get character
+def get_char
+	begin
+		system("stty raw -echo")
+		str = STDIN.getc
+	ensure
+		system("stty -raw echo")
+	end
+	return str.chr
+end
+
+
+# ==============================================================================
+# PANE
+# ==============================================================================
 class Pane
 	attr_accessor :id
 	attr_accessor :tty
@@ -30,11 +49,14 @@ class Pane
 		pane_info = tmux(['display-message', '-p','-F', format]).chomp
 		@id, @tty, @mode, @x, @y, @alt_screen, @scroll_pos, @rows, @cols = pane_info.split(';')
 		@contents = tmux(['capture-pane', '-p', '-e'])
+		@x = @x.to_i
+		@y = @y.to_i
+		@rows = @rows.to_i
+		@cols = @cols.to_i
+		@prompt_bg = "\e[100m#{' ' * @cols}"
 	end
 
-	def write(string)
-		File.write(@tty, string)
-	end
+	# Screen control
 	def clear(); self.write("\e[2J\e[H") end
 	def switch_alt(); self.write("\e[?1049h"); end
 	def switch_back(); self.write("\e[?1049l"); end
@@ -43,17 +65,44 @@ class Pane
 		self.clear()
 		self.write(@contents.chomp)
 	end
+
+	# Write to screen
+	def write(string)
+		File.write(@tty, string)
+	end
 	def write_at(x, y, string)
 		self.write("\033[#{x};#{y}H#{string}")
 	end
+	def prompt(string)
+		self.write_at(@rows, 0, @prompt_bg)
+		self.write_at(@rows, 0, "\e[93m" + string)
+	end
 end
 
+
+# ==============================================================================
+# MAIN
+# ==============================================================================
 pane = Pane.new
 pane.switch_alt()
+
 pane.clear()
-pane.write('hello world')
-pane.write_at(pane.rows, 0, 'hello world')
-pane.write_at(pane.rows.to_i/2, 0, 'hello world')
-sleep 1
+contents = pane.contents.split("\n")[0..-2].join("\n")
+pane.write(contents)
+
+# TODO: Find logic
+
+# Get selection
+get_next = true
+selection = ''
+pane.prompt('Enter selection: ')
+while get_next
+	char = get_char
+	if char == 'q'
+		get_next = false
+		next
+	end
+	pane.write(char)
+end
 pane.revert_screen()
 
