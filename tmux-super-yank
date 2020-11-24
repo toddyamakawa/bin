@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-exec /arm/tools/setup/bin/mrun +swdev +ruby/ruby/2.5.1 ruby $0 "$@"
 #!/usr/bin/env ruby
 # vi: ft=ruby
 
@@ -45,6 +43,24 @@ else
 	end
 end
 
+class String
+	# Remove ANSI escape characters
+	def noansi; return self.gsub(/\e\[([;\d]+)?m/, ''); end
+
+	def match_with_pos(regex, group = 0)
+		matches = Array.new
+		self.split("\n").each_with_index do |line, row|
+			#matches.append [line.match(regex), row]
+			line.gsub(regex).each do
+				match = Regexp.last_match
+				matches.append [match[group], row, match.begin(0), match[group].length]
+			end
+
+		end
+		return matches
+	end
+end
+
 
 # ==============================================================================
 # PANE
@@ -61,31 +77,25 @@ class Pane
 	attr_accessor :cols
 	attr_accessor :contents
 
-	def initialize(src_id, dest_id = nil)
+	def initialize(pane_id = nil)
 		# Get source pane information
 		format = '#{pane_id};#{pane_tty};#{pane_in_mode};#{cursor_x};#{cursor_y};#{alternate_on};#{scroll_position};#{pane_height};#{pane_width}'
 		display_cmd = ['display-message', '-p','-F', format]
-		display_cmd += ['-t', src_id] if src_id
+		display_cmd += ['-t', pane_id] if pane_id
 		pane_info = tmux(display_cmd).chomp
-		@id, @src_tty, @mode, @x, @y, @alt_screen, @scroll_pos, @rows, @cols = pane_info.split(';')
-		capture_cmd = ['capture-pane', '-p', '-e',]
-		capture_cmd += ['-t', src_id] if src_id
-		@contents = tmux(capture_cmd)
+		@id, @tty, @mode, @x, @y, @alt_screen, @scroll_pos, @rows, @cols = pane_info.split(';')
 		@x = @x.to_i
 		@y = @y.to_i
 		@rows = @rows.to_i
 		@cols = @cols.to_i
-
-		# Get destination pane information
-		display_cmd = ['display-message', '-p','-F', '#{pane_tty};#{pane_height};#{pane_width}']
-		display_cmd += ['-t', dest_id] if dest_id
-		@dest_tty, @dest_rows, @dest_cols = tmux(display_cmd).chomp.split(';')
-		@dest_rows = @dest_rows.to_i
-		@dest_cols = @dest_cols.to_i
-		@prompt_bg = "\e[100m#{' ' * @dest_cols}"
+		@prompt_bg = "\e[100m#{' ' * @cols}"
 	end
 
 	# Screen control
+	def capture()
+		@contents = tmux(['capture-pane', '-p', '-e', '-t', @id])
+		return @contents
+	end
 	def clear(); self.write("\e[2J\e[H") end
 	def switch_alt(); self.write("\e[?1049h"); end
 	def switch_back(); self.write("\e[?1049l"); end
@@ -97,14 +107,14 @@ class Pane
 
 	# Write to screen
 	def write(string)
-		File.write(@dest_tty, string)
+		File.write(@tty, string)
 	end
 	def write_at(x, y, string)
 		self.write("\033[#{x};#{y}H#{string}")
 	end
 	def prompt(string)
-		self.write_at(@dest_rows, 0, @prompt_bg)
-		self.write_at(@dest_rows, 0, "\e[93m" + string)
+		self.write_at(@rows, 0, @prompt_bg)
+		self.write_at(@rows, 0, "\e[93m" + string)
 	end
 end
 
@@ -112,32 +122,38 @@ end
 # ==============================================================================
 # MAIN
 # ==============================================================================
-pane = Pane.new(ARGV[0], ARGV[1])
-pane.switch_alt()
-pane.clear()
-#contents = pane.contents.split("\n")[0..-3].join("\n") + "\n" + "\n"
-#contents = pane.contents.split("\n")[0..-2].join("\n")
-contents = pane.contents.chomp
-pane.write(contents)
+src_pane = Pane.new(ARGV[0])
+src_contents = src_pane.capture().chomp
+
+dest_pane = Pane.new(ARGV[1])
+if dest_pane.id == src_pane.id
+	dest_pane.capture()
+	dest_pane.switch_alt()
+	dest_pane.clear()
+end
+dest_pane.write(src_contents)
+# TODO: Integrate pane swapping
 
 # TODO: Find logic
+matches = Array.new
+matches += src_contents.noansi.match_with_pos(/.* *(.*)/, 1)
 
 # Get selection
 get_next = true
 selection = ''
-pane.prompt('Enter selection or [q]uit: ')
+dest_pane.prompt('Enter selection or [q]uit: ')
 while get_next
 	begin
 		char = get_char
-		#pane.write("#{char}(#{char.ord})")
+		#dest_pane.write("#{char}(#{char.ord})")
 		if char == 'q'
 			get_next = false
 			next
 		end
-		pane.write(char)
+		dest_pane.write(char)
 	rescue
 		next
 	end
 end
-pane.revert_screen()
+dest_pane.revert_screen() if dest_pane.id == src_pane.id
 
