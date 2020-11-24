@@ -3,6 +3,10 @@ exec /arm/tools/setup/bin/mrun +swdev +ruby/ruby/2.5.1 ruby $0 "$@"
 #!/usr/bin/env ruby
 # vi: ft=ruby
 
+# Setup
+# tmux bind-key -n M-E run-shell -b "/home/todyam01/.tmux/plugins/tmux-scratchpad/scripts/scratch_pane.bash '$PWD/tmux-super-yank #{pane_id}'"
+# tmux bind-key -n M-E run-shell -b "$PWD/tmux-super-yank #{pane_id}"
+
 require 'open3'
 
 # ==============================================================================
@@ -17,15 +21,28 @@ def tmux(command)
 	return stdout
 end
 
-# Get character
-def get_char
-	begin
-		system("stty raw -echo")
-		str = STDIN.getc
-	ensure
-		system("stty -raw echo")
+# Define a function to get character
+if STDOUT.isatty
+	def get_char
+		begin
+			system("stty raw -echo")
+			char = STDIN.getc
+		ensure
+			system("stty -raw echo")
+		end
+		return char
 	end
-	return str.chr
+else
+	require 'tempfile'
+	$tempfile = Tempfile.new('tmux-super-yank')
+	def get_char
+		char_command = ['command-prompt', '-1', '-p', 'char:']
+		char_command += ["run-shell \"printf '%1' > #{$tempfile.path}\""]
+		tmux(char_command)
+		char = ''
+		char = $tempfile.read while char.empty?
+		return char
+	end
 end
 
 
@@ -44,16 +61,28 @@ class Pane
 	attr_accessor :cols
 	attr_accessor :contents
 
-	def initialize()
+	def initialize(src_id, dest_id = nil)
+		# Get source pane information
 		format = '#{pane_id};#{pane_tty};#{pane_in_mode};#{cursor_x};#{cursor_y};#{alternate_on};#{scroll_position};#{pane_height};#{pane_width}'
-		pane_info = tmux(['display-message', '-p','-F', format]).chomp
-		@id, @tty, @mode, @x, @y, @alt_screen, @scroll_pos, @rows, @cols = pane_info.split(';')
-		@contents = tmux(['capture-pane', '-p', '-e'])
+		display_cmd = ['display-message', '-p','-F', format]
+		display_cmd += ['-t', src_id] if src_id
+		pane_info = tmux(display_cmd).chomp
+		@id, @src_tty, @mode, @x, @y, @alt_screen, @scroll_pos, @rows, @cols = pane_info.split(';')
+		capture_cmd = ['capture-pane', '-p', '-e',]
+		capture_cmd += ['-t', src_id] if src_id
+		@contents = tmux(capture_cmd)
 		@x = @x.to_i
 		@y = @y.to_i
 		@rows = @rows.to_i
 		@cols = @cols.to_i
-		@prompt_bg = "\e[100m#{' ' * @cols}"
+
+		# Get destination pane information
+		display_cmd = ['display-message', '-p','-F', '#{pane_tty};#{pane_height};#{pane_width}']
+		display_cmd += ['-t', dest_id] if dest_id
+		@dest_tty, @dest_rows, @dest_cols = tmux(display_cmd).chomp.split(';')
+		@dest_rows = @dest_rows.to_i
+		@dest_cols = @dest_cols.to_i
+		@prompt_bg = "\e[100m#{' ' * @dest_cols}"
 	end
 
 	# Screen control
@@ -68,14 +97,14 @@ class Pane
 
 	# Write to screen
 	def write(string)
-		File.write(@tty, string)
+		File.write(@dest_tty, string)
 	end
 	def write_at(x, y, string)
 		self.write("\033[#{x};#{y}H#{string}")
 	end
 	def prompt(string)
-		self.write_at(@rows, 0, @prompt_bg)
-		self.write_at(@rows, 0, "\e[93m" + string)
+		self.write_at(@dest_rows, 0, @prompt_bg)
+		self.write_at(@dest_rows, 0, "\e[93m" + string)
 	end
 end
 
@@ -83,11 +112,12 @@ end
 # ==============================================================================
 # MAIN
 # ==============================================================================
-pane = Pane.new
+pane = Pane.new(ARGV[0], ARGV[1])
 pane.switch_alt()
-
 pane.clear()
-contents = pane.contents.split("\n")[0..-2].join("\n")
+#contents = pane.contents.split("\n")[0..-3].join("\n") + "\n" + "\n"
+#contents = pane.contents.split("\n")[0..-2].join("\n")
+contents = pane.contents.chomp
 pane.write(contents)
 
 # TODO: Find logic
@@ -95,14 +125,19 @@ pane.write(contents)
 # Get selection
 get_next = true
 selection = ''
-pane.prompt('Enter selection: ')
+pane.prompt('Enter selection or [q]uit: ')
 while get_next
-	char = get_char
-	if char == 'q'
-		get_next = false
+	begin
+		char = get_char
+		#pane.write("#{char}(#{char.ord})")
+		if char == 'q'
+			get_next = false
+			next
+		end
+		pane.write(char)
+	rescue
 		next
 	end
-	pane.write(char)
 end
 pane.revert_screen()
 
