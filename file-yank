@@ -1,0 +1,100 @@
+#!/usr/bin/env ruby
+# vi: ft=ruby
+
+# ==============================================================================
+# SETTINGS
+# ==============================================================================
+# Format
+$prompt_format = "\e[100;93m"
+$highlight_format = "\e[1;38:5:15;48:5:88m"
+$hint_format = "\e[1;38:5:0;48:5:229m"
+$reset_format = "\e[0m"
+$hint_characters = 'asdfgqwertzxcvb'
+#puts "#{$prompt_format}prompt_format#{$reset_format}"
+#puts "#{$highlight_format}highlight_format#{$reset_format}"
+#puts "#{$hint_format}hint_format#{$reset_format}"
+#exit
+
+
+# ==============================================================================
+# FUNCTIONS
+# ==============================================================================
+
+# Get character
+def get_char
+	begin
+		system("stty raw -echo")
+		str = STDIN.getc
+	ensure
+		system("stty -raw echo")
+	end
+	return str.chr
+end
+
+class String
+	# Remove ANSI escape characters
+	def noansi; return self.gsub(/\e\[([;\d]+)?m/, ''); end
+
+	def match_with_pos(regex, group = 0)
+		matches = Array.new
+		self.split("\n").each_with_index do |line, row|
+			line.gsub(regex).each do
+				match = Regexp.last_match
+				matches.append [match[group], row+1, match.begin(group)+1, match[group].length]
+			end
+
+		end
+		return matches
+	end
+end
+
+# Screen control
+$rows = `tput lines`.chomp.to_i
+$cols = `tput cols`.chomp.to_i
+def clear(); printf "\e[2J\e[H"; end
+def switch_alt(); printf "\e[?1049h"; end
+def switch_back(); printf "\e[?1049l"; end
+def write_at(row, col, string)
+	printf "\033[#{row};#{col}H#{string}"
+end
+def prompt(string)
+	write_at($rows, 0, $prompt_format + (' '*$cols))
+	write_at($rows, 0, $prompt_format + string)
+end
+
+
+# ==============================================================================
+# MAIN
+# ==============================================================================
+file = ARGV.shift
+content = File.read(file)
+
+switch_alt()
+printf content
+at_exit { switch_back() }
+
+# Find matches
+matches = Array.new
+#matches += content.noansi.match_with_pos(/.* *(.*)/, 1)
+matches += content.noansi.match_with_pos(/^[-\.dlrwx]{10}.* ([^\*\/]*)/, 1)
+
+# TODO: Highlight logic
+matches.each do |match_info|
+	string, row, col, length = match_info
+	write_at(row, col, $highlight_format + string)
+end
+
+# Get selection
+get_next = true
+selection = ''
+prompt('Enter selection or [q]uit: ')
+while get_next
+	char = get_char
+	if char == 'q'
+		get_next = false
+		next
+	end
+	# TODO: Check if char is valid
+	printf char
+end
+
