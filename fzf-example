@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+def fzf(*command)
+	io = IO.popen(['fzf'] + command, 'r+')
+	begin
+		stdout, $stdout = $stdout, io
+		yield rescue nil
+	ensure
+		$stdout = stdout
+	end
+	io.close_write
+	io.readlines.map(&:chomp)
+end
+
+result = fzf('-m') do
+	1000.times.each do |n|
+		puts n
+		sleep 0.005
+	end
+end
+p result
+

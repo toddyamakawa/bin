@@ -16,6 +16,7 @@
 !/ddstat
 !/diff-csv.rb
 !/f
+!/fzf-*
 !/git-*
 !/loan
 !/manhack
