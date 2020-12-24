@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+if (command -v xclip &>/dev/null); then
+	xclip
+	echo "Clipboard: '$(xclip -o)'"
+else
+	exit 1
+fi
+
