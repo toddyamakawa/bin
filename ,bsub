@@ -16,6 +16,7 @@ bsub_options['W']  = '59'
 bsub_options['M']  = ((2 ** 13) * 1000).to_s
 bsub_options['q']  = ENV['LSB_DEFAULTQUEUE'] || 'PD'
 bsub_options['o']  = 'output-lsf.%J.log'
+command = nil
 
 parser = OptionParser.new do |opts|
 	opts.banner = "Usage: ,bsub [options] -- [COMMAND]"
@@ -50,6 +51,15 @@ parser = OptionParser.new do |opts|
 		user_options['J'] = opt
 	end
 
+	# Default shell options
+	opts.on '--shell', 'Use shell' do |opt|
+		command = ['/arm/tools/setup/bin/mrun', '+zsh/zsh/5.7.1', 'zsh']
+		user_options['M'] = (16 * 1024000).to_s
+		user_options['Is'] = nil
+		user_options['XF'] = nil
+		bsub_options.delete('o')
+	end
+
 	opts.separator ''
 	opts.on '--max-time', 'Use max LSF time' do
 		# This is just an estimate
@@ -65,7 +75,10 @@ rescue OptionParser::InvalidOption => e
 	p e
 	exit
 end
-if ARGV.empty?
+if command.nil?
+	command = ARGV
+end
+if command.empty?
 	puts 'ERROR: Command not specified'
 	submit = false
 end
@@ -77,13 +90,13 @@ end
 user_options.each { |option, value| bsub_options[option] = value }
 
 # Create bsub command
-command = ['bsub']
+bsub_command = ['bsub']
 readable_command = 'bsub'
 bsub_options.each do |option, value|
-	command.append("-#{option}")
+	bsub_command.append("-#{option}")
 	readable_command += " -#{option}"
 	if value
-		command.append(value)
+		bsub_command.append(value)
 		if value =~ /[\[\]]/
 			readable_command += " '#{value}'"
 		else
@@ -92,9 +105,9 @@ bsub_options.each do |option, value|
 	end
 end
 
-command += ARGV
-readable_command += ' ' + ARGV.join(' ')
+bsub_command += command
+readable_command += ' ' + command.join(' ')
 puts readable_command
 exit 1 if not submit
-Kernel.exec(*command)
+Kernel.exec(*bsub_command)
 
