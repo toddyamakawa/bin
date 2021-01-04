@@ -54,6 +54,8 @@ parser = OptionParser.new do |opts|
 	# Default shell options
 	opts.on '--shell', 'Use shell' do |opt|
 		command = ['/arm/tools/setup/bin/mrun', '+zsh/zsh/5.7.1', 'zsh']
+		max_hours = 685.5
+		user_options['W'] = (60 * max_hours).to_i.to_s
 		user_options['M'] = (16 * 1024000).to_s
 		user_options['Is'] = nil
 		user_options['XF'] = nil
