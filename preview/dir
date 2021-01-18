@@ -12,6 +12,16 @@ function get_user() {
 	fi
 }
 
+function get_result() {
+	local dir="$1"
+	result_file="$(ls -1 "$dir"/result*.yaml 2>/dev/null | tail -n 1)"
+	if [[ -f "$result_file" ]]; then
+		grep -m 1  result "$result_file"
+	else
+		echo 'RESULT NOT FOUND'
+	fi
+}
+
 modified="$(stat -c '%Z' "$dir")"
 echo -e "\e[33;1mDIRECTORY:\e[0m '$dir'"
 echo -e "\e[33;1mOWNER:    \e[0m $(get_user "$dir")"
@@ -24,17 +34,19 @@ if [[ -f "$dir/RESULT.xml" ]]; then
 	echo -e "\e[33;1mBAMBOO RESULTS:\e[0m "
 	for child_dir in $dir/*; do
 		[[ -d "$child_dir" ]] || continue
-		echo -e "$(get_user "$(readlink -f "$child_dir")") $(basename "$child_dir") \e[31;1m$(grep result "$child_dir/result.yaml" 2>/dev/null)\e[0m"
+		result="$(get_result "$child_dir")"
+		echo -e "$(get_user "$(readlink -f "$child_dir")") $(basename "$child_dir") \e[31;1m$result\e[0m"
 	done
 	exit
 fi
 
-if [[ -f "$dir/result.yaml" ]]; then
+result="$(get_result "$dir")"
+if [[ -n "$result" ]]; then
 	echo
-	echo "RESULT:"
-	grep result "$dir/result.yaml"
+	echo -e "\e[33;1mRESULT:\e[0m"
+	echo "$result"
 fi
 
 echo
-ls -l --color=always $dir | tail
+ls -lh --color=always $dir | tail
 
