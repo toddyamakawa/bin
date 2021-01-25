@@ -3,5 +3,5 @@ if ! [[ -n "$1" ]]; then
 	echo "Usage: $0 <file>"
 	exit 2
 fi
-readlink -f $1 | xclip
-echo "Clipboard: $(xclip -o)"
+realpath.py "$1" | ,copy
+
