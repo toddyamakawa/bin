@@ -29,13 +29,14 @@ while read -r selection; do
 
 	# Handle directory
 	if [[ -d "$selection" ]]; then
+		cd "$selection"
 		$preview/dir "$selection"
 		continue
 	fi
 
 	# Handle file
 	if [[ -f "$selection" ]]; then
-		clear
+		cd "$(dirname "$selection")"
 		$preview/file "$selection"
 		continue
 	fi
