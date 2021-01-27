@@ -17,6 +17,7 @@ bsub_options['M']  = ((2 ** 13) * 1000).to_s
 bsub_options['q']  = ENV['LSB_DEFAULTQUEUE'] || 'PD'
 bsub_options['o']  = 'output-lsf.%J.log'
 command = nil
+display = false
 
 parser = OptionParser.new do |opts|
 	opts.banner = "Usage: ,bsub [options] -- [COMMAND]"
@@ -39,6 +40,7 @@ parser = OptionParser.new do |opts|
 	opts.on '-i', '--interactive', 'Interactive job' do |opt|
 		user_options['Is'] = nil
 		user_options['XF'] = nil
+		display = true
 		bsub_options.delete('o')
 	end
 	opts.on '-m', '--memory [GB]', 'Max memory usage in GB (default=8)' do |opt|
@@ -59,6 +61,8 @@ parser = OptionParser.new do |opts|
 		user_options['M'] = (16 * 1024000).to_s
 		user_options['Is'] = nil
 		user_options['XF'] = nil
+		user_options['J'] = '$SHELL'
+		display = true
 		bsub_options.delete('o')
 	end
 
@@ -85,6 +89,9 @@ if command.empty?
 	submit = false
 end
 
+if display
+	# TODO: check $DISPLAY
+end
 
 # ==============================================================================
 # BSUB
@@ -106,10 +113,18 @@ bsub_options.each do |option, value|
 		end
 	end
 end
-
 bsub_command += command
 readable_command += ' ' + command.join(' ')
-puts readable_command
+
+# Print LSF environment variables
+ENV.sort.each do |key, value|
+	next unless key =~ /^LS[BF]_/
+	puts "#{key}=#{value}"
+end
+
+# Print and run
+puts
+puts "\$> #{readable_command}"
 exit 1 if not submit
 Kernel.exec(*bsub_command)
 
