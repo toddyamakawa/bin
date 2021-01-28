@@ -3,12 +3,17 @@
 # https://github.com/tmux-plugins/tmux-yank/blob/master/scripts/helpers.sh
 if (type xclip &>/dev/null); then
 	xclip
-	echo "Clipboard: '$(xclip -o)'"
+	copied="$(xclip -o)"
 elif (type pbcopy &>/dev/null); then
 	pbcopy
-	echo "Clipboard: '$(pbpaste)'"
+	copied="$(pbpaste)"
 else
 	echo "Copy command not found." 1>&2
 	exit 1
+fi
+
+echo "Clipboard: '$copied'"
+if [[ -e ${TMUX%%,*} ]]; then
+	tmux set-buffer "$copied"
 fi
 
