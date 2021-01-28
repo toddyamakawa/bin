@@ -59,7 +59,16 @@ function colorgrep() {
 # Handle UART files
 if [[ "$file" =~ uart.* ]]; then
 	echo -e "\e[33;1m==> uart file <==\e[0m"
-	colorgrep '31;1' -n -e '/Failing at test/p' "$file"
+	if (grep 'Failing at test' "$file" &> /dev/null); then
+		awk '
+			/^Test 0/ {part=1; line=$0}
+			(part==1) && (!/^Test 0/) {print line; part=2}
+			/^Failing at test/ {part=3}
+			(part==2) {print}
+		' "$file"
+		colorgrep '31;1' -n -e '/Failing at test/p' "$file"
+		echo -e "\e[33m...\e[0m"
+	fi
 	tailn 10 "$file" | strings | cutw
 	echo -e "\e[33;1m==> end <==\e[0m"
 	exit
@@ -78,7 +87,7 @@ elif [[ "$file" =~ .*\.json ]]; then
 	exit
 
 elif [[ "$file" =~ .*\.log ]]; then
-	echo -e "\e[33;1m==> head <==\e[0m"
+	echo -e "\e[33;1m==> contents <==\e[0m"
 	headn 5 $file
 	echo -e "\e[31m...\e[0m"
 	tailn 10 $file
