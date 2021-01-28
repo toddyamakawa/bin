@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-dir=$(echo $@ | awk '{print $NF}')
-[[ -d $dir ]] || { echo "Directory '$dir' does not exist"; exit 2; }
+dir="$(echo "$@" | awk '{print $NF}')"
+[[ -d "$dir" ]] || { echo "Directory '$dir' does not exist"; exit 2; }
+cd "$dir"
 export LC_ALL=C
 
 function get_user() {
