@@ -1,19 +1,24 @@
 #!/usr/bin/env bash
-# Example:
+# Examples:
 # https://github.com/tmux-plugins/tmux-yank/blob/master/scripts/helpers.sh
+# https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/clipboard.zsh
+
+# Find copy command
 if (type xclip &>/dev/null); then
-	xclip
-	copied="$(xclip -o)"
+	xclip || exit $?
 elif (type pbcopy &>/dev/null); then
-	pbcopy
-	copied="$(pbpaste)"
+	pbcopy || exit $?
 else
 	echo "Copy command not found." 1>&2
 	exit 1
 fi
 
+# Check clipboard
+copied="$(,paste)" || exit $?
 echo "Clipboard: '$copied'"
-if [[ -e ${TMUX%%,*} ]]; then
+
+# Copy to tmux buffer
+if [[ -e "${TMUX%%,*}" ]]; then
 	tmux set-buffer "$copied"
 fi
 
