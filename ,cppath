@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Copies file with path to current location
+usage="USAGE: ,cpppath [file]"
+
+# Check file
+file="$1" && shift
+if [[ ! -e "$file" ]]; then
+	echo "ERROR: File '$file' not found"
+	echo "$usage"
+	exit 2
+fi
+file="$(realpath.py "$file")"
+dir="$(dirname "$file")"
+
+echo "\$> mkdir -p '${dir#/}'"
+mkdir -pv "${dir#/}"
+
+echo "\$> cp -r '$file' '${dir#/}'"
+cp -r "$file" "${dir#/}"
+
