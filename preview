@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+declare -r CURRENT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+preview_scripts="$CURRENT_DIR/preview_scripts"
+
+if [[ -h "$1" ]]; then
+	link="$(readlink -f "$1")"
+	if [[ -d "$1" ]]; then
+		echo -e "\e[33;1m==> symlink dir <==\e[0m"
+		echo "$link"
+		echo
+		exec "$preview_scripts/dir" "$1"
+	elif [[ -f "$1" ]]; then
+		echo -e "\e[33;1m==> symlink file <==\e[0m"
+		echo "$link"
+		echo
+		exec "$preview_scripts/file" "$1"
+	else
+		echo -e "\e[33;1m==> symlink unknown <==\e[0m"
+		echo "$link"
+	fi
+
+elif [[ -d "$1" ]]; then
+	exec "$preview_scripts/dir" "$1"
+elif [[ -f "$1" ]]; then
+	exec "$preview_scripts/file" "$1"
+else
+	echo "Unable to handle '$1'"
+	exit 2
+fi
+
