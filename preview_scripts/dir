@@ -48,6 +48,16 @@ if [[ -n "$result" ]]; then
 	echo "$result"
 fi
 
+# Setup
+declare -r CURRENT_DIR="$(dirname "$(realpath.py "${BASH_SOURCE[0]}")")"
+source "$CURRENT_DIR/lib.bash"
+
 echo
 ls -lh --color=always $dir | tail
+
+if [[ -e "$dir/uart.log" ]]; then
+	echo
+	"$CURRENT_DIR/uart" "$dir/uart.log"
+	exit
+fi
 
