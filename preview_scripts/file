@@ -21,34 +21,9 @@ elif [[ "$mimetype" =~ ^image ]]; then
 	exit
 fi
 
-# TODO: Figure out how to get number of lines in preview window
-# `tput lines` returns full fzf size
-#lines=$(tput lines)
-width=$(tput cols)
-function cutw() {
-	cut -c 1-$width
-}
-function headn() {
-	local n=$1
-	shift
-	head -n $n $@ | cutw
-}
-function tailn() {
-	local n=$1
-	shift
-	tail -n $n $@ | cutw
-}
-
-# grep things and print in color
-esc=$(printf '\033')
-function colorgrep() {
-	local color="$1"
-	shift
-	sed \
-		-e "s/^/${esc}[${color}m/" \
-		-e "s/\$/${esc}[0m/" \
-		"$@"
-}
+# Setup
+declare -r CURRENT_DIR="$(dirname "$(realpath.py "${BASH_SOURCE[0]}")")"
+source "$CURRENT_DIR/lib.bash"
 
 
 # ==============================================================================
@@ -58,19 +33,7 @@ function colorgrep() {
 
 # Handle UART files
 if [[ "$file" =~ uart.* ]]; then
-	echo -e "\e[33;1m==> uart file <==\e[0m"
-	if (grep 'Failing at test' "$file" &> /dev/null); then
-		awk '
-			/^Test 0/ {part=1; line=$0}
-			(part==1) && (!/^Test 0/) {print line; part=2}
-			/^Failing at test/ {part=3}
-			(part==2) {print}
-		' "$file"
-		colorgrep '31;1' -n -e '/Failing at test/p' "$file"
-		echo -e "\e[33m...\e[0m"
-	fi
-	tailn 10 "$file" | strings | cutw
-	echo -e "\e[33;1m==> end <==\e[0m"
+	"$CURRENT_DIR/uart" "$file"
 	exit
 
 # Handle JSON files
