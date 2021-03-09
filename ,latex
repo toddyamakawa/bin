@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+script=$(readlink -f $BASH_SOURCE)
+here=$(dirname $script)
+top=$(git -C $here rev-parse --show-toplevel 2>/dev/null)
+now=$(date +%y%m%d-%H%M%S-Week%U-%a-%T)
+
+mrun=/arm/tools/setup/bin/mrun
+
+function texlive() {
+	echo $@
+	$mrun +swdev +tug/texlive/3.14_2016 $@
+}
+
+function acroread() {
+	$mrun +util +adobe/acrobat/8.1.3 acroread $@
+}
+
+tex=$1
+[[ -f $tex ]] || { echo "File not found"; exit; }
+dvi=$(basename $tex .tex).dvi
+pdf=$(basename $tex .tex).pdf
+rm -f $dvi $pdf
+#texlive latex $tex
+#[[ -f $dvi ]] && texlive xdvi $dvi
+texlive pdflatex $tex
+[[ -f $pdf ]] && acroread $pdf
