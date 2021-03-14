@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
 jobid="$1"
-bjobs -UF "$jobid" | awk 'BEGIN{RS=", +|;?\n"}{$1=$1;print}'
+esc=$(printf '\033')
+while read -r line; do
+	echo "$line" | sed -e "s/\(.*\)\(<.*>\)/$esc[33;1m\1$esc[0m\2/" -e "s/^\([ :A-Z]\+\)$/$esc[33;1m\1$esc[0m/"
+done < <(bjobs -UF "$jobid" | awk '
+	BEGIN{RS=", +|;?\n"}
+	{$1=$1;print}
+')
 
