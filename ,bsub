@@ -49,9 +49,14 @@ parser = OptionParser.new do |opts|
 	opts.on '-t', '--time [HOURS]', 'Max run time in hours (default=1)' do |opt|
 		user_options['W'] = (60 * opt.to_f).to_i.to_s
 	end
+	opts.on '--arm', 'Use an Arm host' do |opt|
+		user_options['R']  = 'select[rhe7 && aarch64]'
+	end
 	opts.on '--name [STRING]', 'Job name' do |opt|
 		user_options['J'] = opt
 	end
+
+	opts.separator ''
 
 	# Default shell options
 	opts.on '--shell', 'Use shell' do |opt|
@@ -66,7 +71,6 @@ parser = OptionParser.new do |opts|
 		bsub_options.delete('o')
 	end
 
-	opts.separator ''
 	opts.on '--max-time', 'Use max LSF time' do
 		# This is just an estimate
 		max_hours = 685.5
