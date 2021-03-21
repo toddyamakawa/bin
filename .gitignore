@@ -27,10 +27,11 @@
 !/pwdc
 !/realpath.py
 !/tax
-!/tt
+!/tmux-*
 !/toddo
 !/true-color-test
-!/tmux-*
+!/tt
+!/tui.rb
 !/yaml2cfg
 !/yaml2json
 !/zsh.rb
