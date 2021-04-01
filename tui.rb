@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # vi: ft=ruby
 
+
 # ==============================================================================
 # SETTINGS
 # ==============================================================================
@@ -65,6 +66,7 @@ class Screen
 	ENABLE_LINE_WRAP = "\e[?7h"
 	HIDE_CURSOR = "\e[?25l"
 	SHOW_CURSOR = "\e[?25h"
+	CLEAR_SCROLL_AREA="\e[0r"
 	CLEAR = "\e[2J"
 
 	# '\e[1;Nr':   Limit scrolling to scrolling area.
@@ -75,7 +77,7 @@ class Screen
 	end
 
 	def Screen.revert()
-		str = REVERT_BUFFER + ENABLE_LINE_WRAP + SHOW_CURSOR
+		str = REVERT_BUFFER + ENABLE_LINE_WRAP + SHOW_CURSOR + CLEAR_SCROLL_AREA
 		print(str)
 	end
 
@@ -152,6 +154,7 @@ def print_status()
 	dimensions = "[#{$LINES}x#{$COLUMNS}]"
 	#pos = `echo -e "\e[6n"`
 	Screen.footer("#{$DEBUG}:", cursor_line + dimensions)
+	Screen.print_at($start_row + ($CURSOR_LINE - $start_line), 1, '')
 end
 
 
@@ -170,36 +173,44 @@ def move_cursor(to_line)
 		return
 	end
 
-	# Move/scroll down
-	if to_line - $start_line > $max_rows - 1
-		from_line = $CURSOR_LINE
-		$CURSOR_LINE = to_line
-		Screen.print_at($start_row + (from_line - $start_line), 1, '')
+	from_line = $CURSOR_LINE
+	$CURSOR_LINE = to_line
 
+	# Move/scroll down
+	# TODO: Check if entire screen needs to be redrawn
+	if to_line - $start_line > $max_rows - 1
+
+		print("\eM")
 		(from_line..to_line).each do |i|
-			#print("\eD")
-			print("\n")
+			print("\eD")
+			#print("\n")
 			print_line(i)
 		end
-		# TODO: Calculate new start line
 		$start_line = to_line - ($max_rows - 1)
-		$DEBUG = "#{$CURSOR_LINE}:#{$start_line}:#{to_line}:#{from_line}"
-		print_status()
-		Screen.print_at($start_row + $CURSOR_LINE, 1, '')
+		#$DEBUG = "#{$CURSOR_LINE}:#{$start_line}:#{to_line}:#{from_line}"
+
+	# Move/scroll up
+	# TODO: Check if entire screen needs to be redrawn
+	elsif to_line - $start_line < 0
+		print("\eD")
+		(to_line..from_line).reverse_each do |i|
+			print("\eM")
+			print_line(i)
+		end
+		$start_line = to_line
+		#$DEBUG = "#{$CURSOR_LINE}:#{$start_line}:#{to_line}:#{from_line}"
 
 	else
 		# Clear initial line
-		from_line = $CURSOR_LINE
-		$CURSOR_LINE = to_line
-		Screen.print_at($start_row + (from_line - $start_line), 1, '')
+		#print("\r")
 		print_line(from_line)
 
 		# Print new line
 		Screen.print_at($start_row + ($CURSOR_LINE - $start_line), 1, '')
 		print_line($CURSOR_LINE)
-		print_status()
-		Screen.print_at($start_row + ($CURSOR_LINE - $start_line), 1, '')
 	end
+
+	print_status()
 end
 
 
@@ -216,8 +227,19 @@ Screen.print_at($start_row, 1, '')
 # LOOP
 # ==============================================================================
 get_next = true
+
+clear_missing_chars = true
+missing_chars = ''
+
 while get_next
 	begin
+		$DEBUG = ''
+		if clear_missing_chars
+			missing_chars = ''
+		else
+			clear_missing_chars = true
+		end
+
 		char = get_char
 		case char
 			when 'q' then exit
@@ -238,7 +260,10 @@ while get_next
 				#print("\eL")
 				#print("\eA")
 			else
-				# p char
+				clear_missing_chars = false
+				missing_chars += char
+				#$DEBUG = "[not found '#{missing_chars}']"
+				print_status()
 		end
 	rescue
 		next
