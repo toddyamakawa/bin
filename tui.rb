@@ -17,11 +17,11 @@ $prompt_format = "\e[100;93m"
 $highlight_format = "\e[1;38:5:15;48:5:88m"
 $hint_format = "\e[1;38:5:0;48:5:229m"
 $hint_characters = 'asdfgqwertzxcvb'
-$format[:header] = "\e[1;38:5:46;48:5:238m"
-$format[:footer] = "\e[100;93m"
+$format[:header] = "\e[1;38:5:46;48:5:240m"
+$format[:footer] = "\e[38:5:226;48:5:240m"
 $format[:reset] = "\e[0m"
 $format[:table_border] = "\e[38:5:243m"
-$format[:cursor_format] = "\e[48:5:238m"
+$format[:cursor_format] = "\e[48:5:237m"
 print_format = false
 #print_format = true
 if print_format
@@ -31,6 +31,7 @@ if print_format
 	exit
 end
 $default_sep = "#{$format[:table_border]}|#{$format[:reset]}"
+
 
 # ==============================================================================
 # FUNCTIONS
@@ -86,6 +87,10 @@ class Screen
 		print(str)
 	end
 
+	def Screen.get_size()
+		return `stty size`.split(' ').map(&:to_i)
+	end
+
 	def Screen.print_at_row(row, string)
 		print("\033[#{row};#{string}")
 	end
@@ -99,14 +104,19 @@ class Screen
 	end
 
 	def Screen.header(string)
-		lines, columns = `stty size`.split(' ').map(&:to_i)
+		lines, columns = Screen.get_size()
 		header_str = $format[:header] + string.ljust(columns+1) + $format[:reset]
 		print_at(0, 0, header_str)
 	end
 
-	def Screen.footer(string)
-		lines, columns = `stty size`.split(' ').map(&:to_i)
-		footer_str = $format[:footer] + string.ljust(columns+1) + $format[:reset]
+	def Screen.footer(lstr, rstr = '')
+		lines, columns = Screen.get_size()
+		footer_str = lstr.ljust(columns+1)
+		rsize = rstr.size
+		if rsize > 0
+			footer_str = footer_str.split('')[0..(-1-rsize)].join('') + rstr
+		end
+		footer_str = $format[:footer] + footer_str + $format[:reset]
 		print_at(lines, 0, footer_str)
 	end
 end
@@ -118,60 +128,86 @@ end
 # row is for terminal
 # line is for printed text
 
+title = 'TITLE'
 Screen.setup()
-Screen.header("TITLE")
-$start_row = 2
-$end_row = 10
-Screen.print_at($end_row + 1, 0, "FOOTER")
-print("\e[#{$start_row};#{$end_row}r")
-$max_rows = $end_row - $start_row + 1
+Screen.header(title)
+$LINES, $COLUMNS = Screen.get_size()
 
+# Rows
+$start_row = 2
+$end_row = $LINES
+$max_rows = $end_row - $start_row
+print("\e[#{$start_row};#{$end_row-1}r")
+
+# Lines
 $lines = (5..50).map(&:to_s)
 $CURSOR_LINE = 0
 $start_line = 0
 $max_line = $lines.size - 1
+
+
+$DEBUG = ''
+def print_status()
+	cursor_line = "[#{$CURSOR_LINE}/#{$max_line}]"
+	dimensions = "[#{$LINES}x#{$COLUMNS}]"
+	#pos = `echo -e "\e[6n"`
+	Screen.footer("#{$DEBUG}:", cursor_line + dimensions)
+end
+
 
 def print_line(i)
 	format = ''
 	if i == $CURSOR_LINE
 		format = $format[:cursor_format]
 	end
-	print("\r#{format}#{$lines[i]}#{$format[:reset]}")
+	str = $lines[i]
+	print("\r#{format}#{str.ljust($COLUMNS)}#{$format[:reset]}")
 end
 
 
-def move_cursor(final_line)
-	if final_line < 0 or final_line > $max_line
+def move_cursor(to_line)
+	if to_line < 0 or to_line > $max_line
 		return
 	end
 
 	# Move/scroll down
-	if final_line - $start_line > $max_rows
-		initial_line = $CURSOR_LINE
-		$CURSOR_LINE = final_line
-		(initial_line..final_line).each do |i|
+	if to_line - $start_line > $max_rows - 1
+		from_line = $CURSOR_LINE
+		$CURSOR_LINE = to_line
+		Screen.print_at($start_row + (from_line - $start_line), 1, '')
+
+		(from_line..to_line).each do |i|
+			#print("\eD")
+			print("\n")
 			print_line(i)
-			print("\eD")
 		end
+		# TODO: Calculate new start line
+		$start_line = to_line - ($max_rows - 1)
+		$DEBUG = "#{$CURSOR_LINE}:#{$start_line}:#{to_line}:#{from_line}"
+		print_status()
+		Screen.print_at($start_row + $CURSOR_LINE, 1, '')
 
 	else
-		initial_line = $CURSOR_LINE
+		# Clear initial line
+		from_line = $CURSOR_LINE
+		$CURSOR_LINE = to_line
+		Screen.print_at($start_row + (from_line - $start_line), 1, '')
+		print_line(from_line)
 
-		# Set $CURSOR_LINE to clear cursor
-		$CURSOR_LINE = final_line
-		print("\r")
-		print_line(initial_line)
-
-		Screen.print_at($start_row + $CURSOR_LINE, 1, '')
+		# Print new line
+		Screen.print_at($start_row + ($CURSOR_LINE - $start_line), 1, '')
 		print_line($CURSOR_LINE)
+		print_status()
+		Screen.print_at($start_row + ($CURSOR_LINE - $start_line), 1, '')
 	end
 end
 
 
-Screen.print_at($start_row, 1, '')
-($start_line..($start_line + $max_rows - 2)).each do |i|
-	print_line(i)
+print_status()
+Screen.print_at($start_row - 1, 1, '')
+$max_rows.times.each do |i|
 	print("\n")
+	print_line(i)
 end
 Screen.print_at($start_row, 1, '')
 
@@ -185,6 +221,15 @@ while get_next
 		char = get_char
 		case char
 			when 'q' then exit
+			when 'g'
+				move_cursor(0)
+			when 'G'
+				# TODO: Fix this
+				move_cursor($max_line)
+			when 'J'
+				Screen.print_at($end_row, 1, '')
+				$start_line = $start_line + 1
+				print("\eD")
 			when 'j'
 				move_cursor($CURSOR_LINE + 1)
 			when 'k'
