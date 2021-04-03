@@ -21,7 +21,9 @@ rust_targets += bat
 rust_targets += code-minimap
 rust_targets += exa
 rust_targets += fd
+#rust_targets += lazycli
 rust_targets += rg
+#rust_targets += ruplacer
 CARGO_HOME := $(shell mktemp -d)/cargo
 
 # --- all ---
@@ -148,7 +150,13 @@ exa:
 fd:
 	CARGO_HOME=$(CARGO_HOME) cargo install --git https://github.com/sharkdp/fd
 	cp $(CARGO_HOME)/bin/$@ .
+lazycli:
+	CARGO_HOME=$(CARGO_HOME) cargo install --git https://github.com/jesseduffield/lazycli
+	cp $(CARGO_HOME)/bin/$@ .
 rg:
 	CARGO_HOME=$(CARGO_HOME) cargo install --git https://github.com/BurntSushi/ripgrep
+	cp $(CARGO_HOME)/bin/$@ .
+ruplacer:
+	CARGO_HOME=$(CARGO_HOME) cargo install --git https://github.com/dmerejkowsky/ruplacer
 	cp $(CARGO_HOME)/bin/$@ .
 
