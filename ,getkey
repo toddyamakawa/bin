@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# Original script:
+# https://github.com/dylanaraps/fff#how-to-figure-out-special-keys
+
+# Output the key-binding values for 'fff'.
+function getkey() {
+	case "$1" in
+		# Backspace.
+		$'\b'|$'\177')
+			printf '%s\n' "key: \$'\\b' or \$'\\177'"
+		;;
+
+		# Escape Sequences.
+		$'\e')
+			read -rsn 2
+			printf '%s %q\n' "key:" "${1}${REPLY}"
+		;;
+
+		# Return / Enter.
+		"")
+			printf '%s\n' "key: \" \""
+		;;
+
+		# Everything else.
+		*)
+			printf '%s %q\n' "key:" "$1"
+		;;
+	esac
+}
+
+read -srn 1 && getkey "$REPLY"
+
