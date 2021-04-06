@@ -25,6 +25,7 @@
 !/Makefile
 !/nnn-*
 !/pwdc
+!/pyinfo
 !/realpath.py
 !/tax
 !/tmux-*

@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+import platform
+from sys import argv, path
+
+print('Python version ' + platform.python_version())
+
+print("")
+for arg in range(len(argv)):
+    print(f"argv[{arg}]='{argv[arg]}'")
+
+print("")
+for p in range(len(path)):
+    print(f"sys.path[{p}]='{path[p]}'")
+
+print("")
+
