@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+if ! (hash tmux &>/dev/null); then
+	echo -e 'tmux not found' 1>&2
+	exit 2
+fi
+
+pane_id="${1:-$(tmux display-message -p '#{pane_id}')}"
+function tmux_print() {
+	tmux display-message -t "$pane_id" -p "$@"
+}
+
+ansi '33;1' $(tmux_print "#{session_name} #{window_index}.#{pane_index} (#{pane_id})")
+tmux_print "path: #{pane_current_path}"
+tmux_print "command: #{pane_current_command}"
+echo
+
+ansi '33;1' '==> preview <=='
+tmux capture-pane -t "$pane_id" -S - -E - -p -e | tail -n 20
+
