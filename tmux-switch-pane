@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-declare -r CURRENT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
-pane_id=$($CURRENT_DIR/list/tmux-panes | ,fzf tmux) || exit $?
-tmux switch-client -t "$pane_id"
-

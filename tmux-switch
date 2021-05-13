@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+[[ -e "${TMUX%%,*}" ]] || exit 1
+
+# Relaunch self
+if [[ "$1" == "pane-popup" ]]; then
+	exec tmux display-popup -E 'tmux-switch pane'
+
+# Search for tmux pane
+elif [[ "$1" == "pane" ]]; then
+	pane_id=$(tmux-list-panes | ,fzf tmux) || exit $?
+	tmux switch-client -t "$pane_id"
+fi
+
