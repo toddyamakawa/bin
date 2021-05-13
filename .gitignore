@@ -13,6 +13,7 @@
 !/setup/*
 
 !/a
+!/ansi
 !/bin.plugin.zsh
 !/ddstat
 !/diff-csv.rb

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+ansi="$1" && shift
+echo -e "\e[${ansi}m$@\e[0m"
