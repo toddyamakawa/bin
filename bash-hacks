@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+b=1
+a='b[$(echo hack >&2; echo 0)]'
+[[ "$a" -eq 1 ]] && echo yes || echo no
+
