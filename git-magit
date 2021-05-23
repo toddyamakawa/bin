@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 cmd=${1?cmd not specifed} && shift
+# TODO: add -f kill-other-buffers
 exec emacs -f magit-$cmd -f delete-other-windows -nw $@
