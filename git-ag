@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+pattern="$1" && shift
+git ls-files -- "$@" | xargs -d "\n" ,grep "$pattern"
