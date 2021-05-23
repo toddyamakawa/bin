@@ -28,6 +28,7 @@
 !/f
 !/file-yank
 !/gpull
+!/gu
 !/loan
 !/manhack
 !/Makefile
