@@ -12,6 +12,12 @@
 !/setup/
 !/setup/*
 
+!/awk-*
+!/fzf-*
+!/git-*
+!/nnn-*
+!/tmux-*
+
 !/a
 !/ansi
 !/bash-hacks
@@ -21,19 +27,15 @@
 !/diff-csv.rb
 !/f
 !/file-yank
-!/fzf-*
-!/git-*
 !/gpull
 !/loan
 !/manhack
 !/Makefile
-!/nnn-*
 !/pwdc
 !/ps-env
 !/pyinfo
 !/realpath.py
 !/tax
-!/tmux-*
 !/toddo
 !/true-color-test
 !/tt
