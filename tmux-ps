@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+declare -r USAGE="USAGE: tmux-ps PID"
+pid="$1"
+
+if [[ -z "$pid" ]]; then
+	echo "$USAGE" 1>&2
+	exit 1
+fi
+
+# Get Pane ID
+pane_id="$(set -o pipefail; ps-env $pid | sed -n 's/^TMUX_PANE=\(%[0-9]\+\)$/\1/p')" || exit $?
+if [[ -z "$pane_id" ]]; then
+	echo -e "ERROR: Pane ID not found for PID '$pid'" 1>&2
+	exit 2
+fi
+
+# Print useful information
+tmux display-message -t "$pane_id" -p '#{pane_id} #{session_name}.#{window_index}.#{pane_index}'
+

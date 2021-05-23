@@ -9,11 +9,11 @@ fi
 
 env_file="/proc/$pid/environ"
 if [[ ! -f "$env_file" ]]; then
-	echo "PID '$pid' not found" 1>&2
+	echo "ERROR: PID '$pid' not found" 1>&2
 	exit 1
 fi
 if [[ ! -r "$env_file" ]]; then
-	echo "Permission denied for PID '$pid'" 1>&2
+	echo "ERROR: Permission denied for PID '$pid'" 1>&2
 	exit 1
 fi
 
