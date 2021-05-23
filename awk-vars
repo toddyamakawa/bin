@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+cat <<-EOF
+FNR         Input record number in the current input file
+FS          Input field separator, a space by default
+NF          Number of fields in the current input record
+NR          Total number of input records seen so far
+OFS         Output field separator, a space by default
+ORS         Output record separator, by default a newline
+RS          Input record separator, by default a newline
+RT          Record terminator
+
+FILENAME    Current input file.
+            If no files are specified on the command line,the value of FILENAME is “-”.
+            FILENAME is undefined inside the BEGIN block.
+RSTART      The index of the first character matched by match(); 0 if no match.
+            (This implies that character indices start at one.)
+RLENGTH     The length of the string matched by match(); -1 if no match.
+EOF
