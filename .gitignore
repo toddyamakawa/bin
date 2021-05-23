@@ -33,6 +33,7 @@
 !/loan
 !/manhack
 !/Makefile
+!/noansi
 !/pwdc
 !/ps-env
 !/pyinfo
