@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+if (rg --help &>/dev/null); then
+	grep_cmd='rg -S'
+elif (ag --help &>/dev/null) then
+	grep_cmd='ag -S'
+else
+	grep_cmd='grep -i'
+fi
+exec $grep_cmd "$@"
