@@ -12,6 +12,10 @@ if [[ ! -f "$env_file" ]]; then
 	echo "PID '$pid' not found" 1>&2
 	exit 1
 fi
+if [[ ! -r "$env_file" ]]; then
+	echo "Permission denied for PID '$pid'" 1>&2
+	exit 1
+fi
 
-cat "/proc/$pid/environ" | tr '\0' '\n' | LC_ALL=C sort
+cat "$env_file" | tr '\0' '\n' | LC_ALL=C sort
 
