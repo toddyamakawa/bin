@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+echo '$> git stash'
+git stash
+echo '$> git pull --rebase'
+git pull --rebase
+echo '$> git stash pop'
+git stash pop

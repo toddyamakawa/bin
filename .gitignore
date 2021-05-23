@@ -23,6 +23,7 @@
 !/file-yank
 !/fzf-*
 !/git-*
+!/gpull
 !/loan
 !/manhack
 !/Makefile
