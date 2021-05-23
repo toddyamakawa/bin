@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+declare -r USAGE="USAGE: ps-env PID"
+pid="$1"
+
+if [[ -z "$pid" ]]; then
+	echo "$USAGE" 1>&2
+	exit 1
+fi
+
+env_file="/proc/$pid/environ"
+if [[ ! -f "$env_file" ]]; then
+	echo "PID '$pid' not found" 1>&2
+	exit 1
+fi
+
+cat "/proc/$pid/environ" | tr '\0' '\n' | LC_ALL=C sort
+

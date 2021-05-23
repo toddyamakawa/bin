@@ -28,6 +28,7 @@
 !/Makefile
 !/nnn-*
 !/pwdc
+!/ps-env
 !/pyinfo
 !/realpath.py
 !/tax
