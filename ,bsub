@@ -5,6 +5,10 @@
 # ==============================================================================
 require 'optparse'
 
+# TODO: Figure out how to use this super useful bsub option
+# -ti
+# Enables automatic orphan job termination at the job level for a job with a dependency expression (set using -w).
+
 # Default values
 submit = true
 user_options = Hash.new
