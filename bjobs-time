@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# REVISIT: I don't even remember what this script is for
+while read job; do
+	#echo "hi: $job"
+	id=$(echo $job | awk '{print $1}')
+	bjobs -UF $id | \
+		awk '
+			rtf{runtime=$1;rtf=0}
+			rlf{runlimit=$1;rlf=0}
+			/RUNTIME/{rtf=1}
+			/RUNLIMIT/{rlf=1}
+			END {print "'$id'"runtime, runlimit}
+		'
+done < <(bjobs -noheader $@)
