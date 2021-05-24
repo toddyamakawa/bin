@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec tmux show-environment "$@" | LC_ALL=C sort

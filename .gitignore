@@ -20,6 +20,15 @@
 !/nnn-*
 !/tmux-*
 
+# tmux
+!/ta
+!/tenv
+!/tkeys
+!/tls
+!/tnew
+!/tprint
+!/tsave
+
 !/a
 !/ansi
 !/awkc
@@ -43,12 +52,11 @@
 !/tax
 !/toddo
 !/true-color-test
-!/ta
-!/tkeys
-!/tls
 !/tt
 !/tui.rb
 !/yaml2cfg
 !/yaml2json
 !/zsh.rb
+
+# vim: ft=sh
 
