@@ -18,4 +18,5 @@ if [[ ! -r "$env_file" ]]; then
 fi
 
 cat "$env_file" | tr '\0' '\n' | LC_ALL=C sort
+#strings "$env_file" | LC_ALL=C sort
 
