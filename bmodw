@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+duration=$1 && shift
+exec ,bmod -W "$duration" -We "$duration" "$@"
