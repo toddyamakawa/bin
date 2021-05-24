@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec tmux list-sessions -F '#{session_id} [#{session_windows} windows] #{session_name}'
