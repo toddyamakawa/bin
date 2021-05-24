@@ -17,6 +17,7 @@
 !/bmod*
 !/fzf-*
 !/git-*
+!/lsf-*
 !/nnn-*
 !/tmux-*
 
