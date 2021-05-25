@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec git status --short --branch "$@"
+exec git status --short --branch --ignore-submodules "$@"
