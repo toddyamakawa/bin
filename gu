@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # grep for [u]ser so grep command doesn't show up in `ps -ef`
 user_string="[${USER:0:1}]${USER:1}"
-exec grep "$user_string"
+exec grep --color=auto "$user_string"
