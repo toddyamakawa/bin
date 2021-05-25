@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+flags='#{pane_top} #{pane_bottom} #{pane_left} #{pane_right} #{pane_height} #{pane_width}'
+read -r top bottom left right height width <<< $(tmux display-message -p "$flags")
+echo "top left     : ($top,$left)"
+echo "botton right : ($bottom,$right)"
+echo "dimensions   : ${height}x$width"
+
