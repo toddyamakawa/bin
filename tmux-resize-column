@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# TODO: Figure out why this doesn't work as expected for lower panes
+#debug=1
+size=4
+
+flags='#{pane_id} #{pane_left} #{pane_right} #{pane_top}'
+read -r current_id current_left current_right current_top <<< $(tmux display-message -p "$flags")
+((debug)) && echo -e "id:$current_id left:$current_left right:$current_right top:$current_top\n"
+
+above=()
+below=()
+while read -r id left right top; do
+	((debug)) && echo "id:$id left:$left right:$right top:$top"
+	[[ "$current_id" == "$id" ]] && continue
+	if ! ((current_left > right)) && ! ((current_right < left)); then
+		if ((top < current_top)); then
+			((debug)) && echo above
+			above+=("$id")
+		else
+			((debug)) && echo below
+			#below=("$id" "${below[@]}")
+			below+=("$id")
+		fi
+	fi
+done < <(tmux list-panes -F "$flags" | sort -k 4)
+
+for id in "${below[@]}"; do
+	((debug)) && echo tmux resize-pane -t "$id" -y $size
+	tmux resize-pane -t "$id" -y "$size"
+done
+
+for id in "${above[@]}"; do
+	((debug)) && echo tmux resize-pane -t "$id" -y $size
+	tmux resize-pane -t "$id" -y $size
+done
+
