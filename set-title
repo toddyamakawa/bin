@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# https://www.reddit.com/r/zsh/comments/mczq2j/current_process_and_directory_as_window_title/gs8bcug?utm_source=share&utm_medium=web2x&context=3
+case "$TERM" in
+	xterm*|rxvt*)
+		print -n -- "\e]0;$@\a"
+		;;
+	screen)
+		print -n -- "\ek$@\e\\"
+		;;
+	*)
+esac
