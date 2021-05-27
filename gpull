@@ -1,8 +1,19 @@
 #!/usr/bin/env bash
 set -e
-echo '$> git stash'
+
+printf "\e[33;1m$> %s\e[0m\n" 'git stash'
 git stash
-echo '$> git pull --rebase'
+printf "(exited $?)\n\n"
+
+printf "\e[33;1m$> %s\e[0m\n" 'git pull --rebase'
 git pull --rebase
-echo '$> git stash pop'
-git stash pop
+printf "(exited $?)\n\n"
+
+printf "\e[33;1m$> %s\e[0m\n" 'git stash pop --quiet'
+git stash pop --quiet
+printf "(exited $?)\n\n"
+
+printf "\e[33;1m$> %s\e[0m\n" 'git unstage-all'
+git unstage-all
+printf "(exited $?)\n\n"
+
