@@ -15,7 +15,7 @@ elif (which termux-clipboard-get &>/dev/null); then
 elif [[ -r /dev/clipboard ]] ; then
 	cat /dev/clipboard
 else
-	echo 'paste command not found'
+	echo 'Paste command not found' 1>&2
 	exit 2
 fi
 
