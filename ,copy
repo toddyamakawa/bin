@@ -3,13 +3,16 @@
 # https://github.com/tmux-plugins/tmux-yank/blob/master/scripts/helpers.sh
 # https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/clipboard.zsh
 
+# Print all stdout to stderr
+exec 1>&2
+
 # Find copy command
 if (type xclip &>/dev/null); then
 	xclip || exit $?
 elif (type pbcopy &>/dev/null); then
 	pbcopy || exit $?
 else
-	echo "Copy command not found." 1>&2
+	echo "Copy command not found."
 	exit 1
 fi
 
