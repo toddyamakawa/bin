@@ -1,23 +1,24 @@
 #!/usr/bin/env bash
-# TODO: Implement this
-exit 1
-
 # exit 0 if tmux meets version
+
+check_version="$1"
+if [[ -z "$check_version" ]]; then
+	cat <<-EOF
+		USAGE: tmux-version VERSION
+		Checks if VERSION >= current version
+	EOF
+	exit 1
+fi
+
+which tmux &> /dev/null || exit 1
 
 # https://stackoverflow.com/questions/35016458/how-to-write-if-statement-in-tmux-conf-to-set-different-options-for-different-t
 # - Support versions like tmux 2.4 tmux 2.4a tmux next-3.3
 # - No bc command
 # - Support Cygwin, macOS and Linux
+current_version="$(tmux -V | cut -d' ' -f2)"
+current_digits="$(echo "$current_version" | tr -d " |\-|.|[:alpha:]")"
+check_digits="$(echo "$check_version" | tr -d " |\-|.|[:alpha:]")"
 
-# if-shell -b '[ `tmux -V | cut -d" " -f2 | tr -d " |\-|.|[:alpha:]"` -lt 24 ]' \
-#   'bind-key -t vi-copy v begin-selection; \
-#     bind-key -t vi-copy Q cancel; \
-#     bind-key -t vi-copy Enter cancel'
-#
-# # Tmux version 2.4 onwards
-# if-shell -b '[ `tmux -V | cut -d" " -f2 | tr -d " |\-|.|[:alpha:]"` -ge 24 ]' \
-#   'bind-key -T copy-mode-vi C-w   send-keys -X cancel; \
-# bind-key -T copy-mode-vi C-u   send-keys -X halfpage-up; \
-# bind-key -T copy-mode-vi C-j   send-keys -X halfpage-down; \
-# bind-key -T copy-mode-vi C-l   send-keys -X select-line'
+! (( current_digits < check_digits ))
 
