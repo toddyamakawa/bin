@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-printf "\e[33;1m$> %s\e[0m\n" "git add $@"
+printf "\e[33;1m$> %s\e[0m\n\n" "git add $@"
 git add "$@" || exit $?
 printf "\e[33;1m$> %s\e[0m\n" 'git diff --staged --numstat'
 git diff --staged --numstat
