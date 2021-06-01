@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+path="$(,paste)"
+printf "\e[33;1m$> %s\e[0m\n" "ln -s $path $@"
+exec ln -s "$path" "$@"
