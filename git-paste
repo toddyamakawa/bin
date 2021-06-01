@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+top="$(git rev-parse --show-toplevel)" || exit $?
+cd "$top"
+,paste | git apply
