@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+svn info | awk '/^URL/ {print $2}' | ,clip
