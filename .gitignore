@@ -20,6 +20,7 @@
 !/lsf-*
 !/nnn-*
 !/tmux-*
+!/vnc-*
 
 # tmux
 !/ta
