@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+which vncserver || exit $?
+exec vncserver -geometry 1920x1015 "$@"
