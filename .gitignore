@@ -47,11 +47,12 @@
 !/gu
 !/lnsp
 !/loan
-!/manhack
 !/Makefile
+!/manhack
 !/noansi
-!/pwdc
+!/psef
 !/ps-env
+!/pwdc
 !/pyinfo
 !/realpath.py
 !/set-title
