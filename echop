@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+copied="$(,paste)" || exit $?
+echo "$copied"
