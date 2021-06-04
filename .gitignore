@@ -15,6 +15,7 @@
 !/awk-*
 !/bjobs*
 !/bmod*
+!/du*
 !/fzf-*
 !/git-*
 !/lsf-*
