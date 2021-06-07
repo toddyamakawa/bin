@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+mrun=/arm/tools/setup/bin/mrun
+if [[ -x "$mrun" ]]; then
+	exec "$mrun" +core +zsh/zsh/5.7.1 zsh
+fi
