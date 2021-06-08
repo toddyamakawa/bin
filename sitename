@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+hostname -f | sed 's/.*\.\([^.]\+\)\.\w\+\.com/\1/'
