@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+repo_list=$(cat <<-EOF
+ssh://ds-gerrit.euhpc.arm.com:29418/svos/asp
+ssh://ds-gerrit.euhpc.arm.com:29418/svos/burst burst dev
+ssh://ds-gerrit.euhpc.arm.com:29418/svos/burst/tools
+ssh://ds-gerrit.euhpc.arm.com:29418/svos/burst/fails
+ssh://eu-gerrit-2.euhpc.arm.com:29418/cpu/tools/auscpgval
+ssh://blr-gerrit-1.blr.arm.com:29418/avk/ETMCompare etm
+ssh://ds-gerrit.euhpc.arm.com:29418/svos/iris
+ssh://ds-gerrit.euhpc.arm.com:29418/svos/kiwi
+login8.nahpc.arm.com:/projects/pd/svos/git/kvs
+ssh://git@git.research.arm.com/svos/msys
+ssh://git@git.research.arm.com/svos/scp_boot
+ssh://eu-gerrit-1.euhpc.arm.com:29418/svos/yak
+
+ssh://eu-gerrit-2.euhpc.arm.com:29418/cpu/tools/varys
+ssh://eu-gerrit-2.euhpc.arm.com:29418/cpu/tools/varys2
+
+ssh://ds-gerrit.euhpc.arm.com:29418/emutools/ambaviz
+ssh://ds-gerrit.euhpc.arm.com:29418/emutools/diskhole
+ssh://ds-gerrit.euhpc.arm.com:29418/emutools/eda
+ssh://ds-gerrit.euhpc.arm.com:29418/emutools/gem
+ssh://ds-gerrit.euhpc.arm.com:29418/emutools/gerrit_test
+ssh://ds-gerrit.euhpc.arm.com:29418/emutools/ldap
+ssh://ds-gerrit.euhpc.arm.com:29418/emutools/wrappers
+
+ssh://ds-gerrit.euhpc.arm.com:29418/toef/unischeduler
+
+ssh://hw-gerrit.nahpc.arm.com:29418/cores/ares ares dev
+ssh://hw-gerrit.nahpc.arm.com:29418/cores/ares deimos deimos/dev
+ssh://hw-gerrit.nahpc.arm.com:29418/cores/ares zeus zeus/dev
+
+ssh://hw-gerrit.nahpc.arm.com:29418/systems/porter porter dev
+
+toddyamakawa/blog
+toddyamakawa/dotfiles
+
+uuner/sedtris
+EOF
+)
+
+# Read repos
+declare -A repos
+declare -A branches
+while read repo name branch; do
+	[[ -z "$repo" ]] && continue
+	[[ -z "$name" ]] && name="$(basename "$repo")"
+	[[ -z "$branch" ]] && branch='master'
+	# TODO: Check duplicates
+	repos["$name"]="$repo"
+	branches["$name"]="$branch"
+	#printf "%s\n" "$name: $repo"
+done < <(printf "$repo_list")
+
+if [[ -z "$1" ]]; then
+	for name in "${!repos[@]}"; do
+		branch="${branches[$name]}"
+		repo="${repos[$name]}"
+		printf "%-15s %-60s %s\n" "$name" "$repo" "($branch)"
+	done
+else
+	branch="${branches[$1]}"
+	repo="${repos[$1]}"
+	printf "%s\n" "$repo $branch"
+fi
+
