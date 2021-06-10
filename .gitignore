@@ -23,6 +23,10 @@
 !/tmux-*
 !/vnc-*
 
+# git
+!/gitc
+!/gpull
+
 # tmux
 !/ta
 !/tenv
@@ -46,7 +50,6 @@
 !/echop
 !/f
 !/file-yank
-!/gpull
 !/groups-users
 !/gu
 !/lnsp
