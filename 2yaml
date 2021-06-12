@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require 'yaml'
+puts YAML.dump(YAML.load(ARGF))

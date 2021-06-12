@@ -36,6 +36,10 @@
 !/tprint
 !/tsave
 
+# YAML/JSON
+!/2yaml
+!/2json
+
 !/a
 !/ansi
 !/awkc
