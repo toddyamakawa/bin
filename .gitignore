@@ -37,8 +37,9 @@
 !/tsave
 
 # YAML/JSON
-!/2yaml
+!/2cfg
 !/2json
+!/2yaml
 
 !/a
 !/ansi
@@ -74,8 +75,6 @@
 !/true-color-test
 !/tt
 !/tui.rb
-!/yaml2cfg
-!/yaml2json
 !/zsh.rb
 
 # vim: ft=sh

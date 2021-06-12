@@ -36,11 +36,9 @@ class Hash
 	def to_cfg(parent = '')
 		config = Array.new
 		parent = "#{parent}." unless parent.empty?
-
 		self.keys.sort.each do |key|
 			config << self[key].to_cfg("#{parent}#{key}")
 		end
-
 		return config
 	end
 end
@@ -49,17 +47,5 @@ end
 # ==============================================================================
 # RUN
 # ==============================================================================
-yaml_file = ARGV[0]
-if yaml_file.nil?
-	p "Usage: #{$0} <filename.json>"
-	exit
-end
-unless File.file? yaml_file
-	puts "USER_ERROR: File '#{yaml_file}' doesn't exist"
-	exit 1
-end
-
-cfg_file = "#{File.dirname(yaml_file)}/#{File.basename(yaml_file, File.extname(yaml_file))}.cfg"
-hash = YAML.load(File.read(yaml_file))
-File.write(cfg_file, hash.to_cfg.flatten.join("\n"))
+puts YAML.load(ARGF).to_cfg
 
