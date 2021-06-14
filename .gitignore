@@ -57,9 +57,10 @@
 !/file-yank
 !/groups-users
 !/gu
-!/ls-commands
+!/launch
 !/lnsp
 !/loan
+!/ls-commands
 !/Makefile
 !/manhack
 !/noansi
