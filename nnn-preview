@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
-declare -r CURRENT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+# ==============================================================================
+# README
+# ==============================================================================
+# I am the original author of nnn's preview-tui script:
+# https://github.com/jarun/nnn/blob/master/plugins/preview-tui
+#
+# I do not use nnn's preview-tui plugin because I prefer to have more control
+# with my own custom preview scripts.
+
+
+# ==============================================================================
+# SETUP
+# ==============================================================================
+declare -r CURRENT_DIR="$(dirname "$(realpath.py "${BASH_SOURCE[0]}")")"
 declare -r preview="$CURRENT_DIR/preview_scripts"
 
 # Check FIFO
@@ -12,25 +25,50 @@ fi
 # Close tmux pane on exit
 if [[ -n "$TMUX_PANE" ]]; then
 	#tmux set-option -t $TMUX_PANE remain-on-exit on
-	tmux set-option -t $TMUX_PANE remain-on-exit off
+	tmux set-option -t "$TMUX_PANE" remain-on-exit off
 fi
+
+# Open pager
+tmpdir="$(mktemp -d)"
+function fifo_pager() {
+    cmd="$1" && shift
+
+    # Create FIFO
+    tmpfifo="$tmpdir/nnn-preview.$$.fifo"
+    mkfifo "$tmpfifo" || return
+
+    # Open FIFO with pager
+    $PAGER < "$tmpfifo" &
+    (
+        exec > "$tmpfifo"
+        "$cmd" "$@" &
+    )
+    rm "$tmpfifo"
+}
 
 # REVISIT: Use $NNN_PWD for something
 #NNN_PWD=$PWD
 
-# Read selection
+
+# ==============================================================================
+# PREVIEW
+# ==============================================================================
+# Read selection from $NNN_FIFO
 while read -r selection; do
 	# REVISIT: Use this for something
 	#basedir="$(dirname "$selection")"
 	#if [[ "$basedir" != "$NNN_PWD" ]]; then
 		#NNN_PWD="$basedir"
 	#fi
+
+	# Kill background jobs
+	kill %- %+ 2>/dev/null && wait %- %+ 2>/dev/null
 	clear
 
 	# Handle directory
 	if [[ -d "$selection" ]]; then
 		cd "$selection"
-		$preview/dir "$selection"
+		fifo_pager $preview/dir "$selection"
 		continue
 	fi
 
