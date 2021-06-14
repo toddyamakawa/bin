@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -e
+
+function fg_color() {
+	case "$1" in
+		black)   echo 30;;
+		red)     echo 31;;
+		green)   echo 32;;
+		yellow)  echo 33;;
+		blue)    echo 34;;
+		magenta) echo 35;;
+		cyan)    echo 36;;
+		white)   echo 37;;
+	esac
+}
+
+function bg_color() {
+	case "$1" in
+		black)   echo 40;;
+		red)     echo 41;;
+		green)   echo 42;;
+		yellow)  echo 43;;
+		blue)    echo 44;;
+		magenta) echo 45;;
+		cyan)    echo 46;;
+		white)   echo 47;;
+	esac
+}
+
+code=''
+parse=1
+while ((parse)); do
+	case "$1" in
+		--fg) code+=";$(fg_color "$2")"; shift 2;;
+		--bg) code+=";$(bg_color "$2")"; shift 2;;
+		--bold) code+=";1"; shift;;
+		*) parse=0;;
+	esac
+done
+
+printf "\e[${code}m%s\e[0m\n" "$(echo "$@")"
+
