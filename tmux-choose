@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+target="${1:-pane}"
+method="${2:-tui}"
+
+case "$target" in
+	pane)
+		if [[ "$method" == "popup" ]]; then
+			tmux display-popup -E 'tmux-choose pane'
+		elif [[ "$method" == "tui" ]]; then
+			pane_id="$(tmux-list-panes | ,fzf tmux)" || exit $?
+			cecho --fg blue --bold "INFO: Switching to target pane '$pane_id'"
+			tmux switch-client -t "$pane_id"
+		fi
+		;;
+	*)
+		cecho --fg red --bold "ERROR: Target '$target' not found"
+		exit 2
+		;;
+esac
+
+
