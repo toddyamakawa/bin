@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-declare -r CURRENT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+declare -r CURRENT_DIR="$(dirname "$(realpath.py "${BASH_SOURCE[0]}")")"
 declare -r preview="$CURRENT_DIR/preview_scripts"
 set -eo pipefail
 
