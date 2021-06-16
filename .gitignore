@@ -20,7 +20,6 @@
 !/git-*
 !/lsf-*
 !/nnn-*
-!/tmux-*
 !/vnc-*
 
 # git
@@ -28,6 +27,7 @@
 !/gpull
 
 # tmux
+!/tmux-*
 !/ta
 !/tenv
 !/tkeys
@@ -35,6 +35,7 @@
 !/tnew
 !/tprint
 !/tsave
+!/ts
 
 # YAML/JSON
 !/2cfg
