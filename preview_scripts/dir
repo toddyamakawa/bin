@@ -36,7 +36,7 @@ if [[ -f "$dir/RESULT.xml" ]]; then
 	for child_dir in $dir/*; do
 		[[ -d "$child_dir" ]] || continue
 		result="$(get_result "$child_dir")"
-		echo -e "$(get_user "$(readlink -f "$child_dir")") $(basename "$child_dir") \e[31;1m$result\e[0m"
+		echo -e "$(get_user "$(realpath.py "$child_dir")") $(basename "$child_dir") \e[31;1m$result\e[0m"
 	done
 	exit
 fi
@@ -44,7 +44,7 @@ fi
 result="$(get_result "$dir")"
 if [[ -n "$result" ]]; then
 	echo
-	echo -e "\e[33;1mRESULT:\e[0m"
+	cecho --fg yellow --bold "RESULT:"
 	echo "$result"
 fi
 
@@ -53,7 +53,12 @@ declare -r CURRENT_DIR="$(dirname "$(realpath.py "${BASH_SOURCE[0]}")")"
 source "$CURRENT_DIR/lib.bash"
 
 echo
-ls -lh --color=always $dir | tail
+cecho --fg yellow --bold "CONTENTS:"
+if [[ -r "$NNN_FIFO" ]]; then
+	ls -lth --color=always "$dir"
+else
+	ls -lh --color=always "$dir" | tail
+fi
 
 if [[ -e "$dir/uart.log" ]]; then
 	echo
