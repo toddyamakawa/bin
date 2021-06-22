@@ -13,6 +13,7 @@ echo "host: $host" 1>&2
 echo "port: $port" 1>&2
 echo "project: $project" 1>&2
 
-echo "\$> ssh -xp$port $USER@$host -- gerrit $@"
+#printf "\e[33;1m$> %s\e[0m\n" "$(tr $'\n' ' ' <<< "ssh -xp$port $USER@$host -- gerrit $@")"
+cecho --fg yellow --bold "\$> ssh -xp$port $USER@$host -- gerrit $@"
 exec ssh "-xp$port" "$USER@$host" -- gerrit "$(printf '%q ' "$@")"
 
