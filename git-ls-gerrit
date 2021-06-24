@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+fetch_url="$(git config --get remote.origin.url)"
+info="$(echo "$fetch_url" | sed -e 's/^ssh:\/\///')"
+read -r host port project <<< "$(echo "$info" | tr ':' ' '| sed -e 's:/: :')"
+git gerrit query --format=JSON "project:$project" status:open | \
+	jq -r 'select(.number != null) | [(.number|tostring), .owner.username, .subject] | @tsv'
