@@ -55,6 +55,7 @@
 !/ddstat
 !/diff-csv.rb
 !/echop
+!/envg
 !/f
 !/file-yank
 !/forkbomb
@@ -74,6 +75,7 @@
 !/realpath.py
 !/set-title
 !/sitename
+!/ssh.rb
 !/svn-url
 !/tax
 !/toddo
