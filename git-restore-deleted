@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
 declare -r top=$(git rev-parse --show-toplevel 2>/dev/null)
 cd $top
-git ls-files --deleted | exec xargs -n 1 git checkout
+printf "\e[33;1m$> %s\e[0m\n" 'pwd'
+pwd
+
+while read line; do
+	printf "\e[33;1m$> %s\e[0m\n" "git checkout $line"
+	git checkout "$line"
+	retval=$?
+	((retval)) && printf "(exited $?)\n"
+done < <(git ls-files --deleted)
+
