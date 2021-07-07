@@ -40,6 +40,7 @@
 # YAML/JSON
 !/2cfg
 !/2json
+!/2json.py
 !/2yaml
 
 !/a
