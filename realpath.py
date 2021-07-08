@@ -1,3 +1,4 @@
 #!/usr/bin/env python
-import os, sys
-print(os.path.realpath(sys.argv[1]))
+import sys
+import os.path as path
+print(path.realpath(sys.argv[1]))
