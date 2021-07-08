@@ -11,6 +11,8 @@
 !/preview_scripts/*
 !/setup/
 !/setup/*
+!/snippets/
+!/snippets/*
 
 !/awk-*
 !/bjobs*
@@ -76,6 +78,7 @@
 !/realpath.py
 !/set-title
 !/sitename
+!/snip
 !/ssh.rb
 !/svn-url
 !/tax

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+declare -r CURRENT_DIR="$(realdir.py "${BASH_SOURCE[0]}")"
+snippets_dir="$CURRENT_DIR/snippets"
+
+for snippet in "$snippets_dir"/*; do
+	description="$(sed -n "s/.*DESCRIPTION:\s*\(.*\)/\1/p" "$snippet")"
+	snippet_base="$(basename "$snippet")"
+	printf '%-20s %s\n' "$snippet_base" "$description"
+done | fzf
+
+# TODO: Print snippet contents
+
