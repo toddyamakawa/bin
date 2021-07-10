@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# TODO: Make this usable outside of tmux
+[[ -e "${TMUX%%,*}" ]] || exit 1
+
+# Check tmux version
+if (tmux-version 3.2 &>/dev/null); then
+	tmux_window="tmux display-popup -h '90%' -w '90%' -E"
+else
+	tmux_window="tmux new-window"
+fi
+
+# Relaunch self
+if [[ "$1" == "pane" ]]; then
+	exec $tmux_window 'tmux-switch choose-pane'
+
+# Search for tmux pane
+elif [[ "$1" == "choose-pane" ]]; then
+	pane_id=$(tmux-list-panes | ,fzf tmux) || exit $?
+	tmux switch-client -t "$pane_id"
+fi
+
