@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+width="$(tput cols)"
+height="$(tput lines)"
+echo "${width}x${height}"
