@@ -4,7 +4,7 @@
 
 # Check tmux version
 if (tmux-version 3.2 &>/dev/null); then
-	tmux_window="tmux display-popup -h '90%' -w '90%' -E"
+	tmux_window="tmux display-popup -h 90% -w 90% -E"
 else
 	tmux_window="tmux new-window"
 fi
