@@ -28,15 +28,19 @@ function bg_color() {
 }
 
 code=''
+newline=$'\n'
 parse=1
 while ((parse)); do
 	case "$1" in
 		--fg) code+=";$(fg_color "$2")"; shift 2;;
 		--bg) code+=";$(bg_color "$2")"; shift 2;;
 		--bold) code+=";1"; shift;;
+		-n) newline=''; shift;;
+		# TODO: Implement more escape codes, e.g. underline
+		# https://en.wikipedia.org/wiki/ANSI_escape_code
 		*) parse=0;;
 	esac
 done
 
-printf "\e[${code}m%s\e[0m\n" "$(echo "$@")"
+printf "\e[${code}m%s\e[0m$newline" "$(echo "$@")"
 
