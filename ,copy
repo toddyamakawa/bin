@@ -18,7 +18,18 @@ fi
 
 # Check clipboard
 copied="$(,paste)" || exit $?
-echo "Clipboard: '$copied'"
+
+newline=$'\n'
+case "$copied" in
+	*$newline*)
+		cecho --fg yellow --bold 'Clipboard:'
+		echo "$copied"
+		;;
+	*)
+		cecho --fg yellow --bold -n 'Clipboard: '
+		echo "'$copied'"
+		;;
+esac
 
 # Copy to tmux buffer
 if [[ -e "${TMUX%%,*}" ]]; then
