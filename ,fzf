@@ -55,10 +55,14 @@ case "$config" in
 	dir) args['preview']="--preview '$preview/dir {}'";;
 	lsf) args['preview']="--preview '$preview/lsf-job {1}'"; filter="awk '{print \$1}'";;
 	tmux)
+		#position=bottom
+		position=right
+		args['height']='--height 100%'
 		args['preview']="--preview '$preview/tmux-pane {1}'"
-		args['preview-window']="--preview-window bottom:50%"
+		args['preview-window']="--preview-window $position:50%"
 		filter="awk '{print \$1}'"
 		;;
+	fpga-image) args['preview']="--preview 'burst-show-image {2}'";;
 	*) echo "WARNING: config '$config' not recognized";;
 esac
 
