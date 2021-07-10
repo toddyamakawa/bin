@@ -16,7 +16,7 @@ declare -r CURRENT_DIR="$(dirname "$(realpath.py "${BASH_SOURCE[0]}")")"
 declare -r preview="$CURRENT_DIR/preview_scripts"
 
 # Check FIFO
-NNN_FIFO=${NNN_FIFO:-$1}
+export NNN_FIFO=${NNN_FIFO:-$1}
 if [[ ! -r "$NNN_FIFO" ]]; then
 	echo "Unable to open \$NNN_FIFO='$NNN_FIFO'"
 	exit 2
