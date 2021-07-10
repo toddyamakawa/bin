@@ -22,11 +22,11 @@ copied="$(,paste)" || exit $?
 newline=$'\n'
 case "$copied" in
 	*$newline*)
-		cecho --fg yellow --bold 'Clipboard:'
+		cecho --fg yellow --bold '==> CLIPBOARD <=='
 		echo "$copied"
 		;;
 	*)
-		cecho --fg yellow --bold -n 'Clipboard: '
+		cecho --fg yellow --bold -n 'CLIPBOARD: '
 		echo "'$copied'"
 		;;
 esac
