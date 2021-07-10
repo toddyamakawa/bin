@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+which firefox || exit $?
+# https://bugzilla.mozilla.org/show_bug.cgi?id=1605602
+# TODO: Test environment variables
+# TMPDIR /home/$USER/tmp
+# GCONF_TMPDIR $TMPDIR
+# KDETMP $TMPDIR
+# KDEVARTMP $TMPDIR
+# TEMP $TMPDIR
+# TMP $TMPDIR
