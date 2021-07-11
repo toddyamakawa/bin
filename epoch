@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# TODO: On *BSD:
+# date -r 1234567890
+date +'%Y-%m-%d %T' -d @"$1"
