@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# TODO: Detach process?
 prefix=".deleting.$(hostname).$$"
 for src in $@; do
+	[[ -e "$src" ]] || continue
 	src="${src%/}"
-	dest="$(dirname $src)/$prefix.$(basename $src)"
+	dest="$(dirname "$src")/$prefix.$(basename "$src")"
 	mv "$src" "$dest"
 	echo "rm -rf $src"
-	rm -rf $dest &
+	rm -rf "$dest" &
 done
