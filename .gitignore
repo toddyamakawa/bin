@@ -76,6 +76,7 @@
 !/pyinfo
 !/realdir.py
 !/realpath.py
+!/rmrf
 !/set-title
 !/sitename
 !/snip
