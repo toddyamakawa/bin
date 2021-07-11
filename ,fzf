@@ -53,6 +53,8 @@ args['color']+=',border:33,preview-fg:159,preview-bg:235'
 case "$config" in
 	default);;
 	dir) args['preview']="--preview '$preview/dir {}'";;
+	git-diff) args['preview']="--preview '$preview/git-diff {}'";;
+	fpga-image) args['preview']="--preview 'burst-show-image {2}'";;
 	lsf) args['preview']="--preview '$preview/lsf-job {1}'"; filter="awk '{print \$1}'";;
 	tmux)
 		#position=bottom
@@ -62,7 +64,6 @@ case "$config" in
 		args['preview-window']="--preview-window $position:50%"
 		filter="awk '{print \$1}'"
 		;;
-	fpga-image) args['preview']="--preview 'burst-show-image {2}'";;
 	*) echo "WARNING: config '$config' not recognized";;
 esac
 
