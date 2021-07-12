@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+known_hosts_file="$HOME/.ssh/known_hosts"
+while read host; do
+	(printf "%-25s %s\n" "$host" "$(ssh "$host" uptime 2>/dev/null)") &
+done < <(
+	awk -F '[, ]' '/login/ {print $1}' "$known_hosts_file" | sort | uniq
+)
+wait
