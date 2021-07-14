@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+count=1
+while [[ $# -ge 1 ]]; do
+	arg="$1" && shift
+	echo "arg[$((count++))]: '$arg'"
+done

@@ -47,6 +47,7 @@
 
 !/a
 !/ansi
+!/args
 !/awkc
 !/bash-hacks
 !/bin.plugin.zsh
@@ -68,6 +69,7 @@
 !/lnsp
 !/loan
 !/ls-commands
+!/ls-hosts
 !/Makefile
 !/manhack
 !/noansi
