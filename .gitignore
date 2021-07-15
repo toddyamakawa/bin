@@ -20,6 +20,7 @@
 !/du*
 !/fzf-*
 !/git-*
+!/ls-*
 !/lsf-*
 !/nnn-*
 !/test-*
@@ -68,8 +69,6 @@
 !/launch
 !/lnsp
 !/loan
-!/ls-commands
-!/ls-hosts
 !/Makefile
 !/manhack
 !/noansi
