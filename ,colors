@@ -1,4 +1,47 @@
 #!/bin/bash
+function print_color() {
+	printf "\x1b[48;5;%sm %3d \e[0m " "$1" "$1"
+}
+
+# Print first two rows
+for i in {0..15} ; do
+	print_color "$i"
+	(( i == 7 )) && printf "\n";
+done
+printf "\n\n";
+
+for section in {0..5} ; do
+	for row in {0..5} ; do
+		for col in {0..5} ; do
+			color="$((36 * section + 6 * row + col + 16))"
+			print_color "$color"
+		done
+
+		printf "  "
+		for col in {0..5} ; do
+			color="$((36 * row + 6 * section + col + 16))"
+			print_color "$color"
+		done
+
+		printf "  "
+		for col in {0..5} ; do
+			color="$((36 * col + 6 * row + section + 16))"
+			print_color "$color"
+		done
+		printf "\n"
+	done
+	printf "\n"
+done
+
+# Print last four rows
+for i in {232..255} ; do
+	print_color "$i"
+	(( (i % 8) == 7 )) && printf "\n";
+done
+printf "\n"
+
+
+exit
 # http://askubuntu.com/questions/821157/print-a-256-color-test-pattern-in-the-terminal
 for i in {0..255} ; do
 	printf "\x1b[48;5;%sm %3d \e[0m " "$i" "$i"
@@ -13,3 +56,5 @@ for i in {0..255} ; do
 		printf "\n";
 	fi
 done
+
+
