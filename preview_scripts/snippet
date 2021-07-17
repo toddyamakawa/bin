@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Check file
+file="$1"
+[[ -f "$file" ]] || { cecho --fg red --bold "'$file' not found"; exit 2; }
+
+snippet_type="$(sed -ne '1s/.* //p' "$file")"
+description="$(sed -ne 's/.*DESCRIPTION: \+//p' "$file")"
+text="$(sed -e '1,/DESCRIPTION:/ d' "$file")"
+
+cecho -n --fg yellow --bold 'TYPE:        '
+echo "$snippet_type"
+cecho -n --fg yellow --bold 'DESCRIPTION: '
+echo "$description"
+echo
+cecho --fg yellow --bold '==> SNIPPET <=='
+echo "$text"
+
