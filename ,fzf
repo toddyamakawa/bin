@@ -29,7 +29,10 @@ args['height']='--height 40%'
 args['tiebreak']='--tiebreak=length'
 args['reverse']='--reverse'
 args['info']='--info inline'
-args['keybind']='--bind=ctrl-s:toggle-sort'
+#args['keybind']='--bind=ctrl-s:toggle-sort'
+args['keybind']='--bind=ctrl-c:clear-query'
+args['bind']='--bind backward-eof:abort'
+
 args['preview']="--preview '$preview/unknown {}'"
 # TODO: Dynamically set preview-window size and position
 args['preview-window']="--preview-window right:50%"
@@ -40,11 +43,60 @@ args['query']="--query='$@ '"
 
 # Custom colorscheme
 args['color']='--color '
-args['color']+='fg:33,bg:233,fg+:39,bg+:236'
+args['color']+='fg:7,bg:233,fg+:39,bg+:236'
 args['color']+=',hl:172,hl+:172'
 args['color']+=',spinner:166,pointer:166,gutter:236,marker:214'
 args['color']+=',prompt:123,info:123'
-args['color']+=',border:33,preview-fg:159,preview-bg:235'
+args['color']+=',border:33,preview-fg:7,preview-bg:235'
+
+# Actions
+# abort
+# accept / accept-non-empty
+# backward-char / backward-delete-char / backward-delete-char/eof
+# backward-kill-word / backward-word
+# beginning-of-line
+# cancel
+# change-prompt(...)
+# clear-screen / clear-selection
+# close
+# clear-query
+# delete-char / delete-char/eof
+# deselect / deselect-all
+# disable-search
+# down
+# enable-search
+# end-of-line
+# execute(...) / execute-silent(...)
+# first / last
+# forward-char / forward-word
+# ignore
+# jump / jump-accept
+# kill-line / kill-word
+# next-history
+# page-down / page-up
+# half-page-down / half-page-up
+# preview(...)
+# preview-down / preview-up
+# preview-page-down / preview-page-up
+# preview-half-page-down / preview-half-page-up
+# preview-bottom / preview-top
+# previous-history
+# print-query
+# refresh-preview
+# reload(...)
+# replace-query
+# select / select-all
+# toggle         / toggle-all
+# toggle-in      / toggle-out
+# toggle+down    / toggle+up
+# toggle-preview / toggle-preview-wrap
+# toggle-search  / toggle-sort
+# unbind(...)
+# unix-line-discard
+# unix-word-rubout
+# up
+# yank
+
 
 # TODO: More previews
 	#--preview "'my-fzf-preview-git-diff {}'" \
@@ -54,6 +106,7 @@ case "$config" in
 	default);;
 	dir) args['preview']="--preview '$preview/dir {}'";;
 	git-diff) args['preview']="--preview '$preview/git-diff {}'";;
+	git-show) args['preview']="--preview '$preview/git-commit {}'";;
 	fpga-image) args['preview']="--preview 'burst-show-image {2}'";;
 	lsf) args['preview']="--preview '$preview/lsf-job {1}'"; filter="awk '{print \$1}'";;
 	tmux)
