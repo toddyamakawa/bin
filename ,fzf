@@ -105,10 +105,11 @@ args['color']+=',border:33,preview-fg:7,preview-bg:235'
 case "$config" in
 	default);;
 	dir) args['preview']="--preview '$preview/dir {}'";;
+	fpga-image) args['preview']="--preview 'burst-show-image {2}'";;
 	git-diff) args['preview']="--preview '$preview/git-diff {}'";;
 	git-show) args['preview']="--preview '$preview/git-commit {}'";;
-	fpga-image) args['preview']="--preview 'burst-show-image {2}'";;
 	lsf) args['preview']="--preview '$preview/lsf-job {1}'"; filter="awk '{print \$1}'";;
+	snip) args['preview']="--preview '$preview/snippet {1}'";;
 	tmux)
 		#position=bottom
 		position=right
