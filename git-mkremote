@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 git remote get-url gerrit &>/dev/null && exit 0
 fetch_url="$(git config --get remote.origin.url)"
-gerrit_branch="$(echo "$fetch_url" | sed "s:.*toddyamakawa/:scratch/todyam01:")"
+gerrit_branch="$(echo "$fetch_url" | sed "s:.*toddyamakawa/:scratch/todyam01/:")"
 host='na-gerrit-1.nahpc.arm.com'
 port='29418'
 gerrit_scratch="ssh://$USER@$host:$port/$gerrit_branch"
