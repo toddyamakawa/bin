@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# https://github.com/mattorb/dotfiles/blob/master/bin/fstash
+# TODO: Finish this
+git stash list | ,fzf git-show | xargs echo git stash pop
+
+# REVISIT: Checkout as branch
+# sha=$(echo "$selection[3]" | grep -o '[a-f0-9]\{7\}')
+# git stash branch "stash-$sha" "$reflog_selector"
+
