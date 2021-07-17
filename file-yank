@@ -35,6 +35,8 @@ class String
 	# Remove ANSI escape characters
 	def noansi; return self.gsub(/\e\[([;\d]+)?m/, ''); end
 
+	# Search multiline string
+	# Returns array of [string, row, col, length]
 	def match_with_pos(regex, group = 0)
 		matches = Array.new
 		self.split("\n").each_with_index do |line, row|
@@ -42,7 +44,6 @@ class String
 				match = Regexp.last_match
 				matches.append [match[group], row+1, match.begin(group)+1, match[group].length]
 			end
-
 		end
 		return matches
 	end
@@ -62,12 +63,30 @@ def prompt(string)
 	write_at($rows, 0, $prompt_format + string)
 end
 
+# TODO: Finish generating labels
+# Generate labels for hints
+#def generate_labels(chars, number)
+#	if chars.size >= number
+#		return chars.split('').first(number)
+#	end
+#	labels = Array.new
+#	step = number / chars.size
+#	chars.split('').each do |char|
+#	end
+#
+#end
+#p generate_labels($hint_characters, $hint_characters.size)
+#p generate_labels($hint_characters, 16)
+#exit
+
+
 
 # ==============================================================================
 # MAIN
 # ==============================================================================
 file = ARGV.shift
 content = File.read(file)
+# TODO: Check content has too many lines
 
 switch_alt()
 printf content
