@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+echo "TODO: Implement automatic tarring to remote machine"
+exit
+# https://www.maketecheasier.com/ssh-pipes-linux/
+tar czf - /home/localuser/filefolder | ssh remote-machine@ip.address.of.remote.machine tar -xvzf -C /home/remoteuser/
