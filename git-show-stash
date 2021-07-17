@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
+# DESCRIPTION: Show stash number
+# FIND: git stash list
 num="$1" && shift || { echo "usage: git show-stash <number> <options>"; exit; }
 exec git show $@ "stash@{$num}"
