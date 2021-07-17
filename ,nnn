@@ -2,13 +2,6 @@
 set -e
 declare -r CURRENT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# Bookmarks
-NNN_BMS='h:~'
-NNN_BMS+=';b:~/bin'
-NNN_BMS+=';d:~/dotfiles'
-NNN_BMS+=';l:~/.links'
-export NNN_BMS
-
 # More info here:
 # https://github.com/jarun/nnn/blob/master/misc/quitcd/quitcd.bash_zsh
 #
@@ -28,14 +21,22 @@ export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
 # 7 = white
 export NNN_COLORS='4231'
 
+# Use _ for arbitrary non-background CLI commands
+# Use * to skip user confirmation
+# Use _| to run a GUI app
+# Use -_ to disable directory refresh
 NNN_PLUG='g:_git status'
 NNN_PLUG+=';b:_nnn-bookmarks*'
-NNN_PLUG+=';l:_less -r $nnn*'
+NNN_PLUG+=';e:_,env'
+#NNN_PLUG+=';h:_cdhome*'
+#NNN_PLUG+=';H:_cdhome'
+NNN_PLUG+=';P:preview-tui'
+#NNN_PLUG+=';a:bookmarks'
 NNN_PLUG+=';o:fzopen'
 NNN_PLUG+=';p:_nnn-cd-clipboard*'
 NNN_PLUG+=';s:_nnn-show-selection'
 NNN_PLUG+=';y:-_,clip $nnn*'
-#export NNN_PLUG+=';e:_,env'
+NNN_PLUG+=';z:_nnn-zsh*'
 export NNN_PLUG
 
 # TODO: Figure out how to get this to work
@@ -61,6 +62,10 @@ export NNN_FIFO="$(mktemp --suffix=-nnn -u)"
 if [[ -e ${TMUX%%,*} ]]; then
 	width=$(($(tput cols)-50))
 	tmux split-window -dh -l $width nnn-preview $NNN_FIFO
+	#tmux split-window \
+		#-dh \
+		#-e "NNN_FIFO=$NNN_FIFO" \
+		#-l $width zsh
 fi
 
 # Run nnn
