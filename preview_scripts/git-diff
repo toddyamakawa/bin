@@ -4,9 +4,13 @@ file="$1"
 
 cecho --fg yellow --bold "==> git diff $file <=="
 
-if ((FZF_PREVIEW_HEIGHT)); then
-	git diff --color=always "$file" | head -n "$FZF_PREVIEW_HEIGHT"
-else
+#if ((FZF_PREVIEW_HEIGHT)); then
+	#git diff --color=always "$file" | head -n "$FZF_PREVIEW_HEIGHT"
+#else
 	git diff --color=always "$file"
-fi
+#fi
+
+# REVISIT: More examples
+#git diff --ignore-all-space --ignore-blank-lines --color=always $file
+#git ls-files --error-unmatch $file 2>/dev/null && exit 0
 
