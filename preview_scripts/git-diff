@@ -2,26 +2,11 @@
 file="$1"
 [[ -f "$file" ]] || { echo "File '$file' not found"; exit 2; }
 
-cecho --fg yellow --bold "==> $file <=="
-git diff --color=always "$file"
+cecho --fg yellow --bold "==> git diff $file <=="
 
-
-# Add --cached for staged files
-
-exit
-
-# ==============================================================================
-# FORGIT EXAMPLE
-# ==============================================================================
-extract="
-	sed 's/^.*]  //' |
-	sed 's/.* -> //' |
-	sed -e 's/^\\\"//' -e 's/\\\"\$//'"
-preview="
-	file=\$(echo {} | $extract)
-	if (git status -s -- \$file | grep '^??') &>/dev/null; then  # diff with /dev/null for untracked files
-		git diff --color=always --no-index -- /dev/null \$file | $forgit_pager | sed '2 s/added:/untracked:/'
-	else
-		git diff --color=always -- \$file | $forgit_pager
-	fi"
+if ((FZF_PREVIEW_HEIGHT)); then
+	git diff --color=always "$file" | head -n "$FZF_PREVIEW_HEIGHT"
+else
+	git diff --color=always "$file"
+fi
 
