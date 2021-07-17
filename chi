@@ -1,6 +1,12 @@
 #!/usr/bin/env ruby
 # vim: ft=ruby
 
+# TODO: Add Chi-Squared test
+# https://stackoverflow.com/questions/11725115/p-value-from-chi-sq-test-statistic-in-python
+# >>> 1 - stats.chi2.cdf(3.84, 1)
+0# .050043521248705147
+
+
 # ==============================================================================
 # EXAMPLE
 # ==============================================================================
