@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-declare -r CURRENT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+declare -r CURRENT_DIR="$(realdir.py "${BASH_SOURCE[0]}")"
 
 if [[ -h "$1" ]]; then
 	link="$(readlink -f "$1")"
