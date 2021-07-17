@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+#set -x
+while read status day time pid session; do
+	#cmd="$(ps --noheader -o cmd --ppid $pid || echo DEAD)"
+	printf "$status $day $time %6s %-10s $cmd\n" $pid $session
+	#cmd_pid=$(pgrep -P $pid)
+	#ps --noheader -o cmd $cmd_pid
+done < <(abduco | sed -e '1d' -e 's/^ /_/' | awk '{ $2=""; print $0 }')
