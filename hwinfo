@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# https://www.cloudsavvyit.com/12691/how-to-make-your-bash-scripts-hardware-aware/
+echo "$(getconf LONG_BIT)-bit machine"
+echo "Max file length: $(getconf NAME_MAX /)"
+
+echo
+echo "Max int : $(getconf INT_MAX)"
+echo "Min int : $(getconf INT_MIN)"
+echo "Max uint: $(getconf UINT_MAX)"
+
+# TODO: Add more info
+# TODO: Figure out why `getconf -a` doesn't work on MacOS
+
+
