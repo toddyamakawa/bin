@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+group="${1?}"
+shift
+chmod -R o-rwx $@
+chown -R "${USER}:${group}" $@
