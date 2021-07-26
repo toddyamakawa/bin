@@ -1,5 +1,23 @@
 #!/usr/bin/env bash
-echo "TODO: Implement automatic tarring to remote machine"
-exit
-# https://www.maketecheasier.com/ssh-pipes-linux/
-tar czf - /home/localuser/filefolder | ssh remote-machine@ip.address.of.remote.machine tar -xvzf -C /home/remoteuser/
+dest="${1?}" && shift
+
+# TODO: Support for multiple sources
+src="${1?}" && shift
+if ! [[ -e "$src" ]]; then
+	echo "ERROR: '$src' not found"
+	exit 2
+fi
+
+# Parse remote host and destination
+read -r remote_host remote_dest <<< $(echo "$dest" | tr : ' ')
+if [[ -z "$remote_host" || -z "$remote_dest" ]]; then
+	echo "ERROR: Unable to parse remote host and destination from '$dest'"
+	exit 2
+fi
+
+# Run
+src_base="$(basename "$src")"
+src_dir="$(dirname "$src")"
+cecho --fg yellow --bold "\$> tar -czf - -C $src_dir $src_base | ssh $remote_host tar -xvzf - -C $remote_dest"
+tar -czf - -C "$src_dir" "$src_base" | ssh "$remote_host" tar -xzvf - -C "$remote_dest"
+
