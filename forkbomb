@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# :(){:|:&;}:
 stop_s="${1:-$(($(date +%s)+5))}"
 current_s="$(date +%s)"
 ((current_s > stop_s) && exit
