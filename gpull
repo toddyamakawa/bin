@@ -1,19 +1,28 @@
 #!/usr/bin/env bash
 set -e
 
-printf "\e[33;1m$> %s\e[0m\n" 'git stash'
+printf "\e[33;1m$ %s\e[0m\n" 'git fetch'
+git fetch
+printf "(exited $?)\n\n"
+
+if ! (git behind); then
+	echo "No new commits"
+	exit
+fi
+
+printf "\e[33;1m$ %s\e[0m\n" 'git stash'
 git stash
 printf "(exited $?)\n\n"
 
-printf "\e[33;1m$> %s\e[0m\n" 'git pull --rebase'
+printf "\e[33;1m$ %s\e[0m\n" 'git pull --rebase'
 git pull --rebase
 printf "(exited $?)\n\n"
 
-printf "\e[33;1m$> %s\e[0m\n" 'git stash pop --quiet'
+printf "\e[33;1m$ %s\e[0m\n" 'git stash pop --quiet'
 git stash pop --quiet
 printf "(exited $?)\n\n"
 
-printf "\e[33;1m$> %s\e[0m\n" 'git unstage-all'
+printf "\e[33;1m$ %s\e[0m\n" 'git unstage-all'
 git unstage-all
 printf "(exited $?)\n\n"
 
