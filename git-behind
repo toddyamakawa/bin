@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# DESCRIPTION: Exit 0 if behind
+git status -sb -uno | grep -q behind
