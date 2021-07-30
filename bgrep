@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+declare -r CURRENT_DIR="$(realdir.py "${BASH_SOURCE[0]}")"
+cd "$CURRENT_DIR"
+grep --color=auto -i "$@" * 2>/dev/null

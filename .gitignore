@@ -52,6 +52,7 @@
 !/ansi
 !/awkc
 !/bash-hacks
+!/bgrep
 !/bin.plugin.zsh
 !/bshell
 !/cecho
