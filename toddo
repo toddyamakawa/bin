@@ -9,6 +9,16 @@ require 'yaml'
 
 
 # ==============================================================================
+# FUNCTIONS
+# ==============================================================================
+class String
+	def ansi(*codes)
+		return "\e[#{codes.join(';')}m#{self}\e[0m"
+	end
+end
+
+
+# ==============================================================================
 # PARSE ARGUMENTS
 # ==============================================================================
 options = Hash.new
@@ -46,6 +56,7 @@ else
 	toddo_list = Array.new
 end
 
+
 # ==============================================================================
 # SUBCOMMANDS
 # ==============================================================================
@@ -54,7 +65,7 @@ end
 if subcmd == 'ls' or subcmd == 'l'
 	# TODO: Sort
 	toddo_list.each_with_index do |item, index|
-		id = index.to_s.rjust(3)
+		id = index.to_s.rjust(3).ansi(1)
 		priority = (item['priority'] == 99) ? '' : "[#{item['priority']}]".rjust(4)
 		summary = item['summary']
 		puts [id, priority, summary].join(' ')
@@ -66,7 +77,9 @@ elsif subcmd == 'new' or subcmd == 'n'
 	new_item = {
 		'summary' => summary,
 		'created' => Time.now.strftime('%Y/%m/%d %A %T'),
-		'priority' => 99,
+		'importance' => 99,
+		'urgency' => 99,
+		'impact' => 99,
 		'tags' => [],
 		'description' => []
 	}
