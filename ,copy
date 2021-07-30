@@ -24,6 +24,7 @@ case "$copied" in
 	*$newline*)
 		cecho --fg yellow --bold '==> CLIPBOARD <=='
 		echo "$copied"
+		cecho --fg yellow --bold "wc: $(echo "$copied" | wc)"
 		;;
 	*)
 		cecho --fg yellow --bold -n 'CLIPBOARD: '
