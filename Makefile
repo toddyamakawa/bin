@@ -55,9 +55,8 @@ devour.git:
 	git clone --depth 1 https://github.com/salman-abedin/devour $@
 
 # --- fzf ---
-fzf: $(HOME)/.fzf
-$(HOME)/.fzf: fzf.git/bin/fzf
-	ln -fns $(CURDIR)/fzf.git $@
+fzf: fzf.git/bin/fzf
+	cp $^ $@
 fzf.git/bin/fzf: fzf.git
 	fzf.git/install --no-key-bindings --no-completion --no-update-rc
 	touch $@
