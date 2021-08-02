@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# DESCRIPTION: List all files in bin
+declare -r CURRENT_DIR="$(realdir.py "${BASH_SOURCE[0]}")"
+case "$OSTYPE" in
+	darwin*)
+		flags='-perm +111'
+		;;
+	*)
+		flags='-executable'
+		;;
+esac
+cd "$CURRENT_DIR"
+find . -type f -print -maxdepth 1 $flags | \
+	xargs basename | \
+	LC_ALL=C sort
