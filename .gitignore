@@ -19,6 +19,8 @@
 !/bmod*
 !/du*
 !/fz*
+/fzf
+/fzf.git
 !/git-*
 !/ls-*
 !/lsf-*
