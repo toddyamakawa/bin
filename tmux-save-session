@@ -3,7 +3,7 @@ session_name="${1?}"
 
 # Create backup directory
 tmux_cache="${XDG_CACHE_HOME:-$HOME/.cache}/tmux"
-backup_dir="$tmux_cache/$session_name"
+backup_dir="$tmux_cache/backup/$session_name"
 today="$(date +%Y%m%d)"
 mkdir -p "$backup_dir"
 
