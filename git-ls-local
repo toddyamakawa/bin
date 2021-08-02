@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# DESCRIPTION: List local/unpushed commits
+remote_branch="${1:-origin/master}"
+cecho --fg yellow --bold "\$ git ls $remote_branch..HEAD"
+git ls "$remote_branch..HEAD"
