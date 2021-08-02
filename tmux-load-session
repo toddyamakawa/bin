@@ -1,0 +1,155 @@
+#!/usr/bin/env ruby
+# TODO: Clean up this script
+
+require 'open3'
+require 'yaml'
+
+# ==============================================================================
+# ARGUMENTS
+# ==============================================================================
+usage = "USAGE: #{$0} [SESSION]..."
+
+$dryrun = false
+shell = 'zsh'
+
+# Get sessions to load
+sessions = ARGV
+if sessions.empty?
+	puts usage
+	exit 2
+end
+
+
+# ==============================================================================
+# FUNCTIONS
+# ==============================================================================
+def tmux_has_session(session_name)
+	has_session_cmd = ['tmux', 'has-session', '-t', session_name]
+	stdout, stderr, status = Open3.capture3(*has_session_cmd)
+	if $dryrun
+		if status.exitstatus == 0
+			return true
+		else
+			return $dryrun_session
+		end
+	else
+		return status.exitstatus == 0
+	end
+end
+
+# Load .yaml file
+session_name, load_file = ARGV
+if load_file.nil?
+	puts "ERROR: Unable to find saved session for '#{session_name}'"
+	exit 2
+end
+session_info = YAML.load(File.read(load_file))
+#puts session_info.to_yaml; exit
+
+# Initialize variables
+pane_id = nil
+prev_index = -1
+$dryrun_session = false
+
+# For each window
+session_info.each do |index, window_info|
+
+	name = window_info['name']
+	layout = window_info['layout']
+
+	# For each pane
+	window_info['panes'].each do |path|
+
+		# Create new session if it doesn't exist
+		if not tmux_has_session(session_name)
+			new_session_cmd = ['tmux', 'new-session', '-d']
+			new_session_cmd += ['-s', session_name]
+			new_session_cmd += ['-n', name] unless name.nil?
+			new_session_cmd += ['-c', path] if File.directory?(path)
+			new_session_cmd += ['-P', '-F', '#{pane_id}']
+			new_session_cmd += [shell]
+
+			if $dryrun
+				$dryrun_session = true
+				p new_session_cmd
+				pane_id = '%1'
+			else
+				stdout, stderr, status = Open3.capture3(*new_session_cmd)
+				if status.exitstatus != 0
+					$stderr.puts "ERROR: Unable to create new session for '#{session_name}'"
+					$stderr.puts "tmux error: '#{stderr}'" unless stderr.empty?
+					exit status.exitstatus
+				end
+				pane_id = stdout.chomp
+			end
+
+		# Create new window
+		elsif prev_index != index
+			new_window_cmd = ['tmux', 'new-window']
+			new_window_cmd += ['-t', session_name]
+			new_window_cmd += ['-n', name] unless name.nil?
+			new_window_cmd += ['-c', path] if File.directory?(path)
+			new_window_cmd += ['-P', '-F', '#{pane_id}']
+			new_window_cmd += [shell]
+
+			if $dryrun
+				p new_window_cmd
+				pane_id = '%2'
+			else
+				stdout, stderr, status = Open3.capture3(*new_window_cmd)
+				if status.exitstatus != 0
+					$stderr.puts "ERROR: Unable to create new window index '#{index}'"
+					$stderr.puts "tmux error: '#{stderr}'" unless stderr.empty?
+					exit status.exitstatus
+				end
+				pane_id = stdout.chomp
+			end
+			#puts "New window pane ID: #{pane_id}"
+
+		# Split current window to create a new pane
+		else
+			split_window_cmd = ['tmux', 'split-window', '-h']
+			split_window_cmd += ['-t', pane_id] unless pane_id.nil?
+			split_window_cmd += ['-c', path] if File.directory?(path)
+			split_window_cmd += [shell]
+			layout_cmd = ['tmux', 'select-layout', '-t', pane_id, '-E']
+
+			if $dryrun
+				p split_window_cmd
+				p layout_cmd
+			else
+				stdout, stderr, status = Open3.capture3(*split_window_cmd)
+				if status.exitstatus != 0
+					$stderr.puts "ERROR: Unable to split window '#{index}'"
+					$stderr.puts "tmux error: '#{stderr}'" unless stderr.empty?
+					exit status.exitstatus
+				end
+				stdout, stderr, status = Open3.capture3(*layout_cmd)
+				if status.exitstatus != 0
+					$stderr.puts "Unable to select layout for '#{index}'"
+					exit status.exitstatus
+				end
+			end
+		end
+
+		prev_index = index
+
+	end # for each pane
+
+	# Select layout after panes are created
+	if layout
+		layout_cmd = ['tmux', 'select-layout', '-t', pane_id, layout]
+		if $dryrun
+			p layout_cmd
+		else
+			stdout, stderr, status = Open3.capture3(*layout_cmd)
+			if status.exitstatus != 0
+				$stderr.puts "Unable to select layout for '#{index}'"
+				exit status.exitstatus
+			end
+		end
+	end
+
+end # for each window
+
+
