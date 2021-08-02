@@ -1,11 +1,20 @@
 #!/usr/bin/env bash
+declare -r CURRENT_DIR="$(realdir.py "${BASH_SOURCE[0]}")"
 
 # Check file
 file="$1"
-[[ -f "$file" ]] || { cecho --fg red --bold "'$file' not found"; exit 2; }
+if ! [[ -f "$file" ]]; then
+	snippet_dir="$CURRENT_DIR/../snippets"
+	snippet_file="$snippet_dir/$file"
+	[[ -f "$snippet_file" ]] && file="$snippet_file"
+fi
+if ! [[ -f "$file" ]]; then
+	cecho --fg red --bold "'$file' not found"
+	exit 2
+fi
 
 snippet_type="$(sed -ne '1s/.* //p' "$file")"
-description="$(sed -ne 's/.*DESCRIPTION: \+//p' "$file")"
+description="$(sed -ne 's/.*DESCRIPTION: *//p' "$file")"
 text="$(sed -e '1,/DESCRIPTION:/ d' "$file")"
 
 cecho -n --fg yellow --bold 'TYPE:        '
