@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+if [[ -n "$@" ]]; then
+	git config --list | sed -n 's/^alias.//p' | sort | grep -i --color=auto "$@"
+else
+	git config --list | sed -n 's/^alias.//p' | sort
+fi
+
