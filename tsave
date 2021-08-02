@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-tmux list-sessions -F '#{session_name}' | xargs $HOME/.tmux/bin/save-session.rb
+tmux list-sessions -F '#{session_name}' | xargs -n 1 tmux-save-session
