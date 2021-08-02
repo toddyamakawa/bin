@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# DESCRIPTION: Find extension
+find . -name "*.${1?}"
