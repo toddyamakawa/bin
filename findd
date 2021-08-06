@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+path="${1?}" && shift
+find "$path" -type d "$@"
