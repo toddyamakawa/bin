@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+git staged || exit $?
+git commit -m "$(git ls-staged)" && git amend
