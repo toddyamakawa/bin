@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+git diff --cached --quiet &> /dev/null
+RETVAL=$?
+if ((RETVAL==1)); then
+	# Staged changes detected
+	exec true
+else
+	# No staged changes or not in git repo
+	exec false
+fi
