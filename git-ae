@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# DESCRIPTION: Add files to existing commit
+git add "$@" && git extend
