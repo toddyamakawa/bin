@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# DESCRIPTION: Find executable files
+path="${1:-.}" && shift
+case "$OSTYPE" in
+	darwin*)
+		flags='-perm +111'
+		;;
+	*)
+		flags='-executable'
+		;;
+esac
+find "$path" -type f $flags "$@"

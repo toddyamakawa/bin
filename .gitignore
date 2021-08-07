@@ -69,9 +69,10 @@
 !/echop
 !/epoch
 !/f
-!/findd
 !/file-yank
+!/findd
 !/findext
+!/findx
 !/forkbomb
 !/groups-users
 !/gu
