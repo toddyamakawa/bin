@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# DESCRIPTION: Add and commit new file
+git staged && exec exitfail "Please remove staged changes"
+file="$1"
+[[ -f "$file" ]] || exec exitfail "File '$file' not found"
+git add "$file" && git commit -m "$(git ls-staged): Initial commit."
