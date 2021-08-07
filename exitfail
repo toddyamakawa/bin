@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+cecho --fg red --bold -n 'ERROR: '
+echo "$@"
+exit 2

@@ -68,6 +68,7 @@
 !/ddstat
 !/diff-csv.rb
 !/echop
+!/exitfail
 !/epoch
 !/f
 !/file-yank
