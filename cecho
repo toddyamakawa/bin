@@ -35,6 +35,9 @@ while ((parse)); do
 		--fg) code+=";$(fg_color "$2")"; shift 2;;
 		--bg) code+=";$(bg_color "$2")"; shift 2;;
 		--bold) code+=";1"; shift;;
+		--italic) code+=";3"; shift;;
+		--underline) code+=";4"; shift;;
+		--blink) code+=";5"; shift;;
 		-n) newline=''; shift;;
 		# TODO: Implement more escape codes, e.g. underline
 		# https://en.wikipedia.org/wiki/ANSI_escape_code
