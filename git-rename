@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# DESCRIPTION: Rename file and add commit message
+src="${1?}"
+dest="${2?}"
+git staged && exec exitfail "Please remove staged changes"
+git mv "$src" "$dest" || exit $?
+git commit -m "$dest: Renaming from '$src'."
