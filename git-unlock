@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# DESCRIPTION: Delete index.lock
+lockfile="$(git top 2>/dev/null)/.git/index.lock"
+ls -lrth "$lockfile" && rm "$lockfile"
