@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Shortcut keys
+# Do not use j/k (already used for up/down)
+# Do not use q (already used for quit)
+letters=({a..i} {l..p} {r..z})
+#echo "${letters[@]}"
+
+# Generate menu command
+i=0
+menu_cmd=(tmux display-menu)
+while read -r session; do
+	key=${letters[$i]}
+	menu_cmd+=("$session" "$key" "switch-client -t $session")
+	i+=1
+
+done < <(tmux list-sessions -F '#{session_name}')
+
+"${menu_cmd[@]}"
+
