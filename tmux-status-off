@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+tmux set-option status off
+tmux set-option pane-border-status off
