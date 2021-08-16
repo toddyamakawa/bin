@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+tmux set-option status on
+tmux set-option pane-border-status bottom
