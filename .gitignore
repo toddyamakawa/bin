@@ -23,6 +23,7 @@
 /fzf
 /fzf.git
 !/git-*
+!/is-*
 !/ls-*
 !/lsf-*
 !/nnn-*
