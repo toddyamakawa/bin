@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+lp ls --long | \
+	awk '/username: \w/{$1="";$2="";print}' | \
+	sed -e 's/\(.*\)\[id:\s*\(\w\+\).*username:\s*\(.*\)\]/\2,\3,\1/' | \
+	column -t -s ','

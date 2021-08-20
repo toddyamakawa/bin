@@ -24,6 +24,7 @@
 /fzf.git
 !/git-*
 !/is-*
+!/lp*
 !/ls-*
 !/lsf-*
 !/nnn-*
@@ -83,7 +84,6 @@
 !/launch
 !/lnsp
 !/loan
-!/lp
 !/Makefile
 !/manhack
 !/noansi
