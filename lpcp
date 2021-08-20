@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+if ! (which jq &> /dev/null); then
+	echo 'jq not installed'
+	echo 'sudo apt install -y jq'
+	exit 1
+fi
+
+result="$(lp show --json $1 )"
+
+echo "Group:    $(echo "$result" | jq -r '.[0].group')"
+echo "URL:      $(echo "$result" | jq -r '.[0].url')"
+echo "Username: $(echo "$result" | jq -r '.[0].username')"
+
+echo "$result" | jq -r '.[0].password' | ,copy &>/dev/null
+echo "Password: xxxxxxxx"
+
+
