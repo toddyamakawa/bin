@@ -1,9 +1,26 @@
 #!/usr/bin/env bash
+
+# ==============================================================================
+# CHECK
+# ==============================================================================
+# LastPass CLI
+# https://github.com/lastpass/lastpass-cli
 if ! (which lpass &> /dev/null); then
-	echo lpass not found
-	echo sudo apt install -y lastpass-cli
+	exitfail lpass not found
+	echo
+	if (is-macos); then
+		echo brew update
+		echo brew install lastpass-cli
+	else
+		echo sudo apt install -y lastpass-cli
+	fi
 	exit 1
 fi
+
+
+# ==============================================================================
+# ENVIRONMENT
+# ==============================================================================
 
 # https://manpages.debian.org/testing/lastpass-cli/lpass.1.en.html
 
@@ -43,5 +60,9 @@ unset LPASS_CLIPBOARD_COMMAND
 # Use CLI to enter password
 export LPASS_DISABLE_PINENTRY=1
 
+
+# ==============================================================================
+# RUN
+# ==============================================================================
 exec lpass $@
 
