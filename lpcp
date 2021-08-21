@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 if ! (which jq &> /dev/null); then
-	echo 'jq not installed'
-	echo 'sudo apt install -y jq'
+	exitfail 'jq not installed'
+	if (is-macos); then
+		echo 'brew install jq'
+	else
+		echo 'sudo apt install -y jq'
+	fi
 	exit 1
 fi
 
-result="$(lp show --json $1 )"
+# TODO: Check $1
+result="$(lp show --json $1)" || exec exitfail "Unable to get info"
 
 echo "Group:    $(echo "$result" | jq -r '.[0].group')"
 echo "URL:      $(echo "$result" | jq -r '.[0].url')"
