@@ -5,6 +5,8 @@
 
 !/sourceme
 !/sourceme/*
+!/examples
+!/examples/*
 !/list
 !/list/*
 !/preview
