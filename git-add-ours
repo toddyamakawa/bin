@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# DESCRIPTION: For merging, keeps our file and adds it
+git checkout --ours -- "$1" && git add -- "$1"
