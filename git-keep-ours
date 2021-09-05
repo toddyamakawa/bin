@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# DESCRIPTION: For merges, keep our changes
+git diff --name-only --diff-filter=U | xargs -n 1 git add-ours
