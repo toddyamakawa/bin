@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+cmd="$1"
+cmdpath="$(which $cmd)"
+if [[ -f "$cmdpath" ]]; then
+	,cat "$cmdpath"
+fi
