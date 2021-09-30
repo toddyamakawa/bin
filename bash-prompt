@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# Add the following to your .bashrc:
+# ---
+# if command -v bash-prompt &>/dev/null; then
+#   PROMPT_COMMAND='export RETVAL=$?; PS1="$(bash-prompt)"'
+# fi
+
+dir=${PWD%/*/*}
+dir2=${PWD#$dir/}
+permission=$(stat -c %a .)
+white="\[\e[0m\]"
+red='\[\e[1;31m\]'
+yellow='\[\e[1;93m\]'
+green='\[\e[1;32m\]'
+blue='\[\e[1;94m\]'
+
+prompt=''
+prompt+="$blue[\u"
+
+# Check LSF
+[[ -n $LSB_BATCH_JID ]] && lsf=1 || lsf=0
+[[ $lsf == 1 ]] && prompt+=":$yellow$LSB_BATCH_JID$blue" || prompt+="@\h"
+
+# Check PWD for user
+#pwd | grep -q $(whoami) && prompt+=" \W" || prompt+=" $yellow\W$blue "
+pwd | grep -q $(whoami) && prompt+=" \W " || prompt+=" $yellow\W "
+
+#[[ $(whoami) == $(stat -c %U .) ]]      && prompt+=" $green${permission:0:1}" || prompt+=" $red${permission:0:1}"
+#groups | grep -q $(stat -c %G .)        && prompt+="$green${permission:1:1}"  || prompt+="$red${permission:1:1}"
+#[[ $(( ${permission:2:1} & 2 )) == 2 ]] && prompt+="$green${permission:2:1}"  || prompt+="$blue${permission:2:1}"
+
+[[ $(whoami) == $(stat -c %U .) ]] && prompt+="$blue${permission:(-3):1}" || prompt+="$red${permission:(-3):1}"
+groups | grep -q $(stat -c %G .)   && prompt+="$blue${permission:(-2):1}" || prompt+="$red${permission:(-2):1}"
+prompt+="$blue${permission:(-1):1}"
+
+# Check last command
+if [[ -n "$RETVAL" ]]; then
+	[[ $RETVAL == 0 ]] && prompt+=" $green:)" || prompt+=" $red:("
+fi
+prompt+="$blue]\$$white "
+echo "$prompt"
+

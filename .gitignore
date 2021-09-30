@@ -59,6 +59,7 @@
 !/ansi
 !/awkc
 !/bash-hacks
+!/bash-prompt
 !/bgrep
 !/bin.plugin.zsh
 !/bls
