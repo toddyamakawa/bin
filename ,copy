@@ -6,14 +6,32 @@
 # Print all stdout to stderr
 exec 1>&2
 
+# Check display
+if (type xdpyinfo &>/dev/null); then
+
+	if ! (xdpyinfo -display "$DISPLAY" &> /dev/null); then
+
+		# Copy to tmux buffer
+		if [[ -e "${TMUX%%,*}" ]]; then
+			tmux-copy
+			cecho --fg yellow --bold '==> TMUX BUFFER <=='
+			tmux-paste
+			exit
+		fi
+
+		# Exit if display fails
+		exec exitfail "Unable to open display '$DISPLAY'"
+	fi
+
+fi
+
 # Find copy command
 if (type xclip &>/dev/null); then
 	xclip || exit $?
 elif (type pbcopy &>/dev/null); then
 	pbcopy || exit $?
 else
-	echo "Copy command not found."
-	exit 1
+	exec exitfail "Copy command not found."
 fi
 
 # Check clipboard
