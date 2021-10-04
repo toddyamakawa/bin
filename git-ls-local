@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 # DESCRIPTION: List local/unpushed commits
-remote_branch="${1:-origin/master}"
+if [[ -z "$1" ]]; then
+	current_branch="$(git rev-parse --abbrev-ref HEAD)"
+	remote_branch="origin/$current_branch"
+else
+	remote_branch="$1"
+fi
 cecho --fg yellow --bold "\$ git ls $remote_branch..HEAD"
 git ls "$remote_branch..HEAD"
