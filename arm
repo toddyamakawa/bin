@@ -7,19 +7,28 @@ fi
 usage="USAGE: arm <cmd> [args]"
 gcc_path="$(dirname "$gcc")"
 
-# Check command
+# Check usage
 if [[ -z "$1" ]]; then
 	echo "$usage"
 	echo
 	ls -hl --color=auto "$gcc_path/"aarch64-linux-gnu-*
 	exit 2
 fi
-cmd="aarch64-linux-gnu-$1" && shift
-if !(type "$cmd" &>/dev/null); then
-	echo "Command '$cmd' not found"
-	exit 2
-fi
+
+# Get command
+gcc_cmd="aarch64-linux-gnu-$1" && shift
+case "$gcc_cmd" in
+	# TODO: Add custom commands
+	*)
+		if !(type "$gcc_cmd" &>/dev/null); then
+			echo "Command '$gcc_cmd' not found"
+			exit 2
+		fi
+		arm_cmd=("$gcc_cmd" "${@}")
+		;;
+esac
 
 # Run
-exec "$cmd" "${@}"
+echo "\$ ${arm_cmd[@]}"
+exec "${arm_cmd[@]}"
 
