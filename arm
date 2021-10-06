@@ -16,10 +16,22 @@ if [[ -z "$1" ]]; then
 fi
 
 # Get command
-gcc_cmd="aarch64-linux-gnu-$1" && shift
+gcc_cmd="$1" && shift
 case "$gcc_cmd" in
-	# TODO: Add custom commands
+	elf)
+		# TODO: Implement this to check if it's an ARM ELF
+		echo "Not implemented yet."
+		exit 2
+		;;
+
+	disass)
+		elf="$1" && shift
+		# TODO: Check with `arm elf` command
+		exec aarch64-linux-gnu-objdump -axdS "$elf" > "$elf.disass"
+		;;
+
 	*)
+		gcc_cmd="aarch64-linux-gnu-$gcc_cmd"
 		if !(type "$gcc_cmd" &>/dev/null); then
 			echo "Command '$gcc_cmd' not found"
 			exit 2
