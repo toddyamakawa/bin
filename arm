@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+gcc="$(which aarch64-linux-gnu-gcc 2>/dev/null)"
+if [[ -z "$gcc" ]]; then
+	sudo apt install -y gcc make gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu
+fi
+
+usage="USAGE: arm <cmd> [args]"
+gcc_path="$(dirname "$gcc")"
+
+# Check command
+if [[ -z "$1" ]]; then
+	echo "$usage"
+	echo
+	ls -hl --color=auto "$gcc_path/"aarch64-linux-gnu-*
+	exit 2
+fi
+cmd="aarch64-linux-gnu-$1" && shift
+if !(type "$cmd" &>/dev/null); then
+	echo "Command '$cmd' not found"
+	exit 2
+fi
+
+# Run
+exec "$cmd" "${@}"
+
