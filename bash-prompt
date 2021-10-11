@@ -5,6 +5,8 @@
 #   PROMPT_COMMAND='PS1="$(RETVAL=$? bash-prompt)"'
 # fi
 
+current_ms="$(date +'%s%3N')"
+
 dir=${PWD%/*/*}
 dir2=${PWD#$dir/}
 permission=$(stat -c %a .)
@@ -14,11 +16,30 @@ yellow='\[\e[1;93m\]'
 green='\[\e[1;32m\]'
 blue='\[\e[1;94m\]'
 
+# Get exit code of last command
+((RETVAL)) && echo "\e[31m(exited $RETVAL)\e[0m"
+
+# Get execution time
+if ((start_ms)); then
+	printf "\x1b[38;5;8m[$(date +%T)] "
+
+	# Print seconds
+	total_ms=$((current_ms - start_ms))
+	ms=$((total_ms % 1000))
+	total_s=$((total_ms / 1000))
+	printf "%d.%03ds" "$total_s" "$ms"
+
+	# Print hours
+	if (( total_s >= 3600 )); then
+		h="$(($total_s/3600))"
+		printf " (%d.%02d hours)" "$h" "$(((total_s%3600)*100/3600))"
+	fi
+	printf "\e[0m\n"
+fi
+
+# Prompt
 prompt=''
 prompt+="$blue[\u"
-
-# Get exit code of last command
-((RETVAL)) && echo "\e[31m(exited $RETVAL)"
 
 # Check LSF
 [[ -n $LSB_BATCH_JID ]] && lsf=1 || lsf=0
