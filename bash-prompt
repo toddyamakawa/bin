@@ -2,7 +2,15 @@
 # Add the following to your .bashrc:
 # ---
 # if command -v bash-prompt &>/dev/null; then
-#   PROMPT_COMMAND='PS1="$(RETVAL=$? bash-prompt)"'
+# 	PROMPT_COMMAND='PS1="$(RETVAL=$? bash-prompt)"'
+# 	export start_ms
+# 	function preexec() {
+# 		[[ -n "$COMP_LINE" ]] && return
+# 		[[ "$BASH_COMMAND" == "$PROMPT_COMMAND" ]] && return
+# 		printf "\x1b[38;5;8m[$(date +%T)] Started\e[0m\n"
+# 		start_ms="$(date +'%s%3N')"
+# 	}
+# 	trap 'preexec' DEBUG
 # fi
 
 current_ms="$(date +'%s%3N')"
@@ -21,7 +29,7 @@ blue='\[\e[1;94m\]'
 
 # Get execution time
 if ((start_ms)); then
-	printf "\x1b[38;5;8m[$(date +%T)] "
+	printf "\x1b[38;5;8m[$(date +%T)] Finished in "
 
 	# Print seconds
 	total_ms=$((current_ms - start_ms))
