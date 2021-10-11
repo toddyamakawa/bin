@@ -2,7 +2,7 @@
 # Add the following to your .bashrc:
 # ---
 # if command -v bash-prompt &>/dev/null; then
-#   PROMPT_COMMAND='export RETVAL=$?; PS1="$(bash-prompt)"'
+#   PROMPT_COMMAND='PS1="$(RETVAL=$? bash-prompt)"'
 # fi
 
 dir=${PWD%/*/*}
@@ -16,6 +16,9 @@ blue='\[\e[1;94m\]'
 
 prompt=''
 prompt+="$blue[\u"
+
+# Get exit code of last command
+((RETVAL)) && echo "\e[31m(exited $RETVAL)"
 
 # Check LSF
 [[ -n $LSB_BATCH_JID ]] && lsf=1 || lsf=0
@@ -34,9 +37,9 @@ groups | grep -q $(stat -c %G .)   && prompt+="$blue${permission:(-2):1}" || pro
 prompt+="$blue${permission:(-1):1}"
 
 # Check last command
-if [[ -n "$RETVAL" ]]; then
-	[[ $RETVAL == 0 ]] && prompt+=" $green:)" || prompt+=" $red:("
-fi
+#if [[ -n "$RETVAL" ]]; then
+	#[[ $RETVAL == 0 ]] && prompt+=" $green:)" || prompt+=" $red:("
+#fi
 prompt+="$blue]\$$white "
 echo "$prompt"
 
