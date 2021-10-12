@@ -15,14 +15,17 @@
 
 current_ms="$(date +'%s%3N')"
 
-dir=${PWD%/*/*}
-dir2=${PWD#$dir/}
+#dir=${PWD%/*/*}
+#dir2=${PWD#$dir/}
 permission=$(stat -c %a .)
-white="\[\e[0m\]"
+reset="\[\e[0m\]"
 red='\[\e[1;31m\]'
-yellow='\[\e[1;93m\]'
 green='\[\e[1;32m\]'
-blue='\[\e[1;94m\]'
+yellow='\[\e[1;93m\]'
+blue='\[\e[1;34m\]'
+magenta='\[\e[1;35m\]'
+cyan='\[\e[1;36m\]'
+white='\[\e[1;37m\]'
 
 # Get exit code of last command
 ((RETVAL)) && echo "\e[31m(exited $RETVAL)\e[0m"
@@ -47,28 +50,39 @@ fi
 
 # Prompt
 prompt=''
-prompt+="$blue[\u"
 
-# Check LSF
-[[ -n $LSB_BATCH_JID ]] && lsf=1 || lsf=0
-[[ $lsf == 1 ]] && prompt+=":$yellow$LSB_BATCH_JID$blue" || prompt+="@\h"
+# Username
+#prompt+="$blue\u"
+prompt+="${blue}todd"
+
+# Host name
+if [[ ! -e ${TMUX%%,*} ]]; then
+	[[ -n $LSB_BATCH_JID ]] && lsf=1 || lsf=0
+	[[ $lsf == 1 ]] && prompt+=":$yellow$LSB_BATCH_JID$blue" || prompt+="@\h"
+fi
 
 # Check PWD for user
-#pwd | grep -q $(whoami) && prompt+=" \W" || prompt+=" $yellow\W$blue "
-pwd | grep -q $(whoami) && prompt+=" \W " || prompt+=" $yellow\W "
+pwd | grep -q $(whoami) && prompt+=" $green\W " || prompt+=" $yellow\W "
 
-#[[ $(whoami) == $(stat -c %U .) ]]      && prompt+=" $green${permission:0:1}" || prompt+=" $red${permission:0:1}"
-#groups | grep -q $(stat -c %G .)        && prompt+="$green${permission:1:1}"  || prompt+="$red${permission:1:1}"
-#[[ $(( ${permission:2:1} & 2 )) == 2 ]] && prompt+="$green${permission:2:1}"  || prompt+="$blue${permission:2:1}"
-
-[[ $(whoami) == $(stat -c %U .) ]] && prompt+="$blue${permission:(-3):1}" || prompt+="$red${permission:(-3):1}"
-groups | grep -q $(stat -c %G .)   && prompt+="$blue${permission:(-2):1}" || prompt+="$red${permission:(-2):1}"
-prompt+="$blue${permission:(-1):1}"
+# Directory permissions
+p1="${permission:(-3):1}"
+p2="${permission:(-2):1}"
+p3="${permission:(-1):1}"
+[[ $(whoami) == $(stat -c %U .) ]] && prompt+="$green$p1" || prompt+="$red$p1"
+groups | grep -q $(stat -c %G .)   && prompt+="$green$p2" || prompt+="$red$p2"
+prompt+="$green$p3"
 
 # Check last command
 #if [[ -n "$RETVAL" ]]; then
 	#[[ $RETVAL == 0 ]] && prompt+=" $green:)" || prompt+=" $red:("
 #fi
-prompt+="$blue]\$$white "
+prompt_char='$'
+prompt_char='»'
+#prompt_char='≫'
+#prompt_char='⪢'
+#prompt_char='▶'
+#prompt+=" $cyan$prompt_char$reset "
+prompt+=" $yellow$prompt_char$reset "
+
 echo "$prompt"
 
