@@ -1,0 +1,19 @@
+#!/bin/sh
+# Copy text using OSC 52 escape sequence.
+
+# Example:
+# https://chromium.googlesource.com/apps/libapps/+/HEAD/hterm/etc/osc52.sh
+
+# Encode string from stdin
+to_copy="$(base64 | tr -d '\n')"
+
+# Generate OSC 52 escape sequence
+copy_cmd="$(printf '\033]52;c;%s\a' "${to_copy}")"
+
+# Run copy command
+if [[ -e "${TMUX%%,*}" ]]; then
+	printf '\033Ptmux;\033%s\033\\' "$copy_cmd"
+else
+	printf '%s' "$copy_cmd"
+fi
+
