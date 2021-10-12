@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# OSC 8 escape sequence
+# Example:
+# https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda
+url="$1"
+text="${2:-$url}"
+printf '\e[1;4;96m\e]8;;%s\e\\%s\e]8;;\e\\\e[0m\n' "$url" "$text"
