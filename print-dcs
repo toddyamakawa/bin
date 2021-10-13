@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Generate Device Control String (DCS)
 dcs="$(printf '\033]%s\a' "$@")"
 
