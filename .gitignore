@@ -95,6 +95,7 @@
 !/Makefile
 !/manhack
 !/noansi
+!/print-dcs
 !/psef
 !/ps-env
 !/pwdc
