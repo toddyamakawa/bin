@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+# Arguments
+module_type="$1"
+interface_file="$2"
+
+# Check interface file
+if [[ ! -f "$interface_file" ]]; then
+	exec exitfail "Interface file '$interface_file' not found."
+fi
+interface_dir="$(dirname "$interface_file")"
+interface_base="$(basename "$interface_file" .i)"
+output_prefix="$interface_dir/${interface_base}_swig"
+cfile="${output_prefix}_${module_type}.c"
+
+# Check module type
+libs=()
+case "$module_type" in
+	tcl)
+		tcl_lib='/usr/include/tcl8.6'
+		libs+=(-I"$tcl_lib")
+		;;
+esac
+
+# Generate swig wrapper
+echo "\$ swig -$module_type -o '$cfile' '$interface_file'"
+swig -"$module_type" -o "$cfile" "$interface_file"
+
+# Compile swig wrapper
+echo "\$ gcc -fpic -c '$cfile' ${libs[@]}"
+gcc -fpic -c "$cfile" "${libs[@]}"
+
