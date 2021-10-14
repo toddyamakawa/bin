@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Example:
+# https://chromium.googlesource.com/apps/libapps/+/HEAD/hterm/etc/hterm-notify.sh
+
+# Send hterm notification using DCS
+title="${1:-<untitled>}"
+body=''
+print-dcs "$(printf '777;notify;%s;%s' "${title}" "${body}")"
+
