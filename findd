@@ -3,11 +3,11 @@ if [[ "$#" -eq 0 ]]; then
 	exec find . -type d
 elif [[ "$#" -eq 1 ]]; then
 	name="$1"
-	exec find . -type d -name "*$name*"
+	exec find . -type d -iname "*$name*"
 else
 	# TODO: Support more names
 	path="$1"
 	name="$2"
-	exec find "$path" -type d -name "*$name*"
+	exec find "$path" -type d -iname "*$name*"
 fi
 
