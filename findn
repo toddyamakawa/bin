@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+if [[ "$#" -eq 0 ]]; then
+	exec find .
+elif [[ "$#" -eq 1 ]]; then
+	name="$1"
+	exec find . -iname "*$name*"
+else
+	# TODO: Support more names
+	path="$1"
+	name="$2"
+	exec find "$path" -iname "*$name*"
+fi
+

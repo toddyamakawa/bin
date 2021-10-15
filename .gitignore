@@ -22,6 +22,7 @@
 !/bmod*
 !/du*
 !/fz*
+!/find*
 /fzf
 /fzf.git
 !/git-*
@@ -82,9 +83,6 @@
 !/epoch
 !/f
 !/file-yank
-!/findd
-!/findext
-!/findx
 !/forkbomb
 !/groups-users
 !/gu
