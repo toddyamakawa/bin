@@ -20,6 +20,14 @@ case "$module_type" in
 		tcl_lib='/usr/include/tcl8.6'
 		libs+=(-I"$tcl_lib")
 		;;
+	ruby)
+		ruby_lib='/usr/include/ruby-2.7.0'
+		libs+=(-I"$ruby_lib")
+		;;
+	python)
+		ruby_lib='/usr/include/python3.9'
+		libs+=(-I"$ruby_lib")
+		;;
 esac
 
 # Generate swig wrapper
