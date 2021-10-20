@@ -6,5 +6,9 @@ if (which brew); then
 	brew install --HEAD luajit
 	brew install --HEAD neovim
 else
-	sudo apt -y install neovim
+	set -ex
+	sudo apt-get install -y software-properties-common
+	sudo add-apt-repository ppa:neovim-ppa/unstable
+	sudo apt-get update
+	sudo apt-get -y install neovim
 fi
