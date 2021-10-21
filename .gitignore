@@ -33,6 +33,7 @@
 !/my-*
 !/nnn-*
 !/test-*
+!/untar*
 !/vnc-*
 
 # git
