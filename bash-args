@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Example: bash-args hello world 'space here' 'bash-*'
+
+echo '$@'
+for arg in $@; do echo "- '$arg'"; done
+
+echo
+echo '"$@"'
+for arg in "$@"; do echo "- '$arg'"; done
+
+echo
+echo '$*'
+for arg in $*; do echo "- '$arg'"; done
+
+echo
+echo '"$*"'
+for arg in "$*"; do echo "- '$arg'"; done
+

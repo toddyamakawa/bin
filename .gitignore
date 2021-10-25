@@ -18,6 +18,7 @@
 !/snippets/*
 
 !/awk-*
+!/bash-*
 !/bjobs*
 !/bmod*
 !/du*
@@ -62,8 +63,6 @@
 !/ansi
 !/arm
 !/awkc
-!/bash-hacks
-!/bash-prompt
 !/bgrep
 !/bin.plugin.zsh
 !/bls
