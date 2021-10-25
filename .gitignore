@@ -117,6 +117,7 @@
 !/tt
 !/tui.rb
 !/upcase
+!/yesno
 !/zsh.rb
 
 # vim: ft=sh
