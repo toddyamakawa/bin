@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+# vim: noet
+
+from os import environ as env
+
+no_split = [
+	'PICKER_PATTERNS1',
+	'PICKER_PATTERNS2',
+	'LS_COLORS'
+]
+
+for key, value in sorted(env.items()):
+	# Test $PATH
+	#if key != 'PATH': continue
+
+	# Split variables with :
+	if (':' in value) and (key not in no_split):
+		for index, subvalue in enumerate(value.split(':')):
+			print(f'{key}[{index}]={subvalue}')
+	else:
+		print(f'{key}={value}')
+
