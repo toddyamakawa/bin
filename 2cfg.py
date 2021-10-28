@@ -24,15 +24,15 @@ def to_cfg_dict(info, parent=''):
     return config
 
 def to_cfg(info, parent = ''):
-    if(info == None):
+    if info == None:
         return [f"{parent}="]
-    elif(type(info) == int):
+    elif type(info) == int:
         return [f"{parent}={info}"]
-    elif(type(info) == str):
+    elif type(info) == str:
         return [f"{parent}='{info}'"]
-    elif(type(info) == list):
+    elif type(info) == list:
         return to_cfg_list(info, parent)
-    elif(type(info) == dict):
+    elif type(info) == dict:
         return to_cfg_dict(info, parent)
     else:
         raise TypeError(f"Unable to handle {type(info)}")
