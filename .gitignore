@@ -54,6 +54,8 @@
 
 # YAML/JSON
 !/2cfg
+!/2cfg.py
+!/2cfg.rb
 !/2json
 !/2json.py
 !/2yaml
