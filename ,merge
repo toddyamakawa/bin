@@ -1,0 +1,82 @@
+#!/usr/bin/env python3
+
+import argparse
+import json
+import re
+import sys
+import yaml
+
+# ==============================================================================
+# FUNCTIONS
+# ==============================================================================
+
+# Print pretty data as pretty json
+def print_json(data):
+    print(json.dumps(data, indent=2))
+
+# Raise error
+def raise_type_error(left, right):
+    raise TypeError(f"Unable to merge {left} {type(left)} with {right} {type(right)}")
+
+# Merge two things together
+def merge(left, right):
+
+    # Use right value if left is empty
+    if left == None:
+        return right
+
+    left_type = type(left)
+    right_type = type(right)
+
+    # Merge hashes
+    if type(left) == dict:
+        if type(right) != dict:
+            raise_type_error(left, right)
+        #print(right)
+        for right_key, right_value in right.items():
+            if right_key in left:
+                left[right_key] = merge(left[right_key], right_value)
+            else:
+                left[right_key] = right_value
+        return left
+
+    # TODO: Do we need to merge lists?
+    #elif left_type == list:
+        #raise_type_error(left, right)
+
+    # Overwrite left with right value
+    elif left_type == right_type:
+        return right
+
+    else:
+        raise_type_error(left, right)
+
+
+# ==============================================================================
+# MAIN
+# ==============================================================================
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        'files',
+        help='<Required> .yaml files',
+        nargs='+',
+        action='append',
+        )
+    args = parser.parse_args()
+    files = args.files[0]
+
+    #print(args.files)
+    merged_data = None
+    for file in files:
+        data = yaml.safe_load(open(file).read())
+        #print_json(data)
+        merged_data = merge(merged_data, data)
+
+    print_json(merged_data)
+
+    return 0
+
+if __name__ == '__main__':
+  sys.exit(main())
+
