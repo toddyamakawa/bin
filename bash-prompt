@@ -15,9 +15,6 @@
 
 current_ms="$(date +'%s%3N')"
 
-#dir=${PWD%/*/*}
-#dir2=${PWD#$dir/}
-permission=$(stat -c %a .)
 reset="\[\e[0m\]"
 red='\[\e[1;31m\]'
 green='\[\e[1;32m\]'
@@ -26,6 +23,14 @@ blue='\[\e[1;34m\]'
 magenta='\[\e[1;35m\]'
 cyan='\[\e[1;36m\]'
 white='\[\e[1;37m\]'
+
+red_bg='\[\e[41m\]'
+green_bg='\[\e[42m\]'
+yellow_bg='\[\e[43m\]'
+blue_bg='\[\e[44m\]'
+magenta_bg='\[\e[45m\]'
+cyan_bg='\[\e[46m\]'
+white_bg='\[\e[47m\]'
 
 # Get exit code of last command
 ((RETVAL)) && echo "\e[31m(exited $RETVAL)\e[0m"
@@ -69,12 +74,39 @@ fi
 
 
 # ==============================================================================
+# GIT
+# ==============================================================================
+if (git rev-parse --is-inside-work-tree &>/dev/null); then
+	#git_url="$(git config --get remote.origin.url 2>/dev/null)"
+	git_branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
+
+	prompt+=" "
+	if ! (git diff-index --quiet HEAD 2>/dev/null); then
+		prompt+="$red"
+	elif ! (git rev-parse @{u} &>/dev/null); then
+		prompt+="$cyan"
+	else
+		prompt+="$green"
+	fi
+	#prompt+="$white$git_branch$reset"
+	prompt+="$git_branch"
+
+	# TODO: Get ahead/behind
+	#stat="$(git status -sb -uno 2>/dev/null | head -1)"
+fi
+
+
+# ==============================================================================
 # DIRECTORY
 # ==============================================================================
+#dir=${PWD%/*/*}
+#dir2=${PWD#$dir/}
+
 # Check PWD for user
 pwd | grep -q $(whoami) && prompt+=" $green\W " || prompt+=" $yellow\W "
 
 # Directory permissions
+permission=$(stat -c %a .)
 p1="${permission:(-3):1}"
 p2="${permission:(-2):1}"
 p3="${permission:(-1):1}"
