@@ -26,6 +26,8 @@ def to_cfg_dict(info, parent=''):
 def to_cfg(info, parent = ''):
     if info == None:
         return [f"{parent}="]
+    elif type(info) == bool:
+        return [f"{parent}={info}"]
     elif type(info) == int:
         return [f"{parent}={info}"]
     elif type(info) == str:
