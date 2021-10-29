@@ -31,19 +31,19 @@ fi
 # Open pager
 tmpdir="$(mktemp -d)"
 function fifo_pager() {
-    cmd="$1" && shift
+	cmd="$1" && shift
 
-    # Create FIFO
-    tmpfifo="$tmpdir/nnn-preview.$$.fifo"
-    mkfifo "$tmpfifo" || return
+	# Create FIFO
+	tmpfifo="$tmpdir/nnn-preview.$$.fifo"
+	mkfifo "$tmpfifo" || return
 
-    # Open FIFO with pager
-    $PAGER < "$tmpfifo" &
-    (
-        exec > "$tmpfifo"
-        "$cmd" "$@" &
-    )
-    rm "$tmpfifo"
+	# Open FIFO with pager
+	${PAGER:-less -R} < "$tmpfifo" &
+	(
+		exec > "$tmpfifo"
+		"$cmd" "$@" &
+	)
+	rm "$tmpfifo"
 }
 
 # REVISIT: Use $NNN_PWD for something
