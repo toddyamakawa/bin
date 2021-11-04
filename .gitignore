@@ -33,6 +33,7 @@
 !/lsf-*
 !/my-*
 !/nnn-*
+!/print-*
 !/test-*
 !/untar*
 !/vnc-*
@@ -97,7 +98,6 @@
 !/manhack
 !/noansi
 !/nvimdiff
-!/print-dcs
 !/psef
 !/ps-env
 !/pwdc
