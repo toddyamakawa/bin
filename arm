@@ -41,6 +41,6 @@ case "$gcc_cmd" in
 esac
 
 # Run
-echo "\$ ${arm_cmd[@]}"
+print-cmd "${arm_cmd[@]}"
 exec "${arm_cmd[@]}"
 

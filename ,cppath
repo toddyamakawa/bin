@@ -12,9 +12,9 @@ fi
 file="$(realpath.py "$file")"
 dir="$(dirname "$file")"
 
-echo "\$> mkdir -p '${dir#/}'"
+print-cmd "mkdir -p '${dir#/}'"
 mkdir -pv "${dir#/}"
 
-echo "\$> cp -r '$file' '${dir#/}'"
+print-cmd "cp -r '$file' '${dir#/}'"
 cp -r "$file" "${dir#/}"
 

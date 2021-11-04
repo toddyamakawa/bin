@@ -6,5 +6,5 @@ if [[ -z "$1" ]]; then
 else
 	remote_branch="$1"
 fi
-cecho --fg yellow --bold "\$ git ls $remote_branch..HEAD"
+print-cmd "git ls $remote_branch..HEAD"
 git ls "$remote_branch..HEAD"

@@ -5,5 +5,5 @@ gerrit_branch="$(echo "$fetch_url" | sed "s:.*toddyamakawa/:scratch/todyam01/:")
 host='na-gerrit-1.nahpc.arm.com'
 port='29418'
 gerrit_scratch="ssh://$USER@$host:$port/$gerrit_branch"
-echo "\$> git remote add gerrit $gerrit_scratch"
+print-cmd "git remote add gerrit $gerrit_scratch"
 exec git remote add gerrit "$gerrit_scratch"

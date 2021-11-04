@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 remote="${2:-origin}"
-echo "Checkout out Pull Request #${1?}"
-echo "\$> git fetch $remote pull/$1/head:pull/$1"
+echo "Checkout out Github Pull Request #${1?}"
+print-cmd "git fetch $remote pull/$1/head:pull/$1"
 git fetch "$remote" pull/$1/head:pull/$1 || exit $?
-

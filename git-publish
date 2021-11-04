@@ -13,6 +13,6 @@ if [[ "$branch" == 'meta/config' ]]; then
 fi
 echo "destination '$destination'"
 echo
-echo "\$> git push origin $branch:$destination"
+print-cmd "git push origin $branch:$destination"
 exec git push origin "$branch:$destination"
 

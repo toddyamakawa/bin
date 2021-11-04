@@ -3,7 +3,7 @@
 function _cat() {
 	local file="$1"
 	[[ -f "$file" ]] || return
-	printf "\e[33;1m==> $file <==\e[0m\n"
+	print-cmd "cat $file"
 	cat "$file"
 	echo
 }
@@ -11,10 +11,10 @@ function _cat() {
 _cat /etc/os-release
 _cat /etc/redhat-release
 
-printf "\e[33;1m\$> uname -r\e[0m\n"
+print-cmd 'uname -r'
 uname -r
 
 echo
-printf "\e[33;1m\$> lsb_release -a\e[0m\n"
+print-cmd 'lsb_release -a'
 lsb_release -a
 
