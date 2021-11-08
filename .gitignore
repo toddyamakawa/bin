@@ -97,6 +97,7 @@
 !/Makefile
 !/manhack
 !/noansi
+!/nobash
 !/nvimdiff
 !/psef
 !/ps-env
