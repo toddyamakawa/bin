@@ -2,7 +2,8 @@
 name="${1?usage: $0 <session_name>}"
 if (command -v "tnew-$name" &>/dev/null); then
 	print-cmd "tnew-$name"
-	exec "tnew-$name"
+	"tnew-$name"
+else
+	tmux new-session -d -s "$name"
 fi
-tmux new-session -d -s "$name"
 ts "$name"
