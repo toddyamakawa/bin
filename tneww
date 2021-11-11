@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+declare -r USAGE="USAGE: tneww <session_name> <window_name> [path]"
+
+# Get args
+session="$1"
+window="$2"
+path="${3:-$PWD}"
+
+if [[ -z "$session" ]]; then
+	echo "$USAGE"
+	exit 2
+fi
+
+# Create tmux commands
+window_args=()
+split_arg+=()
+[[ -n "$window" ]] && window_args+=(-n "$window")
+[[ -d "$path" ]] && split_args+=(-c "$path")
+window_args+=("${split_args[@]}")
+split_args+=(-h -t "$session")
+
+if (tmux has-session -t "$session" &>/dev/null); then
+	#echo 'DEBUG: Create new window'
+	window_args+=(-t "$session")
+	exec tmux \
+		new-window "${window_args[@]}" \; \
+		split-window "${split_args[@]}"
+
+else
+	#echo 'DEBUG: Create new session'
+	window_args+=(-d -s "$session")
+	tmux \
+		new-session "${window_args[@]}" \; \
+		split-window "${split_args[@]}"
+fi
+
