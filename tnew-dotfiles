@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+session_name="dotfiles"
+tmux has-session -t "$session_name" &>/dev/null && exit
+
+tneww "$session_name" bin    "$HOME/bin"
+tneww "$session_name" config "$HOME/.config"
+tneww "$session_name" nvim   "$HOME/.config/nvim"
+tneww "$session_name" tmux   "$HOME/.config/tmux"
+tneww "$session_name" bashrc "$HOME/.config/bash"
+
