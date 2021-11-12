@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec timedatectl list-timezones | cat
