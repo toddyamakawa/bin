@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Add the following to your .bashrc:
-# ---
+# ------------------------------------------------------------------------------
+# .bashrc:
+# ------------------------------------------------------------------------------
 # if command -v bash-prompt &>/dev/null; then
 # 	PROMPT_COMMAND='PS1="$(RETVAL=$? bash-prompt)"'
 # 	export start_ms
@@ -12,6 +13,16 @@
 # 	}
 # 	trap 'preexec' DEBUG
 # fi
+# ------------------------------------------------------------------------------
+# fish.config
+# ------------------------------------------------------------------------------
+# function preexec_prompt --on-event fish_preexec
+# 	printf "\x1b[38;5;8m["(date +%T)"] Started\e[0m\n"
+# 	set -x start_ms (date +'%s%3N')
+# end
+# function fish_prompt
+# 	bash-prompt
+# end
 
 current_ms="$(date +'%s%3N')"
 
