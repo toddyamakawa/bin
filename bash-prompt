@@ -1,18 +1,22 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------------------------
-# .bashrc:
+# .bashrc (minimal)
 # ------------------------------------------------------------------------------
-# if command -v bash-prompt &>/dev/null; then
-# 	PROMPT_COMMAND='PS1="$(RETVAL=$? bash-prompt)"'
-# 	export start_ms
-# 	function preexec() {
-# 		[[ -n "$COMP_LINE" ]] && return
-# 		[[ "$BASH_COMMAND" == "$PROMPT_COMMAND" ]] && return
-# 		printf "\x1b[38;5;8m[$(date +%T)] Started\e[0m\n"
-# 		start_ms="$(date +'%s%3N')"
-# 	}
-# 	trap 'preexec' DEBUG
-# fi
+# PROMPT_COMMAND='PS1="$(bash-prompt)"'
+
+# ------------------------------------------------------------------------------
+# .bashrc (with timestamp and retval)
+# ------------------------------------------------------------------------------
+# PROMPT_COMMAND='PS1="$(RETVAL=$? bash-prompt)"'
+# export start_ms
+# function preexec() {
+# 	[[ -n "$COMP_LINE" ]] && return
+# 	[[ "$BASH_COMMAND" == "$PROMPT_COMMAND" ]] && return
+# 	printf "\x1b[38;5;8m[$(date +%T)] Started\e[0m\n"
+# 	start_ms="$(date +'%s%3N')"
+# }
+# trap 'preexec' DEBUG
+
 # ------------------------------------------------------------------------------
 # fish.config
 # ------------------------------------------------------------------------------
@@ -60,26 +64,11 @@ magenta_bg='\e[45m'
 cyan_bg='\e[46m'
 white_bg='\e[47m'
 
-# Get exit code of last command
+# Print failing exit code of last command
 ((RETVAL)) && echo "\e[31m(exited $RETVAL)\e[0m"
 
 # Get execution time
-if ((start_ms)); then
-	printf "\x1b[38;5;8m[$(date +%T)] Finished in "
-
-	# Print seconds
-	total_ms=$((current_ms - start_ms))
-	ms=$((total_ms % 1000))
-	total_s=$((total_ms / 1000))
-	printf "%d.%03ds" "$total_s" "$ms"
-
-	# Print hours
-	if (( total_s >= 3600 )); then
-		h="$(($total_s/3600))"
-		printf " (%d.%02d hours)" "$h" "$(((total_s%3600)*100/3600))"
-	fi
-	printf "\e[0m\n"
-fi
+((start_ms)) && bash-prompt-time "$start_ms" "$current_ms"
 
 # Prompt
 prompt=''
