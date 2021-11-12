@@ -15,22 +15,39 @@
 
 current_ms="$(date +'%s%3N')"
 
-reset="\[\e[0m\]"
-red='\[\e[1;31m\]'
-green='\[\e[1;32m\]'
-yellow='\[\e[1;93m\]'
-blue='\[\e[1;34m\]'
-magenta='\[\e[1;35m\]'
-cyan='\[\e[1;36m\]'
-white='\[\e[1;37m\]'
+#reset="\[\e[0m\]"
+#red='\[\e[1;31m\]'
+#green='\[\e[1;32m\]'
+#yellow='\[\e[1;93m\]'
+#blue='\[\e[1;34m\]'
+#magenta='\[\e[1;35m\]'
+#cyan='\[\e[1;36m\]'
+#white='\[\e[1;37m\]'
 
-red_bg='\[\e[41m\]'
-green_bg='\[\e[42m\]'
-yellow_bg='\[\e[43m\]'
-blue_bg='\[\e[44m\]'
-magenta_bg='\[\e[45m\]'
-cyan_bg='\[\e[46m\]'
-white_bg='\[\e[47m\]'
+#red_bg='\[\e[41m\]'
+#green_bg='\[\e[42m\]'
+#yellow_bg='\[\e[43m\]'
+#blue_bg='\[\e[44m\]'
+#magenta_bg='\[\e[45m\]'
+#cyan_bg='\[\e[46m\]'
+#white_bg='\[\e[47m\]'
+
+reset="\e[0m"
+red='\e[1;31m'
+green='\e[1;32m'
+yellow='\e[1;93m'
+blue='\e[1;34m'
+magenta='\e[1;35m'
+cyan='\e[1;36m'
+white='\e[1;37m'
+
+red_bg='\e[41m'
+green_bg='\e[42m'
+yellow_bg='\e[43m'
+blue_bg='\e[44m'
+magenta_bg='\e[45m'
+cyan_bg='\e[46m'
+white_bg='\e[47m'
 
 # Get exit code of last command
 ((RETVAL)) && echo "\e[31m(exited $RETVAL)\e[0m"
@@ -90,7 +107,9 @@ groups | grep -q $(stat -c %G .)   && prompt+="$green$p2" || prompt+="$red$p2"
 prompt+="$green$p3"
 
 # Check PWD for user
-pwd | grep -q $(whoami) && prompt+=" $green\W" || prompt+=" $yellow\W"
+base="$(basename "$(pwd)")"
+#base='\W'
+pwd | grep -q $(whoami) && prompt+=" $green$base" || prompt+=" $yellow$base"
 
 
 # ==============================================================================
@@ -143,5 +162,5 @@ prompt_char='»'
 #prompt+=" $yellow$prompt_char$reset "
 prompt+=" $blue$prompt_char$reset "
 
-echo "$prompt"
+echo -e "$prompt"
 
