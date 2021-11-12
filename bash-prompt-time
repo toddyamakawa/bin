@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+start_ms="$1"
+current_ms="$2"
+
+printf "\x1b[38;5;8m[$(date +%T)] Finished in "
+
+# Print seconds
+total_ms=$((current_ms - start_ms))
+ms=$((total_ms % 1000))
+total_s=$((total_ms / 1000))
+printf "%d.%03ds" "$total_s" "$ms"
+
+# Print hours
+if (( total_s >= 3600 )); then
+	h="$(($total_s/3600))"
+	printf " (%d.%02d hours)" "$h" "$(((total_s%3600)*100/3600))"
+fi
+printf "\e[0m\n"
+
