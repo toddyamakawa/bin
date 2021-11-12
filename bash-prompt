@@ -74,13 +74,32 @@ fi
 
 
 # ==============================================================================
+# DIRECTORY
+# ==============================================================================
+#dir=${PWD%/*/*}
+#dir2=${PWD#$dir/}
+
+# Directory permissions
+permission=$(stat -c %a .)
+p1="${permission:(-3):1}"
+p2="${permission:(-2):1}"
+p3="${permission:(-1):1}"
+prompt+=" "
+[[ $(whoami) == $(stat -c %U .) ]] && prompt+="$green$p1" || prompt+="$red$p1"
+groups | grep -q $(stat -c %G .)   && prompt+="$green$p2" || prompt+="$red$p2"
+prompt+="$green$p3"
+
+# Check PWD for user
+pwd | grep -q $(whoami) && prompt+=" $green\W" || prompt+=" $yellow\W"
+
+
+# ==============================================================================
 # GIT
 # ==============================================================================
 if (git rev-parse --is-inside-work-tree &>/dev/null); then
 	#git_url="$(git config --get remote.origin.url 2>/dev/null)"
 	git_branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
 
-	prompt+=" "
 	if ! (git diff-index --quiet HEAD 2>/dev/null); then
 		prompt+="$red"
 	elif ! (git rev-parse @{u} &>/dev/null); then
@@ -89,7 +108,7 @@ if (git rev-parse --is-inside-work-tree &>/dev/null); then
 		prompt+="$green"
 	fi
 	#prompt+="$white$git_branch$reset"
-	prompt+="$git_branch"
+	prompt+=" $git_branch"
 
 	# TODO: Get ahead/behind
 	stat="$(git status -sb -uno 2>/dev/null | head -1)"
@@ -109,25 +128,6 @@ fi
 
 
 # ==============================================================================
-# DIRECTORY
-# ==============================================================================
-#dir=${PWD%/*/*}
-#dir2=${PWD#$dir/}
-
-# Check PWD for user
-pwd | grep -q $(whoami) && prompt+=" $green\W " || prompt+=" $yellow\W "
-
-# Directory permissions
-permission=$(stat -c %a .)
-p1="${permission:(-3):1}"
-p2="${permission:(-2):1}"
-p3="${permission:(-1):1}"
-[[ $(whoami) == $(stat -c %U .) ]] && prompt+="$green$p1" || prompt+="$red$p1"
-groups | grep -q $(stat -c %G .)   && prompt+="$green$p2" || prompt+="$red$p2"
-prompt+="$green$p3"
-
-
-# ==============================================================================
 # END
 # ==============================================================================
 # Check last command
@@ -140,7 +140,8 @@ prompt_char='»'
 #prompt_char='⪢'
 #prompt_char='▶'
 #prompt+=" $cyan$prompt_char$reset "
-prompt+=" $yellow$prompt_char$reset "
+#prompt+=" $yellow$prompt_char$reset "
+prompt+=" $blue$prompt_char$reset "
 
 echo "$prompt"
 
