@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
 # TODO: On *BSD:
 # date -r 1234567890
+declare -r USAGE='epoch <time>'
+if [[ -z "$1" ]]; then
+	echo "$USAGE"
+	exit 2
+fi
 date +'%Y-%m-%d %T' -d @"$1"
