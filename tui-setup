@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+read -r LINES COLUMNS < <(stty size)
+max_lines="${1:-$LINES}"
+
+# Original code:
+# https://github.com/dylanaraps/fff/blob/6f2dc6f3a003d24e8b3fd48b046241b486022ad5/fff#L29
+
+# Setup the terminal for the TUI.
+# '\e[?1049h' : Use alternative screen buffer.
+# '\e[?7l'    : Disable line wrapping.
+# '\e[?25l'   : Hide cursor.
+# '\e[2J'     : Clear screen.
+# '\e[1;Nr'   : Limit scrolling area.
+#             : Also sets cursor to (0,0).
+printf '\e[?1049h\e[?7l\e[?25l\e[2J\e[1;%sr' "$max_lines"
+
+# Disable user input echo
+stty -echo
+
