@@ -7,4 +7,5 @@ tneww "$session_name" config "$HOME/.config"
 tneww "$session_name" nvim   "$HOME/.config/nvim"
 tneww "$session_name" tmux   "$HOME/.config/tmux"
 tneww "$session_name" bashrc "$HOME/.config/bash"
+tneww "$session_name" fish   "$HOME/.config/fish"
 
