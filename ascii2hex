@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+string="$*"
+
+while read char; do
+	printf '0x%02x %s\n' "'$char'" "'$char'"
+done < <(fold -w1 <<<"$string")
+exit
+
+# REVISIT: Figure out why this doesn't work
+# https://stackoverflow.com/questions/10551981/how-to-perform-a-for-loop-on-each-character-in-a-string-in-bash
+while IFS='' read -r -d '' -n 1 char; do
+	printf '0x%02x %s\n' "'$char'" "'$char'"
+done < <(printf '%s' "$string")
+

@@ -66,6 +66,7 @@
 !/abduco-ls
 !/ansi
 !/arm
+!/ascii2hex
 !/awkc
 !/bgrep
 !/bin.plugin.zsh
