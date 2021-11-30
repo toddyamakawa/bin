@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-cecho --yellow --bold "==> $* <=="
+cecho --fg yellow --bold "==> $* <=="
