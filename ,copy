@@ -14,7 +14,7 @@ if (type xdpyinfo &>/dev/null); then
 		# Copy to tmux buffer
 		if [[ -e "${TMUX%%,*}" ]]; then
 			tmux-copy
-			cecho --fg yellow --bold '==> TMUX BUFFER <=='
+			print-header 'TMUX BUFFER'
 			tmux-paste
 			exit
 		fi
@@ -40,7 +40,7 @@ copied="$(,paste)" || exit $?
 newline=$'\n'
 case "$copied" in
 	*$newline*)
-		cecho --fg yellow --bold '==> CLIPBOARD <=='
+		print-header 'CLIPBOARD'
 		echo "$copied"
 		cecho --fg yellow --bold "wc: $(echo "$copied" | wc)"
 		;;

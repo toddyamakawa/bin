@@ -7,7 +7,7 @@ file="$1"
 # Print info
 info="$(file -b "$file")"
 mimetype="$(file -b --mime-type "$file")"
-echo -e "\e[33;1m==> file info <==\e[0m"
+print-header 'file info'
 echo "MIME type: '$mimetype'"
 echo "$info"
 ls -lh "$file"
@@ -38,7 +38,7 @@ if [[ "$file" =~ uart.* ]]; then
 
 # Handle JSON files
 elif [[ "$file" =~ .*\.json ]]; then
-	echo -e "\e[33;1m==> json <==\e[0m"
+	print-header 'json'
 	if (which jq &>/dev/null); then
 		jq -C . "$file" | headn 30
 	else
@@ -46,22 +46,22 @@ elif [[ "$file" =~ .*\.json ]]; then
 		headn 30 "$file"
 	fi
 	echo -e "\e[31m...\e[0m"
-	echo -e "\e[33;1m==> end <==\e[0m"
+	print-header 'end'
 	exit
 
 elif [[ "$file" =~ .*\.log ]]; then
-	echo -e "\e[33;1m==> contents <==\e[0m"
+	print-header 'contents'
 	headn 5 $file
 	echo -e "\e[31m...\e[0m"
 	tailn 10 $file
 
 # Print generic info
 else
-	echo -e "\e[33;1m==> head <==\e[0m"
+	print-header 'head'
 	headn 50 $file
 	echo -e "\e[31m...\e[0m"
 fi
 
 # End of preview
-echo -e "\e[33;1m==> end <==\e[0m"
+print-header 'end'
 

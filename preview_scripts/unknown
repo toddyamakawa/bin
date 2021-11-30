@@ -4,17 +4,17 @@ declare -r CURRENT_DIR="$(realdir.py "${BASH_SOURCE[0]}")"
 if [[ -h "$1" ]]; then
 	link="$(readlink -f "$1")"
 	if [[ -d "$1" ]]; then
-		echo -e "\e[33;1m==> symlink dir <==\e[0m"
+		print-header 'symlink dir'
 		echo "$link"
 		echo
 		exec "$CURRENT_DIR/dir" "$1"
 	elif [[ -f "$1" ]]; then
-		echo -e "\e[33;1m==> symlink file <==\e[0m"
+		print-header 'symlink file'
 		echo "$link"
 		echo
 		exec "$CURRENT_DIR/file" "$1"
 	else
-		echo -e "\e[33;1m==> symlink unknown <==\e[0m"
+		print-header 'symlink unknown'
 		echo "$link"
 	fi
 

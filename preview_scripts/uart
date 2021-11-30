@@ -7,7 +7,7 @@ file="$1"
 
 source "$CURRENT_DIR/lib.bash"
 
-echo -e "\e[33;1m==> uart file <==\e[0m"
+print-header 'uart file'
 if (grep 'Failing at test' "$file" &> /dev/null); then
 	awk '
 		/^Test 0/ {part=1; line=$0}
@@ -19,5 +19,5 @@ if (grep 'Failing at test' "$file" &> /dev/null); then
 	echo -e "\e[33m...\e[0m"
 fi
 tailn 10 "$file" | strings | cutw
-echo -e "\e[33;1m==> end <==\e[0m"
+print-header 'end'
 
