@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+print-cmd "$@"
+"$@"
+RETVAL=$?
+print-retval $RETVAL
+exit $RETVAL
