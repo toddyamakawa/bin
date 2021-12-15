@@ -44,6 +44,7 @@
 !/gpull
 
 # tmux
+!/t
 !/tmux-*
 !/ta
 !/tenv
