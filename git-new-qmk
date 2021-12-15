@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -e
+print-run git clone "git@github.com:toddyamakawa/qmk_firmware" qmk
+print-cmd cd qmk
+cd qmk
+print-run git remote add upstream "git@github.com:qmk/qmk_firmware"
