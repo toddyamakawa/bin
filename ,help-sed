@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+print-header 'sed'
+print-url 'https://github.com/adrianscheff/useful-sed'
+print-url 'https://github.com/majamin/oneliners.txt/blob/5f61e791acf98d181ccfc8818a42cb4037dcd9c7/oneliners.txt#L284'
