@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+print-header 'awk'
 cat <<-EOF
 FNR         Input record number in the current input file
 FS          Input field separator, a space by default
