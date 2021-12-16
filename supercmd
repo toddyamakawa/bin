@@ -11,7 +11,7 @@ subcmd="$1" && shift
 # List subcommands
 if [[ -z "$subcmd" ]]; then
 	while read -r dir; do
-		(cd "$dir" && ls "$supercmd"-* 2>/dev/null)
+		(cd "$dir" && ls "$supercmd"-*) 2>/dev/null
 	done < <(echo $PATH | tr ':' $'\n') | sort | uniq
 fi
 
