@@ -2,6 +2,6 @@
 # DESCRIPTION: Automatically clean up temp files
 tmpdir="$(mktemp -d)"
 function finish {
-  rm -rf "$tmpdir"
+	rm -rf "$tmpdir"
 }
 trap finish EXIT

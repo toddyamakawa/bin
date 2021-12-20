@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+print-header 'awk'
 cat <<-EOF
 FNR         Input record number in the current input file
 FS          Input field separator, a space by default
@@ -15,4 +16,11 @@ FILENAME    Current input file.
 RSTART      The index of the first character matched by match(); 0 if no match.
             (This implies that character indices start at one.)
 RLENGTH     The length of the string matched by match(); -1 if no match.
+EOF
+
+echo
+cat <<EOF
+Split by comma:      \`awk -F ',' ...\`
+Print last column:   \`awk '{print \$NF}'\`
+\`awk '{sum+=\$1} END {print sum}'\`
 EOF

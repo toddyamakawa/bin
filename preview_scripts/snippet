@@ -22,6 +22,6 @@ echo "$snippet_type"
 cecho -n --fg yellow --bold 'DESCRIPTION: '
 echo "$description"
 echo
-cecho --fg yellow --bold '==> SNIPPET <=='
+print-header 'SNIPPET'
 echo "$text"
 

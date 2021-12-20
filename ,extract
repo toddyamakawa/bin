@@ -35,6 +35,6 @@ case $file in
 esac
 
 # Extract
-echo "\$> ${cmd[@]}" "$file"
+print-cmd "${cmd[@]}" "$file"
 exec command "${cmd[@]}" "$file"
 

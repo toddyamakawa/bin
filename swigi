@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# Arguments
+module_type="$1"
+interface_file="$2"
+
+# Check interface file
+if [[ ! -f "$interface_file" ]]; then
+	exec exitfail "Interface file '$interface_file' not found."
+fi
+interface_dir="$(dirname "$interface_file")"
+interface_base="$(basename "$interface_file" .i)"
+output_prefix="$interface_dir/${interface_base}_swig"
+cfile="${output_prefix}_${module_type}.c"
+
+# Check module type
+libs=()
+case "$module_type" in
+	tcl)
+		tcl_lib='/usr/include/tcl8.6'
+		libs+=(-I"$tcl_lib")
+		;;
+	ruby)
+		ruby_lib='/usr/include/ruby-2.7.0'
+		libs+=(-I"$ruby_lib")
+		;;
+	python)
+		ruby_lib='/usr/include/python3.9'
+		libs+=(-I"$ruby_lib")
+		;;
+esac
+
+# Generate swig wrapper
+print-cmd "swig -$module_type -o '$cfile' '$interface_file'"
+swig -"$module_type" -o "$cfile" "$interface_file" || exit $?
+
+# Compile swig wrapper
+print-cmd "gcc -fpic -c '$cfile' ${libs[@]}"
+gcc -fpic -c "$cfile" "${libs[@]}" || exit $?
+

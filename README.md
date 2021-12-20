@@ -9,5 +9,13 @@
     - [Bash Pitfalls](http://mywiki.wooledge.org/BashPitfalls)
     - [Bash Base Example](https://github.com/pirate/bash-utils/blob/master/util/base.sh)
 
+
+
+Examples
+--------------------------------------------------------------------------------
+
+- [holman/dotfiles/bin](https://github.com/holman/dotfiles/tree/master/bin)
+
+
 [modeline]: # (vim: set fenc=utf-8 linebreak wrap spell spl=en:)
 

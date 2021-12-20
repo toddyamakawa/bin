@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export TZ=America/Chicago
+
 format=$(cat <<-EOF
   %%   a literal %
   %a   locale's abbreviated weekday name (e.g., Sun)

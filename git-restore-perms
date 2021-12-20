@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Generate a reverse patch
+git_cmd=(git diff -p)
+git_cmd+=(-R)
+git_cmd+=(--no-color)
+git_cmd+=(--no-ext-diff)
+
+git ls-files -m | \
+	xargs -n 1 "${git_cmd[@]}" | \
+	grep -E '^(diff|(old|new) mode)' --color=never | \
+	git apply
+

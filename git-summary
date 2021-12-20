@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+echo "TODO: Implement this"
+print-url https://github.com/MirkoLedda/git-summary

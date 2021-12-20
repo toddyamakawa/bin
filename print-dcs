@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Generate Device Control String (DCS)
+dcs="$(printf '\033]%s\a' "$@")"
+
+# Run DCS command
+if [[ -e "${TMUX%%,*}" ]]; then
+	printf '\033Ptmux;\033%s\033\\' "$dcs"
+else
+	printf '%s' "$dcs"
+fi
+

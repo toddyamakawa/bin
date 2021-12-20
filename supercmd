@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# USAGE: supercmd <subcmd> [flags]
+
+# Get super command
+base="$(basename "${BASH_SOURCE[0]}")"
+supercmd="${SUPERCMD:-$base}"
+
+# Get subcommand
+subcmd="$1" && shift
+
+# List subcommands
+if [[ -z "$subcmd" ]]; then
+	while read -r dir; do
+		(cd "$dir" && ls "$supercmd"-*) 2>/dev/null
+	done < <(echo $PATH | tr ':' $'\n') | sort | uniq
+fi
+
+# Check command
+cmd="$supercmd-$subcmd"
+command -v "$cmd" &>/dev/null || exit 127
+
+# Run command
+exec "$cmd" "$@"
+

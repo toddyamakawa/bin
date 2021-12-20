@@ -2,7 +2,7 @@
 file="$1"
 [[ -f "$file" ]] || { echo "File '$file' not found"; exit 2; }
 
-cecho --fg yellow --bold "==> git diff $file <=="
+print-header "git diff $file"
 
 #if ((FZF_PREVIEW_HEIGHT)); then
 	#git diff --color=always "$file" | head -n "$FZF_PREVIEW_HEIGHT"

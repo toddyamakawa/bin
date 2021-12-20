@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# https://github.com/toddyamakawa/bin -> git@github.com:toddyamakawa/bin.git
+fetch_url="$(git config --get remote.origin.url)"
+github_url="$(echo "$fetch_url" | sed "s:https\://github.com:git@github.com\::")"
+print-cmd "git remote set-url origin $github_url"
+git remote set-url origin $github_url

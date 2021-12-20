@@ -18,6 +18,6 @@ fi
 # Run
 src_base="$(basename "$src")"
 src_dir="$(dirname "$src")"
-cecho --fg yellow --bold "\$> tar -czf - -C $src_dir $src_base | ssh $remote_host tar -xvzf - -C $remote_dest"
+print-cmd "tar -czf - -C $src_dir $src_base | ssh $remote_host tar -xvzf - -C $remote_dest"
 tar -czf - -C "$src_dir" "$src_base" | ssh "$remote_host" tar -xzvf - -C "$remote_dest"
 

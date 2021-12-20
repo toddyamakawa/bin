@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 name="${1?usage: $0 <session_name>}"
-if [[ -n $TMUX && ! -e ${TMUX%%,*} ]]; then
-	unset TMUX TMUX_PANE
+if (command -v "tnew-$name" &>/dev/null); then
+	print-cmd "tnew-$name"
+	"tnew-$name"
+else
+	tmux new-session -d -s "$name"
 fi
-tmux new-session -d -s "$name"
 ts "$name"

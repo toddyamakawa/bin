@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Copy text using OSC 52 escape sequence.
+
+# Example:
+# https://chromium.googlesource.com/apps/libapps/+/HEAD/hterm/etc/osc52.sh
+
+#debug=1
+if ((debug)); then
+	tempfile='/tmp/debug_copy.txt'
+	echo -n "'" > "$tempfile"
+	cat >> "$tempfile"
+	#tr -d '\n' >> "$tempfile"
+	#base64 | tr -d '\n' >> "$tempfile"
+	echo -n "'" >> "$tempfile"
+	exit
+fi
+
+# REVISIT: Is this needed for tmux?
+#pane_active_tty="$(tmux list-panes -F "#{pane_active} #{pane_tty}" | awk '$1=="1" { print $2 }')"
+#print-dcs "52;c;$to_copy" > "$pane_active_tty"
+
+# Encode string from stdin
+to_copy="$(base64 | tr -d '\n')"
+
+# Run OSC 52 escape sequence
+print-dcs "52;c;$to_copy"
+

@@ -18,10 +18,12 @@
 !/snippets/*
 
 !/awk-*
+!/bash-*
 !/bjobs*
 !/bmod*
 !/du*
 !/fz*
+!/find*
 /fzf
 /fzf.git
 !/git-*
@@ -29,8 +31,12 @@
 !/lp*
 !/ls-*
 !/lsf-*
+!/my-*
 !/nnn-*
+!/print-*
 !/test-*
+!/tui-*
+!/untar*
 !/vnc-*
 
 # git
@@ -38,18 +44,21 @@
 !/gpull
 
 # tmux
+!/t
 !/tmux-*
 !/ta
 !/tenv
 !/tkeys
 !/tls
-!/tnew
+!/tnew*
 !/tprint
 !/tsave
 !/ts
 
 # YAML/JSON
 !/2cfg
+!/2cfg.py
+!/2cfg.rb
 !/2json
 !/2json.py
 !/2yaml
@@ -57,17 +66,21 @@
 !/a
 !/abduco-ls
 !/ansi
+!/arm
+!/ascii2hex
 !/awkc
-!/bash-hacks
 !/bgrep
 !/bin.plugin.zsh
 !/bls
 !/bshell
+!/catn
+!/catw
 !/cecho
 !/chi
 !/chmodd
 !/chmodg
 !/clip
+!/copy-osc52
 !/cpp.
 !/ddstat
 !/diff-csv.rb
@@ -76,12 +89,10 @@
 !/epoch
 !/f
 !/file-yank
-!/findd
-!/findext
-!/findx
 !/forkbomb
 !/groups-users
 !/gu
+!/hterm-notify
 !/hwinfo
 !/launch
 !/lnsp
@@ -89,6 +100,8 @@
 !/Makefile
 !/manhack
 !/noansi
+!/nobash
+!/nvimdiff
 !/psef
 !/ps-env
 !/pwdc
@@ -101,7 +114,9 @@
 !/sitename
 !/snip
 !/ssh.rb
+!/supercmd
 !/svn-url
+!/swigi
 !/tax
 !/toddo
 !/true-color-test
@@ -109,6 +124,8 @@
 !/tt
 !/tui.rb
 !/upcase
+!/viw
+!/yesno
 !/zsh.rb
 
 # vim: ft=sh

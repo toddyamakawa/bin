@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-echo -e "\e[33;1m\$> uptime\e[0m"
+print-cmd 'uptime'
 uptime | awk '{$1=$1; print}'
 
 echo
-echo -e "\e[33;1m\$> who -b\e[0m"
+print-cmd 'who -b'
 who -b | awk '{$1=$1; print}'
 
 echo
-echo -e "\e[33;1m\$> last reboot\e[0m"
+print-cmd 'last reboot'
 last reboot | sed '/^$/d'
 

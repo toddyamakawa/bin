@@ -17,6 +17,6 @@ echo
 
 # TODO: Support non-fzf
 height="$((FZF_PREVIEW_HEIGHT-6))"
-ansi '33;1' '==> preview <=='
+print-header 'preview'
 tmux capture-pane -t "$pane_id" -S - -E - -p -e | tail -n "$height"
 

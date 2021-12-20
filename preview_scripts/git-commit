@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-commit="$(echo "$@" | cut -d: -f1)"
-cecho --fg yellow --bold "==> git show $commit <=="
+# TODO: Fix this cut expression?
+commit="$(echo "$@" | cut -d' ' -f1)"
+print-header "git show '$commit'"
 git show --color=always "$commit"

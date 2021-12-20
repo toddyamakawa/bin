@@ -16,6 +16,6 @@ echo "project: $project" 1>&2
 public_key_file="$HOME/.ssh/id_rsa.pub"
 echo "public_key_file: $public_key_file" 1>&2
 
-echo "\$> cat $public_key_file | ssh -p $port $host gerrit set-account $USER --add-ssh-key -"
+print-cmd "cat $public_key_file | ssh -p $port $host gerrit set-account $USER --add-ssh-key -"
 cat "$public_key_file" | ssh -p "$port" "$host" gerrit set-account "$USER" --add-ssh-key -
 

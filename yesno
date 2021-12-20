@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+echo "${@:-Yes or no?} (y/n)"
+while true; do
+	read -s -n 1 -e reply < /dev/tty
+	case "$reply" in
+		[Yy]) exit 0;;
+		[Nn]) exit 1;;
+	esac
+done
