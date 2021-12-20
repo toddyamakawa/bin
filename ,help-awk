@@ -19,5 +19,8 @@ RLENGTH     The length of the string matched by match(); -1 if no match.
 EOF
 
 echo
-print-url 'https://github.com/majamin/oneliners.txt/blob/5f61e791acf98d181ccfc8818a42cb4037dcd9c7/oneliners.txt#L14'
-
+cat <<EOF
+Split by comma:      \`awk -F ',' ...\`
+Print last column:   \`awk '{print \$NF}'\`
+\`awk '{sum+=\$1} END {print sum}'\`
+EOF
