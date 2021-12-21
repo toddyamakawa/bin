@@ -83,6 +83,7 @@
 !/copy-osc52
 !/cpp.
 !/ddstat
+!/diagon-test
 !/diff-csv.rb
 !/echop
 !/exitfail
