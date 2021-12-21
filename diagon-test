@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+exec diagon Sequence <<EOF
+Renderer -> Browser: BeginNavigation()
+Browser -> Network: URLRequest()
+Browser <- Network: URLResponse()
+Renderer <- Browser: CommitNavigation()
+Renderer -> Browser: DidCommitNavigation()
+EOF
