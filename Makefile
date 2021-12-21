@@ -8,6 +8,7 @@ TIG_VERSION := 2.4.1
 # Useful
 targets += abduco
 targets += devour
+#targets += diagon
 targets += fzf
 targets += nnn
 
@@ -45,6 +46,16 @@ abduco.git/abduco: abduco.git
 abduco.git:
 	git clone --depth 1 https://github.com/toddyamakawa/abduco $@
 	git -C $@ remote add upstream https://github.com/martanne/abduco
+
+# --- devour ---
+diagon: diagon.git/diagon
+	cp $^ $@
+	touch $@
+diagon.git/diagon: diagon.git
+	make -C $^
+	touch $@
+diagon.git:
+	git clone --depth 1 https://github.com/ArthurSonzogni/Diagon $@
 
 # --- devour ---
 devour: devour.git/devour
