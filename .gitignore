@@ -82,6 +82,8 @@
 !/clip
 !/copy-osc52
 !/cpp.
+!/csv2table
+!/csv2table.py
 !/ddstat
 !/diagon-test
 !/diff-csv.rb
