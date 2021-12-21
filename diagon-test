@@ -1,8 +1,38 @@
 #!/usr/bin/env bash
-exec diagon Sequence <<EOF
+set -e
+
+diagon Sequence <<EOF
 Renderer -> Browser: BeginNavigation()
 Browser -> Network: URLRequest()
 Browser <- Network: URLResponse()
 Renderer <- Browser: CommitNavigation()
 Renderer -> Browser: DidCommitNavigation()
 EOF
+
+
+diagon Sequence <<EOF
+1) Renderer -> Browser: Message 1
+2) Renderer <- Browser: Message 2
+Renderer: 1<2
+Browser: 2<1
+EOF
+
+
+diagon Table <<EOF
+Column 1,Column 2,Column 3
+C++,Web,Assembly
+Javascript,CSS,HTML
+EOF
+
+diagon GraphDAG <<EOF
+socks -> shoes
+underwear -> shoes
+underwear -> pants
+pants -> shoes
+pants -> belt
+belt -> jacket
+shirt -> belt
+shirt -> tie
+tie -> jacket
+EOF
+
