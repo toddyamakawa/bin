@@ -27,7 +27,10 @@ fi
 
 # Find copy command
 if (type xclip &>/dev/null); then
-	xclip || exit $?
+	# REVISIT: Should I do both here?
+	# https://github.com/ms-jpq/isomorphic_copy/blob/b52377407caad8670c6651390b78f9f720ad3780/iso_cp/copy.py#L52
+	xclip -selection clipboard || exit $?
+	xclip -selection primary || exit $?
 elif (type pbcopy &>/dev/null); then
 	pbcopy || exit $?
 else
