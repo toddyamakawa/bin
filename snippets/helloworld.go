@@ -14,8 +14,8 @@ func world() (named string) {
 }
 
 func main() {
-	//var a, b, c int = 1, 2, 3
-	//d := 4
-	fmt.Println("Hello " + world())
+	// Evaluate on return
+	defer fmt.Println(world())
+	fmt.Print("Hello ")
 }
 
