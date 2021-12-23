@@ -1,10 +1,14 @@
-
+//usr/bin/env go run "$0"; exit $?
 // USAGE: go run types.go
 // DESCRIPTION: Small example with basic types
 
 package main
 
 import "fmt"
+
+type Point struct {
+	X, Y int
+}
 
 func main() {
 	b1, b2 := true, false
@@ -22,5 +26,17 @@ func main() {
 
 	fmt.Println("- float32 float64")
 	fmt.Println("- complex64 complex128")
+
+	p1 := Point{1, 2}
+	pp1 := &p1
+	p2 := Point{}
+	fmt.Println("- struct:", p1, pp1, pp1.X, pp1.Y, p2)
+
+	//a := make([]int, 0, 5) // len(a)=0, cap(a)=5
+	a := []string{"Hello", "World"}
+	fmt.Println("- array:", a)
+	fmt.Println("  - cap() =", cap(a))
+	fmt.Println("  - len() =", len(a))
+
 }
 
