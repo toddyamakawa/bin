@@ -6,7 +6,16 @@ package main
 
 import "fmt"
 
+// Named return value
+func world() (named string) {
+	named = "World"
+	// "Naked" return
+	return
+}
+
 func main() {
-	fmt.Println("Hello, 世界")
+	//var a, b, c int = 1, 2, 3
+	//d := 4
+	fmt.Println("Hello " + world())
 }
 
