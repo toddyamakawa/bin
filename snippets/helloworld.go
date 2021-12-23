@@ -1,4 +1,4 @@
-
+//usr/bin/env go run "$0"; exit $?
 // USAGE: go run helloworld.go
 // DESCRIPTION: Hello world
 
