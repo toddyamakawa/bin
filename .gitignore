@@ -57,6 +57,7 @@
 
 # YAML/JSON
 !/2cfg
+!/2cfg.go
 !/2cfg.py
 !/2cfg.rb
 !/2json
