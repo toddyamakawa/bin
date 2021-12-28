@@ -1,6 +1,6 @@
 //usr/bin/env go run "$0"; exit $?
 // USAGE: go run types.go
-// DESCRIPTION: Small example with basic types
+// DESCRIPTION: Small example to run shell command
 
 package main
 
