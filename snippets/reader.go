@@ -3,6 +3,7 @@
 // DESCRIPTION: Small Reader example
 
 // https://go.dev/tour/methods/21
+// https://go.dev/tour/methods/23
 
 package main
 
