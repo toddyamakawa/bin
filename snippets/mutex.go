@@ -9,13 +9,18 @@ package main
 import (
 	"fmt"
 	"sync"
-	"time"
 )
 
-func Increment(counter *int, mutex *sync.Mutex) {
-	mutex.Lock()
+func UnsafeIncrement(counter *int, mutex *sync.Mutex, waitgroup *sync.WaitGroup) {
+	defer waitgroup.Done()
 	*counter++
-	mutex.Unlock()
+}
+
+func SafeIncrement(counter *int, mutex *sync.Mutex, waitgroup *sync.WaitGroup) {
+	defer waitgroup.Done()
+	mutex.Lock()
+	defer mutex.Unlock()
+	*counter++
 }
 
 func Value(counter *int, mutex *sync.Mutex) int {
@@ -26,12 +31,23 @@ func Value(counter *int, mutex *sync.Mutex) int {
 
 func main() {
 	var mutex sync.Mutex
+	var waitgroup sync.WaitGroup
 	counter := 0
+
 	for i := 0; i < 3000; i++ {
-		go Increment(&counter, &mutex)
+		waitgroup.Add(1)
+		go SafeIncrement(&counter, &mutex, &waitgroup)
 	}
-	go fmt.Println(Value(&counter, &mutex))
-	time.Sleep(time.Second)
+	fmt.Println(Value(&counter, &mutex))
+
+	waitgroup.Wait()
+	fmt.Println(Value(&counter, &mutex))
+
+	for i := 0; i < 3000; i++ {
+		waitgroup.Add(1)
+		go UnsafeIncrement(&counter, &mutex, &waitgroup)
+	}
+	waitgroup.Wait()
 	fmt.Println(Value(&counter, &mutex))
 }
 
