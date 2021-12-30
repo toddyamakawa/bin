@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Create temp directory
+tmpdir="$(mktemp -d)"
+function finish() { rm -rf "$tmpdir"; }
+trap finish EXIT
+
+# Compile and run
+in="$1" && shift
+out="$tmpdir/a.out"
+prun gcc -o "$out" "$in" || exit $?
+prun "$out"
+
