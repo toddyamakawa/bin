@@ -83,6 +83,7 @@
 !/clip
 !/copy-osc52
 !/cpp.
+!/crun
 !/csv2table
 !/csv2table.py
 !/ddstat
