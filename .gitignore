@@ -106,6 +106,7 @@
 !/noansi
 !/nobash
 !/nvimdiff
+!/prun
 !/psef
 !/ps-env
 !/pwdc
