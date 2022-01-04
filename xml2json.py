@@ -4,6 +4,8 @@ import json
 import sys
 import xml.etree.cElementTree as etree
 
+import pandas_read_xml as pdx
+
 debug = False
 #debug = True
 
@@ -20,8 +22,8 @@ def parse(parent, depth, path = ''):
         if text: print(text)
 
     children = {}
-    if attrib: children['__attrib__'] = attrib
-    if text: children['__text__'] = text.rstrip()
+    for a in attrib:
+        children[f'@{a}'] = attrib[a]
 
     for child in parent:
         child_tag = child.tag
@@ -38,6 +40,15 @@ def parse(parent, depth, path = ''):
         else:
             children[child_tag] = child_info
 
+    # Getting text this way isn't perfect
+    # <greeting>Hello <name>Todd</name>. Welcome!</greeting>
+    # Will result in "text" = "Hello " instead of "Hello . Welcome!"
+    if text:
+        if children:
+            children['#text'] = text
+        else:
+            children = text
+
     return children
 
 
@@ -45,6 +56,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('input', nargs='?', type=argparse.FileType(), default=sys.stdin)
     args = parser.parse_args()
+
+    # REVISIT: This works better
+    df = pdx.read_xml(args.input)
+    df = pdx.read_xml('AArch64-ccsidr_el1.xml')
+    print(df.to_json())
+    return 0
 
     # TODO: Get depth from argparse
     depth = -1
