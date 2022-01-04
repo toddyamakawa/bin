@@ -55,7 +55,7 @@
 !/tsave
 !/ts
 
-# YAML/JSON
+# JSON/XML/YAML
 !/2cfg
 !/2cfg.go
 !/2cfg.py
@@ -63,6 +63,8 @@
 !/2json
 !/2json.py
 !/2yaml
+!/xml2pretty.py
+!/xml2json.py
 
 !/a
 !/abduco-ls
