@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# When using $RANDOM, 0-7 is slightly more likely than 8 and 9
+value=$RANDOM
+while ((value >= 32760)); do
+	value=$RANDOM
+done
+echo $((value % 10))
