@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: find <args> | find2tree
+# https://stackoverflow.com/questions/54228819/tree-command-not-found
+sed -e "s:[^/]*/:|____:g;s:____|: |:g"
