@@ -3,4 +3,7 @@ cmd="$1"
 cmdpath="$(which $cmd)"
 if [[ -f "$cmdpath" ]]; then
 	,cat "$cmdpath"
+else
+	exitfail "Command '$1' not found."
 fi
+
