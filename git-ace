@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 # DESCRIPTION: Add files and edit commit message
+print-cmd "git add $@"
 git add "$@"
 git cme
