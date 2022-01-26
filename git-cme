@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
 # DESCRIPTION: Commit staged changes and edit commit message
 git staged || exit $?
-git commit -m "$(git ls-staged)" && git amend
+
+staged="$(git ls-staged)"
+print-cmd git commit -m "$staged"
+cmd git commit -m "$staged"
+
+print-cmd git amend
+git amend
