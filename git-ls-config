@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+top="$(git top 2>/dev/null)"
+git -C "$top" config -f .git/config  -l
