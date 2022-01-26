@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+submodule="${1?}"
+
+top="$(git top 2>/dev/null)"
+
+print-cmd cd "$top"
+cd "$top"
+
+echo
+print-run git rm  "$submodule"
+
+echo
+print-run git config -f .git/config --remove-section "submodule.$submodule"
+
+echo
+print-run rm -rf .git/modules/"$submodule"
+
