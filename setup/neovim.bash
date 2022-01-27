@@ -5,6 +5,9 @@ if (which brew); then
 	brew install --HEAD tree-sitter
 	brew install --HEAD luajit
 	brew install --HEAD neovim
+elif (is-debian); then
+	set -ex
+	sudo apt-get -y install neovim python3-neovim
 else
 	set -ex
 	sudo apt-get install -y software-properties-common
