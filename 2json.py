@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import json, yaml
 import argparse, sys
 parser = argparse.ArgumentParser()
