@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+if ! (type scrot &>/dev/null); then
+	print-cmd sudo apt-install scrot
+	exit 2
+fi
+
+screenshot_dir="${XDG_CONFIG_HOME:-$HOME/.config}/screenshots"
+
+if ! [[ -d "$screenshot_dir" ]]; then
+	tmpdir="$(mktemp -d)"
+	ln -fns "$tmpdir" "$screenshot_dir"
+fi
+
+cd "$screenshot_dir" || exit $?
+scrot -s
+
