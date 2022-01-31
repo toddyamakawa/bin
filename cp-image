@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+image="$1"
+if ! [[ -f "$image" ]]; then
+	print-error "File '$image' not found."
+	exit 2
+fi
+
+# Definitely works with .png
+ext="$(extname "$image")"
+
+# Copy to both, one of them should work
+xclip -selection primary   -t "image/$ext" -i "$image"
+xclip -selection clipboard -t "image/$ext" -i "$image"
+
