@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-exec i3-msg rename workspace to "$@"
+# Must use double quotes in command
+exec i3-msg rename workspace to "\"$@\""
