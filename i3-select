@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -ex
 workspace="$1"
-i3-msg "[workspace=$workspace]" move workspace to output current
-i3-msg workspace number "$workspace"
+print-run i3-msg "[workspace=$workspace]" move workspace to output current
+print-run i3-msg workspace "$workspace"
