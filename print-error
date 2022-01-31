@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+printf "\e[31;1mERROR:\e[0m %s\n" "$*" 1>&2
