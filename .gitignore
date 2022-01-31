@@ -97,8 +97,9 @@
 !/diagon-test
 !/diff-csv.rb
 !/echop
-!/exitfail
 !/epoch
+!/exitfail
+!/extname
 !/f
 !/file-yank
 !/forkbomb
