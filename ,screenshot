@@ -14,3 +14,7 @@ fi
 cd "$screenshot_dir" || exit $?
 scrot -s
 
+# Get screenshot
+screenshot="$screenshot_dir/$(ls -t "$screenshot_dir" | head -n 1)"
+cp-image "$screenshot"
+
