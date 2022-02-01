@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+class="$(xprop | sed -n 's/WM_CLASS.*, *//p')"
+echo "assign [class=$class] \$workspace"
