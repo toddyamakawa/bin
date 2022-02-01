@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
+# Example:
+# i3-input -F 'exec i3-rename %s' -P 'rename: '
+
 # Must use double quotes in command
 exec i3-msg rename workspace to "\"$@\""
