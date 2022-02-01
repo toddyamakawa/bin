@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+next="$(i3-msg -t get_workspaces \
+	| tr , '\n' \
+	| sort \
+	| awk -F ':' -v start=1 '/num/ {
+		if($2 > start) {
+			print start
+			exit
+		}
+		start++
+	}
+	END {
+		print start
+	}'
+)"
+
+echo "$next"
+
+print-run i3-select "$next"
+
