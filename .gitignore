@@ -29,6 +29,7 @@
 /fzf.git
 !/git-*
 !/is-*
+!/install-*
 !/lp*
 !/ls-*
 !/lsf-*

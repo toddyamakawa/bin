@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+print-url https://github.com/FortAwesome/Font-Awesome
+print-url https://fontawesome.com/v5/cheatsheet
+
+font="$1"
+echo 'TODO: Check if TTF.'
+
+fonts_dir="$HOME/.fonts"
+print-run mkdir -pv "$fonts_dir"
+echo
+print-run cp "$font" "$fonts_dir"
+
