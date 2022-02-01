@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+i3-msg -t get_workspaces \
+	| jq '.[] | .output + ": " + .name' \
+	| sed -e 's/^"//' -e 's/"$//'
