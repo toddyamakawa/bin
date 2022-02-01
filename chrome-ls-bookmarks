@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+
+from os import environ as env
+import json
+import sys
+
+bookmarks_file = f'{env["HOME"]}/.config/google-chrome/Default/Bookmarks'
+bookmarks = json.load(open(bookmarks_file))['roots']['bookmark_bar']['children']
+#print(json.dumps(bookmarks, indent=2))
+
+def print_bookmarks(bookmarks, folder = 'None'):
+    for child in bookmarks:
+
+        # Recursively handle folders
+        if child['type'] == 'folder':
+            print_bookmarks(child['children'], child['name'])
+            continue
+
+        # Something went wrong
+        if child['type'] != 'url':
+            sys.stderr.write(child)
+            continue
+
+        # Print URL
+        name = child['name']
+        url = child['url']
+        print(f'{folder} :: {name} :: {url}')
+
+print_bookmarks(bookmarks)
+
