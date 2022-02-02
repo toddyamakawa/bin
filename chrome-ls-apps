@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+apps_dir="$HOME/.local/share/applications"
+cd "$apps_dir"
+awk -F '=' '($1 == "Name") {print FILENAME, $2}' *.desktop \
+	| sed -e 's/^chrome-//' -e 's/-/,/' -e 's/\.desktop /,/'
+
