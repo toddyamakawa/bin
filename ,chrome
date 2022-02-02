@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# TODO: Is this the right Chrome?
+chrome='/opt/google/chrome/chrome'
+exec "$chrome" "$@"
