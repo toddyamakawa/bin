@@ -1,4 +1,19 @@
 #!/usr/bin/env bash
-profile="$1"
-app_id="$2"
-"$chrome" --profile-directory="$1" --app-id="$2"
+name="$@"
+[[ -z "$name" ]] && exec exitfail "App name not specified"
+
+# Find app
+IFS=',' read -a info <<< "$(chrome-ls-apps | grep -m 1 -i "$name")"
+
+# Check match
+id="${info[0]}"
+profile="${info[1]}"
+match="${info[2]}"
+#echo "id: $id"
+#echo "profile: $profile"
+#echo "match: $match"
+[[ -z "$match" ]] && exec exitfail "No match found for '$name'"
+
+# Run app
+,chrome --profile-directory="$profile" --app-id="$id" &>/dev/null
+
