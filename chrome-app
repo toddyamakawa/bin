@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+profile="$1"
+app_id="$2"
+"$chrome" --profile-directory="$1" --app-id="$2"
