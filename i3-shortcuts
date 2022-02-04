@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# TODO: Write awk script, show mode
+info="$(cat "$HOME/.config/i3/config" | grep -E '^\s*bindsym|^\s*mode')"
+
+tempfile="$(mktemp)"
+function finish {
+	rm -rf "$tempfile"
+}
+trap finish EXIT
+
+echo "$info" > "$tempfile"
+xless "$tempfile" & sleep 1
+
