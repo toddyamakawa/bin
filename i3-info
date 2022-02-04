@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#info="$(xprop | sed -n 's/WM_CLASS.*, *//p')"
+info="$(xprop)"
+info="$(xprop | grep WM)"
+
+tempfile="$(mktemp)"
+function finish {
+	rm -rf "$tempfile"
+}
+trap finish EXIT
+
+echo "$info" > "$tempfile"
+#GNOME_TERMINAL_SCREEN='' gnome-terminal -- bash -c "less '$tempfile'"
+#GNOME_TERMINAL_SCREEN='' gnome-terminal -- bash -c "less '$tempfile'"
+# TODO; Figure out how to open this in less
+gedit "$tempfile"
+
