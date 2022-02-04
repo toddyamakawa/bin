@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+export TLESS="$1"
+if ! [[ -f "$FILE" ]]; then
+	echo fail
+fi
+export GNOME_TERMINAL_SCREEN=''
+exec gnome-terminal -- bash -c 'tless'
+
