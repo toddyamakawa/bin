@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-if ! [[ -f "$LESS_FILE" ]]; then
-	#print-error '$LESS_FILE not found.' | less +G -R
-	print-error '$LESS_FILE not found.' | less -R
+if ! [[ -f "$TLESS" ]]; then
+	#print-error '$TLESS not found.' | less +G -R
+	print-error '$TLESS not found.' | less -R
 	#echo "hello\nworld" | less +G -R
 fi
-exec less +g "$LESS_FILE"
+exec less +g "$TLESS"
