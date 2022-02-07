@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+index="${1:-1}" && shift
+output="$(xrandr | awk '
+	/ connected/ {count++}
+	(count == '$index'){print $1; exit}
+')"
+
+# Check monitor
+if [[ -z "$output" ]]; then
+	print-error "Monitor '$index' not found"
+	exit 2
+fi
+
+# Print monitor name
+if [[ -z "$@" ]]; then
+	echo "$output"
+	exit
+fi
+
+# Print and run
+ print-run xrandr --output "$output" "$@"
+
