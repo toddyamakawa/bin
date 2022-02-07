@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if command -v gnome-terminal &> /dev/null; then
+	exec gnome-terminal --hide-menubar
+fi
+
+i3-nagbar -m 'i3-term could not find a terminal emulator. Please fix it.'
+exit 2
+
