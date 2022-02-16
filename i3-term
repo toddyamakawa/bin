@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 if command -v gnome-terminal &> /dev/null; then
+	# Fixes this error:
+	# Error creating terminal: Failed to get screen from object path /org/gnome/Terminal/screen/...
+	export GNOME_TERMINAL_SCREEN=''
+
 	exec gnome-terminal --hide-menubar
 fi
 
