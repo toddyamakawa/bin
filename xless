@@ -4,5 +4,5 @@ if ! [[ -f "$FILE" ]]; then
 	echo fail
 fi
 export GNOME_TERMINAL_SCREEN=''
-exec gnome-terminal -- bash -c 'tless'
+exec gnome-terminal --hide-menubar -- bash -c 'tless'
 
