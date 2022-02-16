@@ -1,11 +1,28 @@
 #!/usr/bin/env bash
 
+# ==============================================================================
+# ARGUMENTS
+# ==============================================================================
+while [[ $# -ge 1 ]]; do
+	arg="$1" && shift
+	case "$arg" in
+		--name) name="$1" && shift;;
+	esac
+done
+
+
+# ==============================================================================
+# GNOME-TERMINAL
+# ==============================================================================
 if command -v gnome-terminal &> /dev/null; then
 	# Fixes this error:
 	# Error creating terminal: Failed to get screen from object path /org/gnome/Terminal/screen/...
 	export GNOME_TERMINAL_SCREEN=''
 
-	exec gnome-terminal --hide-menubar
+	term_cmd=(gnome-terminal)
+	term_cmd+=(--hide-menubar)
+	[[ -n "$name" ]] && term_cmd+=(--title="$name")
+	exec "${term_cmd[@]}"
 fi
 
 i3-nagbar -m 'i3-term could not find a terminal emulator. Please fix it.'
