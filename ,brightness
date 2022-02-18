@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 if ! (type xbacklight >/dev/null); then
-	exec exitfail 'xbacklight command not found. Run `sudo apt install xbacklight`'
+	notify-send -t 2000 -u critical 'xbacklight command not found. Run `sudo apt install xbacklight`'
+	exit 2
 fi
+
+# TODO: Check for this file: /etc/X11/xorg.conf
 
 if [[ "$1" == "up" ]]; then
 	xbacklight -inc 10
-else
+elif [[ "$1" == "down" ]]; then
 	xbacklight -dec 10
 fi
 
