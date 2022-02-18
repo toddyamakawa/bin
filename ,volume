@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+if ! (type amixer >/dev/null); then
+	notify-send -t 2000 -u critical 'amixer command not found.'
+	exit 2
+fi
+
+# Increase/descrease volume
+if [[ "$1" == "up" ]]; then
+	pactl set-sink-volume @DEFAULT_SINK@ +10%
+elif [[ "$1" == "down" ]]; then
+	pactl set-sink-volume @DEFAULT_SINK@ -10%
+fi
+
+# Get volume
+left="$(amixer sget Master | sed -n 's/.*Left:.*\[\(.*\)%.*/\1/p')"
+right="$(amixer sget Master | sed -n 's/.*Right:.*\[\(.*\)%.*/\1/p')"
+if [[ "$left" == "$right" ]]; then
+	volume="$left%"
+else
+	volume="$left% - $right%"
+fi
+
+# Popup notification for volume
+notify-send \
+	-t 400 \
+	-u normal \
+	-h string:x-canonical-private-synchronous:volume \
+	"Volume: $volume"
+
