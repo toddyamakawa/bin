@@ -25,21 +25,10 @@ elif [[ "$1" == "mic" ]]; then
 	amixer sset Capture toggle
 fi
 
-# Get volume
-left="$(amixer sget Master | sed -n 's/.*Left:.*\[\(.*\)%.*/\1/p')"
-right="$(amixer sget Master | sed -n 's/.*Right:.*\[\(.*\)%.*/\1/p')"
-if [[ "$left" == "$right" ]]; then
-	volume="$left%"
-else
-	volume="$left% - $right%"
-fi
-
-# TODO: Get mute
-
 # Popup notification for volume
 notify-send \
 	-t 400 \
 	-u normal \
 	-h string:x-canonical-private-synchronous:volume \
-	"Volume: $volume"
+	"$(,volume-info)"
 
