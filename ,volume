@@ -4,11 +4,25 @@ if ! (type amixer >/dev/null); then
 	exit 2
 fi
 
-# Increase/descrease volume
 if [[ "$1" == "up" ]]; then
-	pactl set-sink-volume @DEFAULT_SINK@ +10%
+	# Increase volume
+	#pactl set-sink-volume @DEFAULT_SINK@ +5%
+	amixer -q sset Master 5%+
+
 elif [[ "$1" == "down" ]]; then
-	pactl set-sink-volume @DEFAULT_SINK@ -10%
+	# Decrease volume
+	#pactl set-sink-volume @DEFAULT_SINK@ -5%
+	amixer -q sset Master 5%-
+
+elif [[ "$1" == "mute" ]]; then
+	# Speaker mute/unmute toggle
+	#pactl set-sink-mute @DEFAULT_SINK@ toggle
+	amixer -q sset Master toggle
+
+elif [[ "$1" == "mic" ]]; then
+	# Microphone mute/unmute toggle
+	#pactl set-source-mute @DEFAULT_SOURCE@ toggle
+	amixer sset Capture toggle
 fi
 
 # Get volume
@@ -19,6 +33,8 @@ if [[ "$left" == "$right" ]]; then
 else
 	volume="$left% - $right%"
 fi
+
+# TODO: Get mute
 
 # Popup notification for volume
 notify-send \
