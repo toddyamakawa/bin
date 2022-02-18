@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+amixer sget Master \
+	| sed -n 's/.*\(Mono\|Left\|Right\):.*\[\(.*\)%\]/Volume: \2%/p' \
+	| sed -e 's/\[on\]//; s/\[off\]/(Muted)/'
+
