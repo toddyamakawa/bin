@@ -6,9 +6,18 @@ fi
 
 # TODO: Check for this file: /etc/X11/xorg.conf
 
+# Increase/descrease brightness
 if [[ "$1" == "up" ]]; then
 	xbacklight -inc 10
 elif [[ "$1" == "down" ]]; then
 	xbacklight -dec 10
 fi
+
+# Popup notification for brightness
+brightness="$(xbacklight -get)"
+notify-send \
+	-t 400 \
+	-u normal \
+	-h string:x-canonical-private-synchronous:brightness \
+	"Brightness: ${brightness%%.*}%"
 
