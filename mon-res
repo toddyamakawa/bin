@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+declare -r USAGE="USAGE: $(basename $0) <output> <setting>"
+
+declare -r settings=$(cat <<-EOF
+3840 2160 60
+2560 1440 60
+1920 1080 60
+1920 1200 60
+EOF
+)
+
+echo "Settings:"
+echo "$settings" | cat -n
+
+choice="$(echo "$settings" | sed -n "${1}p")"
+
+read -r width height freq <<< $(echo "$choice")
+modeline="$(gtf "$width" "$height" "$freq" | sed -n 's/.*Modeline.*" *//p')"
+mode="${width}x${height}_${freq}.00"
+
+echo
+echo "mode: $mode"
+echo "modeline: $modeline"
+
+output="$2"
+if [[ -z "$output" ]]; then
+	exit
+fi
+
+monitor="$(mon "$output")"
+echo
+echo "monitor: $monitor"
+
+print-run xrandr --newmode "$mode" $modeline
+xrandr --addmode "$monitor" "$mode"
+mon "$output" --mode "$mode"
+
