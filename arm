@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 gcc="$(which aarch64-linux-gnu-gcc 2>/dev/null)"
 if [[ -z "$gcc" ]]; then
-	sudo apt install -y gcc make gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu
+	print-run sudo apt install -y gcc make gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu
+	gcc="$(which aarch64-linux-gnu-gcc 2>/dev/null)"
 fi
 
 usage="USAGE: arm <cmd> [args]"
