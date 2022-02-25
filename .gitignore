@@ -132,6 +132,7 @@
 !/set-title
 !/sitename
 !/snip
+!/sqlite-schema
 !/ssh.rb
 !/supercmd
 !/svn-url
