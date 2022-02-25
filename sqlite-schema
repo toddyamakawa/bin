@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+echo '.schema' | sqlite3 "$1" --batch
