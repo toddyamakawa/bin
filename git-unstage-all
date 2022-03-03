@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 top="$(git rev-parse --show-toplevel 2>/dev/null)"
 [[ -d "$top" ]] || exit $?
-print-cmd "cd $top"
+
+print-cmd cd "$top"
 cd "$top"
+
 git diff --name-only --cached | \
 	tr $'\n' '\0' | \
 	xargs -0 git reset HEAD
+
