@@ -10,7 +10,6 @@ for session in "$@"; do
 	for file in "$session_dir"/*; do
 		[[ "$file" -nt "$newest" ]] && newest="$file"
 	done
-	print-cmd "tmux-load-session '$session' '$newest'"
-	tmux-load-session "$session" "$newest"
+	print-run tmux-load-session "$session" "$newest"
 done
 

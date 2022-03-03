@@ -31,10 +31,8 @@ case "$module_type" in
 esac
 
 # Generate swig wrapper
-print-cmd "swig -$module_type -o '$cfile' '$interface_file'"
-swig -"$module_type" -o "$cfile" "$interface_file" || exit $?
+print-run swig "-$module_type" -o '$cfile' '$interface_file' || exit $?
 
 # Compile swig wrapper
-print-cmd "gcc -fpic -c '$cfile' ${libs[@]}"
-gcc -fpic -c "$cfile" "${libs[@]}" || exit $?
+print-cmd gcc -fpic -c "$cfile" "${libs[@]}" || exit $?
 
