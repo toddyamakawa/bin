@@ -3,7 +3,7 @@
 function _cat() {
 	local file="$1"
 	[[ -f "$file" ]] || return
-	print-cmd "cat $file"
+	print-cmd cat "$file"
 	cat "$file"
 	echo
 }
@@ -11,10 +11,10 @@ function _cat() {
 _cat /etc/os-release
 _cat /etc/redhat-release
 
-print-cmd 'uname -r'
+print-cmd uname -r
 uname -r
 
 echo
-print-cmd 'lsb_release -a'
+print-cmd lsb_release -a
 lsb_release -a
 

@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-print-cmd "git add $@"
-git add "$@" || exit $?
+print-run git add "$@" || exit $?
+
 echo
-
 exec print-run git diff --staged --numstat
-
