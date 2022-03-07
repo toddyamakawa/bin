@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+direction="$1"
+
+tabbed=0
+
+i3-msg fullscreen disable
+i3-is-tabbed && tabbed=1
+((tabbed)) && i3-msg focus parent
+i3-msg focus "$direction"
+((tabbed)) && i3-msg focus child
+
