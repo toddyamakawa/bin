@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+
+import json
+import subprocess
+import sys
+
+output = subprocess.check_output(['i3-msg', '-t', 'get_tree'])
+tree = json.loads(output)
+
+def is_focused(node):
+   return node['focused']
+
+def is_tabbed(tree):
+    if is_focused(tree):
+        return True
+
+    layout = tree['layout']
+
+    for node in tree['nodes']:
+        if is_tabbed(node):
+            print(f"{node['name']} <{layout}>")
+            if layout == 'tabbed':
+                exit(0)
+            else:
+                exit(1)
+
+    return False
+
+is_tabbed(tree)
+exit(1)
+
