@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+label="${@:+[$@]}"
+while read -r line; do
+	now="$(date +'%Y-%m-%d %T')"
+	echo "[$now]$label $line"
+done
+

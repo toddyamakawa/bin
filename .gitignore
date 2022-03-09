@@ -113,9 +113,11 @@
 !/launch
 !/lnsp
 !/loan
+!/log-ts
 !/Makefile
 !/manhack
 !/mon
+!/mon-res
 !/noansi
 !/nobash
 !/now
