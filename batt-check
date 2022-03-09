@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+capacity="$(cat /sys/class/power_supply/BAT0/capacity)"
+limit="${1:-20}"
+if ((capacity<limit)); then
+	notify-send -t 5000 -u critical "LOW BATTRY" "$(acpi -b)"
+	exit 1
+fi
+exit 0

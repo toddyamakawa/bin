@@ -81,6 +81,7 @@
 !/ascii2hex
 !/awkc
 !/bgrep
+!/batt-check
 !/bin.plugin.zsh
 !/bls
 !/bshell
