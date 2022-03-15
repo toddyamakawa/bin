@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# https://wiki.archlinux.org/title/Dunst#Disable_dunst_temporarily
+killall -SIGUSR1 dunst
+i3lock
+killall -SIGUSR2 dunst
