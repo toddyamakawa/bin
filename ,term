@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+if command -v gnome-terminal &> /dev/null; then
+	terminal='gnome-terminal'
+elif command -v xfce4-terminal &> /dev/null; then
+	terminal='xfce4-terminal'
+else
+	exit 1
+fi
+
+term_cmd=("$terminal" "$@")
+exec print-run "${term_cmd[@]}"
+
