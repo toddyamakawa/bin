@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+if ! (type playerctl >/dev/null); then
+	notify-send -t 2000 -u critical 'playerctl command not found. Run `sudo apt install playerctl`'
+	exit 2
+fi
+
+# Valid values:
+# - play-pause
+# - play
+# - pause
+# - next
+# - previous
+playerctl "$1"
+
