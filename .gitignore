@@ -82,6 +82,7 @@
 !/awkc
 !/bgrep
 !/batt-check
+!/batt-stat
 !/bin.plugin.zsh
 !/bls
 !/bshell
