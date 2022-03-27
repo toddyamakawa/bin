@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+capacity="$(cat /sys/class/power_supply/BAT0/capacity)"
+notify-send -t 5000 "Battery Status" "$(acpi -b)"
