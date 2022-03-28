@@ -4,7 +4,7 @@ regex='s/.*Adding input device[[:space:]]*\([^(]*\).*/\1/p'
 #sed -n "$regex" /var/log/syslog; exit
 
 tail -f /var/log/syslog \
-	| stdbuf -o0 sed -n "$regex" \
+	| ,unbuffer sed -n "$regex" \
 	| while read -r line; do
 		echo "New Input Device: '$line'"
 		notify-send -t 4000 'New Input Device' "$line"
