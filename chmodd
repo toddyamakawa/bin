@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 permissions="${1?}"
 directory="${2?}"
-findd "$directory" -exec chmod "$permissions" {} \;
+find "$directory" -type d -exec chmod "$permissions" {} \;
