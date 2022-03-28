@@ -150,6 +150,7 @@
 !/tui.rb
 !/upcase
 !/viw
+!/watch-inputs
 !/xless
 !/yesno
 !/zsh.rb
