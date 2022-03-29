@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-volume-amixer "$1"
-#volume-pactl "$1"
+if (type pactl &>/dev/null); then
+	volume-pactl "$1"
+else
+	volume-amixer "$1"
+fi
 
 # Popup notification for volume
 notify-send \
