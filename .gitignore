@@ -16,6 +16,8 @@
 !/setup/*
 !/snippets/
 !/snippets/*
+!/wordle_src
+!/wordle_src/*
 
 !/awk-*
 !/bash-*
