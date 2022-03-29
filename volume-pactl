@@ -7,11 +7,15 @@ fi
 cmd="$1"
 case "$cmd" in
 	up)
-		pactl -- set-sink-volume @DEFAULT_SINK@ +5%;;
+		pactl -- set-sink-volume @DEFAULT_SINK@ +5%
+		pactl set-sink-mute @DEFAULT_SINK@ false
+		;;
 	down)
-		pactl -- set-sink-volume @DEFAULT_SINK@ -5%;;
+		pactl -- set-sink-volume @DEFAULT_SINK@ -5%
+		pactl set-sink-mute @DEFAULT_SINK@ false
+		;;
 	mute)
-		amixer -q sset Master toggle;;
+		pactl set-sink-mute @DEFAULT_SINK@ toggle;;
 	mic)
 		amixer sset Capture toggle;;
 	*)
