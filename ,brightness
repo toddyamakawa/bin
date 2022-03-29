@@ -15,6 +15,12 @@ fi
 
 # Popup notification for brightness
 brightness="$(xbacklight -get)"
+
+# If the screen turns completely off, set birghtness to 1%
+if (("${brightness%%.*}" == 0)); then
+	xbacklight -set 1
+fi
+
 notify-send \
 	-t 400 \
 	-u normal \
