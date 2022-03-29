@@ -1,29 +1,6 @@
 #!/usr/bin/env bash
-if ! (type amixer >/dev/null); then
-	notify-send -t 2000 -u critical 'amixer command not found.'
-	exit 2
-fi
-
-if [[ "$1" == "up" ]]; then
-	# Increase volume
-	#pactl set-sink-volume @DEFAULT_SINK@ +5%
-	amixer -q sset Master 5%+
-
-elif [[ "$1" == "down" ]]; then
-	# Decrease volume
-	#pactl set-sink-volume @DEFAULT_SINK@ -5%
-	amixer -q sset Master 5%-
-
-elif [[ "$1" == "mute" ]]; then
-	# Speaker mute/unmute toggle
-	#pactl set-sink-mute @DEFAULT_SINK@ toggle
-	amixer -q sset Master toggle
-
-elif [[ "$1" == "mic" ]]; then
-	# Microphone mute/unmute toggle
-	#pactl set-source-mute @DEFAULT_SOURCE@ toggle
-	amixer sset Capture toggle
-fi
+volume-amixer "$1"
+#volume-pactl "$1"
 
 # Popup notification for volume
 notify-send \
