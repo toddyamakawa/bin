@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+if ! (type pactl >/dev/null); then
+	notify-send -t 2000 -u critical 'pactl command not found. Run `sudo apt install pulseaudio`'
+	exit 2
+fi
+
+cmd="$1"
+case "$cmd" in
+	up)
+		pactl -- set-sink-volume @DEFAULT_SINK@ +5%;;
+	down)
+		pactl -- set-sink-volume @DEFAULT_SINK@ -5%;;
+	mute)
+		amixer -q sset Master toggle;;
+	mic)
+		amixer sset Capture toggle;;
+	*)
+		notify-send -t 2000 -u critical ",volume-pactl command '$cmd' not found"
+		exit 2
+		;;
+esac
+

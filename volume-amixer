@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+if ! (type amixer >/dev/null); then
+	notify-send -t 2000 -u critical 'amixer command not found.'
+	exit 2
+fi
+
+cmd="$1"
+case "$cmd" in
+	up)
+		amixer -q sset Master 5%+ unmute;;
+	down)
+		amixer -q sset Master 5%- unmute;;
+	mute)
+		amixer -q sset Master toggle;;
+	mic)
+		amixer -q sset Master toggle;;
+	*)
+		notify-send -t 2000 -u critical ",volume-amixer command '$cmd' not found"
+		exit 1
+		;;
+esac
+

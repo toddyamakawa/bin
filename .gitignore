@@ -41,6 +41,7 @@
 !/test-*
 !/tui-*
 !/untar*
+!/volume-*
 !/vnc-*
 
 # git
