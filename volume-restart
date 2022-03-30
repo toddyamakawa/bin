@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+if (type pipewire >/dev/null); then
+	notify-send -t 5000 'Restarting pipewire'
+	systemctl --user restart pipewire
+	systemctl --user restart pipewire-pulse
+fi
+
+if (type pulseaudio >/dev/null); then
+	notify-send -t 5000 'Restarting pulseaudio'
+	pulseaudio -k
+	systemctl --user start pulseaudio.service
+fi
+
