@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+check='19f8f1893b94575488a132aeedffcf64'
+logseq='Logseq-linux-x64-0.6.3.AppImage'
+
+# Check logseq
+logseq_full="$(which "$logseq")"
+echo "$check  $logseq_full" | md5sum -c - || exit $?
+
+# Run logseq
+exec "$logseq"
+
