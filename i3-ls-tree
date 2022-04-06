@@ -9,7 +9,10 @@ tree = json.loads(output)
 def print_container(tree, path = ''):
     for node in tree['nodes']:
         layout = node['layout']
-        name = node['name'] or f'<{layout}>'
+        if node['name']:
+            name = node['name'] + ' ' + f'<{layout}>'
+        else:
+            name = f'<{layout}>'
         #print(f'{path} {name}')
         print(f'{path}{name}')
         #print_container(node, f'{path}.{name}')
