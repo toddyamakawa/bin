@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+orig_stty="$(stty -g)"
+stty -echo
+function finish {
+	stty "$orig_stty"
+}
+trap finish EXIT
+
 echo "${@:-Yes or no?} (y/n)"
 while true; do
 	read -s -n 1 -e reply < /dev/tty
