@@ -4,18 +4,21 @@ if ! (type pactl >/dev/null); then
 	exit 2
 fi
 
+sink="@DEFAULT_SINK@"
+#sink="0"
+
 cmd="$1"
 case "$cmd" in
 	up)
-		pactl -- set-sink-volume @DEFAULT_SINK@ +5%
-		pactl set-sink-mute @DEFAULT_SINK@ false
+		pactl -- set-sink-volume "$sink" +5%
+		pactl set-sink-mute "$sink" false
 		;;
 	down)
 		pactl -- set-sink-volume @DEFAULT_SINK@ -5%
-		pactl set-sink-mute @DEFAULT_SINK@ false
+		pactl set-sink-mute "$sink" false
 		;;
 	mute)
-		pactl set-sink-mute @DEFAULT_SINK@ toggle;;
+		pactl set-sink-mute "$sink" toggle;;
 	mic)
 		amixer sset Capture toggle;;
 	*)
