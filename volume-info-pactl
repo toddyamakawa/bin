@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+sink="${1:-@DEFAULT_SINK@}"
+pactl get-sink-volume "$sink" \
+	| sed \
+		-e 's/Volume:[[:space:]]*//g' \
+		-e 's/^[[:space:]]*//g' \
+		-e 's/,[[:space:]]*/\n/g'
+
