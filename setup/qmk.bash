@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+print-url 'https://docs.qmk.fm/#/newbs_getting_started?id=set-up-qmk'
+echo
+
 type python3 || exit $?
 type pip || exit $?
 
