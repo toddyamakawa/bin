@@ -1,2 +1,7 @@
 #!/usr/bin/env bash
+print-run xrandr --auto
 print-run xrandr --listmonitors
+
+print-cmd 'xrandr | greo connected'
+xrandr | grep ' connected'
+
