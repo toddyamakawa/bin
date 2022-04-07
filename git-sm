@@ -1,2 +1,6 @@
 #!/usr/bin/env bash
+# Run git-sm-cmd if valid
+if command -v "git-sm-$1" &>/dev/null; then
+	SUPERCMD=git-sm exec supercmd "$@"
+fi
 exec print-run git submodule "$@"
