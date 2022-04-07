@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-if command -v gnome-terminal &> /dev/null; then
+if [[ -x "$HOME/.cargo/bin/alacritty" ]]; then
+	terminal="$HOME/.cargo/bin/alacritty"
+elif command -v gnome-terminal &> /dev/null; then
 	terminal='gnome-terminal'
 elif command -v xfce4-terminal &> /dev/null; then
 	terminal='xfce4-terminal'
