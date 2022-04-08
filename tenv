@@ -1,2 +1,28 @@
 #!/usr/bin/env bash
-exec tmux show-environment "$@" | LC_ALL=C sort
+
+if [[ -z "$@" ]]; then
+	filter=(cat)
+else
+	filter=(grep -i --color=auto "$@")
+fi
+
+tmux show-environment \
+	| LC_ALL=C sort \
+	| sed 's/^/[env] /' \
+	| "${filter[@]}"
+
+(
+	tmux show-option -g
+	# I have no idea why these don't show up
+	tmux show-options -g default-terminal
+	tmux show-options -g terminal-overrides
+) \
+	| grep -v status- \
+	| sed 's/^/[option] /' \
+	| "${filter[@]}"
+
+tmux show-window-option -g \
+	| grep -v status- \
+	| sed 's/^/[window-option] /' \
+	| "${filter[@]}"
+
