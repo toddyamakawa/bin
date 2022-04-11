@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+session_name="i3"
+tmux has-session -t "$session_name" &>/dev/null && exit
+
+tneww "$session_name" i3     "$HOME/.config/i3"
+tneww "$session_name" bin    "$HOME/bin"
+
