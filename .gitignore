@@ -155,6 +155,7 @@
 !/tui.rb
 !/upcase
 !/viw
+!/wait-enter
 !/watch-inputs
 !/xless
 !/yesno
