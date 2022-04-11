@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# DESCRIPTION: Show git commit message
+exec print-run git show -s --format='%B' "$@"
