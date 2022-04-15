@@ -157,6 +157,7 @@
 !/viw
 !/wait-enter
 !/watch-inputs
+!/xargsi
 !/xless
 !/yesno
 !/zsh.rb
