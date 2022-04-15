@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+replace_str='%'
+exec xargs -I "$replace_str" "$@"
