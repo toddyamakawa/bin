@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# I have no idea how this magic works
+# https://stackoverflow.com/questions/89332/how-to-recover-a-dropped-stash-in-git
+git fsck --unreachable | grep commit | cut -d" " -f3 | xargs git log --merges --no-walk --grep=WIP
