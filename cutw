@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec cut -c "1-$(tput cols)"
