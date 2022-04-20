@@ -139,6 +139,7 @@
 !/realdir.py
 !/realpath.py
 !/rmrf
+!/set-speaker*
 !/set-title
 !/sitename
 !/snip

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+name="$(pactl list short | awk '/bluez_sink.30_50_75_38_65_58.a2dp_sink\t/ { print $1 }')"
+print-run pactl set-default-sink "$name"
