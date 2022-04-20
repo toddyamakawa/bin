@@ -64,5 +64,8 @@ export LPASS_DISABLE_PINENTRY=1
 # ==============================================================================
 # RUN
 # ==============================================================================
+if command -v "lpass-$1" &>/dev/null; then
+	SUPERCMD=lpass exec supercmd "$@"
+fi
 exec lpass $@
 
