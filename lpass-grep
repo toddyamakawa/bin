@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+lpass status || exit $?
+[[ -z "$@" ]] && { echo 'USAGE: lp grep <string>'; exit 2; }
+lpass ls | grep -i --color=auto "$@"
+
