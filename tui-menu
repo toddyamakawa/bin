@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# TODO: Finish implementing this
+
+# Redirect stdout to stderr
+exec 3>&1 1>&2
+
+# Make temp file
+tempfile="$(mktemp)"
+function cleanup() {
+	rm "$tempfile"
+}
+trap cleanup EXIT
+cat > "$tempfile"
+
+lines="$(wc -l "$tempfile" | cut -d' ' -f1)"
+cat "$tempfile"
+sleep 1
+
+# Scroll back to top
+# Clear screen from current position to bottom
+printf "\033[${lines}A\033[0J"
+
