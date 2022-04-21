@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+width="$(tput cols)"
+printf '=%.0s' $(eval echo {1..$width})
