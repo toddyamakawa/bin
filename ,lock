@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 # https://wiki.archlinux.org/title/Dunst#Disable_dunst_temporarily
 killall -SIGUSR1 dunst
-i3lock
+background="$HOME/.config/i3/background.png"
+if [[ -f "$background" ]]; then
+	i3lock --show-failed-attempts -i "$background"
+else
+	i3lock --show-failed-attempts
+fi
 killall -SIGUSR2 dunst
