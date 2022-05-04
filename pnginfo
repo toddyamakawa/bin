@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec identify -format 'width:%w height:%h\n' "$@"
