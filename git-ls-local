@@ -2,7 +2,7 @@
 # DESCRIPTION: List local/unpushed commits
 if [[ -z "$1" ]]; then
 	current_branch="$(git rev-parse --abbrev-ref HEAD)"
-	remote_branch="origin/$current_branch"
+	remote_branch="$(git upstream-branch)"
 else
 	remote_branch="$1"
 fi
