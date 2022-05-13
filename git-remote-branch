@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+git rev-parse --abbrev-ref --symbolic-full-name @{u}
