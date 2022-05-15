@@ -112,6 +112,7 @@
 !/f
 !/file-yank
 !/forkbomb
+!/getch.py
 !/getenv
 !/grepi
 !/groups-users
