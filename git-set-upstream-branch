@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+upstream="${1:?}"
+branch="$(git branch-name)"
+exec print-run git branch -u "$upstream" "$branch"
