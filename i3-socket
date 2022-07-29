@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# https://i3wm.org/docs/ipc.html
+exec i3 --get-socketpath

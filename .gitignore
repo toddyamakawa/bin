@@ -112,6 +112,8 @@
 !/f
 !/file-yank
 !/forkbomb
+!/getch.fish
+!/getch.py
 !/getenv
 !/grepi
 !/groups-users
@@ -130,6 +132,7 @@
 !/nobash
 !/now
 !/nvimdiff
+!/pnginfo
 !/prun
 !/psef
 !/ps-env

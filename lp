@@ -67,5 +67,5 @@ export LPASS_DISABLE_PINENTRY=1
 if command -v "lpass-$1" &>/dev/null; then
 	SUPERCMD=lpass exec supercmd "$@"
 fi
-exec lpass $@
+exec print-run lpass "$@"
 

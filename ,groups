@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+groups "$@" | tr ' ' $'\n' | sort | catn
