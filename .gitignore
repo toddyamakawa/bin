@@ -146,6 +146,7 @@
 !/set-title
 !/sitename
 !/snip
+!/spinner
 !/sqlite-schema
 !/ssh.rb
 !/supercmd

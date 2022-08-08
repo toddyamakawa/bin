@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Examples:
+# - https://github.com/charmbracelet/bubbles/blob/master/spinner/spinner.go
+spinner=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
+
