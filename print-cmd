@@ -2,4 +2,4 @@
 char='»'
 #char='$'
 printf "\e[34;1m%s\e[0m %s\n" "$char" \
-	"$(printf '%q ' "$@")"
+	"$(printf '%q ' "$@")" 1>&2
