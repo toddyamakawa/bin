@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-date +'%Y%m%d-%H%M%S'
+print-run date +'%Y%m%d-%H%M%S'
