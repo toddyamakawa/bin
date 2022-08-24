@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+print-run pkill dunst
+dunstrc="$HOME/.config/dunst/dunstrc"
+if [[ -f "$dunstrc" ]]; then
+	print-run launch dunst -config "$dunstrc"
+else
+	print-run launch dunst
+fi
+notify-send 'dunst reloaded'
+

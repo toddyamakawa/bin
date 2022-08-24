@@ -105,6 +105,7 @@
 !/ddstat
 !/diagon-test
 !/diff-csv.rb
+!/dunst-reload
 !/echop
 !/epoch
 !/exitfail
