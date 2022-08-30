@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
 capacity="$(cat /sys/class/power_supply/BAT0/capacity)"
 online="$(cat /sys/class/power_supply/AC/online)"
+
+full_battery=🔋
+# REVISIT: https://emojipedia.org/low-battery/
+low_battery=''
+
 notify-send -t 5000 "Battery Status" "$(acpi -b)"
