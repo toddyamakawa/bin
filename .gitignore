@@ -143,6 +143,7 @@
 !/pyinfo
 !/realdir.py
 !/realpath.py
+!/relpath.py
 !/rmrf
 !/set-speaker*
 !/set-title
