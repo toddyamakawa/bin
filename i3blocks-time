@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+calendar_icon=📅
+clock_icon=⏰
+date "+${calendar_icon}%Y-%m-%d %A ${clock_icon}%H:%M:%S"
+
