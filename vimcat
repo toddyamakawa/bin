@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+#
+# Original form: https://raw.githubusercontent.com/nkh/vimkat/main/vimkat
+
+input_file="$1"
+
+if ! [[ -f "$input_file" ]]; then
+	echo "File '$input_file' not found" 1>&2
+	exit 1
+fi
+
+#max="$2"
+#vimrc="$3"
+#extra_commands="${@:4}"
+
+#input="/tmp/vimkat_pipe_input_$$"
+#cat >"$input"
+
+# TODO: Add vimrc
+# Example
+vimrc="$HOME/.vimkatrc"
+
+lines="$(cat "$input_file" | wc -l)"
+(( lines += 10 ))
+echo "$lines"
+
+
+tempdir="$(mktemp -d --suffix=.vimcat)"
+typescript_file="$tempdir/typescript"
+echo "$typescript_file"
+
+clear
+
+#COLUMNS="$COLUMNS" script -o 1000000 -qc "vim $vimrc -R -c'set lines=$lines' $extra_commands +redraw +q ${input@Q}" "$typescript_file" \
+#COLUMNS="$COLUMNS" script -o 1000000 -qc "vim -R -c'set lines=$lines' +redraw +q $input_file" "$typescript_file" \
+COLUMNS="$COLUMNS" script -qc "vim -R -c'set lines=$lines' +redraw +q $input_file" "$typescript_file" \
+	| sed -e '1s/.*1;1H//' -e "s/~          .*//" 
+
+rm -f "$typescript_file"
+
