@@ -34,7 +34,7 @@ clear
 #COLUMNS="$COLUMNS" script -o 1000000 -qc "vim $vimrc -R -c'set lines=$lines' $extra_commands +redraw +q ${input@Q}" "$typescript_file" \
 #COLUMNS="$COLUMNS" script -o 1000000 -qc "vim -R -c'set lines=$lines' +redraw +q $input_file" "$typescript_file" \
 COLUMNS="$COLUMNS" script -qc "vim -R -c'set lines=$lines' +redraw +q $input_file" "$typescript_file" \
-	| sed -e '1s/.*1;1H//' -e "s/~          .*//" 
+	| sed -e '1s/.*1;1H//' -e "s/~          .*//"
 
 rm -f "$typescript_file"
 
