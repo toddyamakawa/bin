@@ -8,11 +8,13 @@
 killall -SIGUSR1 dunst
 
 i3lock_args=(--show-failed-attempts)
+i3lock_args+=(--ignore-empty-password)
 
 # Check background image
 background="$HOME/.config/i3/background.png"
 if [[ -f "$background" ]]; then
-	i3lock_args=(-i "$background")
+	i3lock_args+=(-i "$background")
+	i3lock_args+=(--tiling)
 fi
 i3lock "${i3lock_args[@]}"
 
