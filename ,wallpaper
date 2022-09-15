@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+if ! (type feh &>/dev/null); then
+	print-cmd sudo apt install -y feh
+	exit 2
+fi
+
+wallpaper_dir="$HOME/.config/wallpaper"
+
+function download() {
+	url="$1"
+	name="${2:-$(basename "$url")}"
+	picture="$wallpaper_dir/$name"
+	[[ -f "$picture" ]] && return 0
+	print-run curl -o "$picture" "$url"
+}
+
+mkdir -p "$wallpaper_dir"
+download https://stsci-opo.org/STScI-01GA76N47MR44PNWZ4NAYZBKG5.png
+download https://stsci-opo.org/STScI-01GA77J0WFC48EQAWEH5AWF1FQ.png
+download https://stsci-opo.org/STScI-01G8JXRG3DGMM2R8HS37YRG531.png
+download https://stsci-opo.org/STScI-01G77Q9ABGAEX4CDSKBSDC3FWN.jpg
+download https://stsci-opo.org/STScI-01G77PKYA4T05YKJ3EDQ36NZCX.png
+download https://stsci-opo.org/STScI-01G7DA7WM13DBQNKV4EHRFCCJ7.png
+download https://stsci-opo.org/STScI-01G70BN48JR6M4ZTW3642X2D2H.png
+download https://stsci-opo.org/STScI-01G7DCYVZ899DGSY684E801B2Y.png
+download https://stsci-opo.org/STScI-01G1Q6CSGZG0K9MK6JXXR9120C.png
+download https://stsci-opo.org/STScI-01FMN22BJXHTZ1HKWMFR8DWFAJ.jpg
+download https://stsci-opo.org/STScI-01FJHQFKZXM0ANBAGZSTAP9XEK.png
+download https://stsci-opo.org/STScI-01F0SV55ZF29KH11ZWNRD89FNA.png
+
+# https://wiki.archlinux.org/title/feh
+# https://www.reddit.com/r/i3wm/comments/w7u6x9/comment/ihln1xk/
+print-run feh --recursive --randomize --bg-fill "$wallpaper_dir"
+
