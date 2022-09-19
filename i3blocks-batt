@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Battery indicator
-#
+# /usr/share/i3blocks/battery
+
+
 # The battery instance defaults to 0.
 battery_icon='🔋'
 plug_icon='🔌'
@@ -24,6 +26,7 @@ fi
 ((charging)) && info+="$plug_icon"
 
 # TODO: Get remaining time
+# acpi -b | grep 'Battery $bat_number'
 
 echo "$info"
 
