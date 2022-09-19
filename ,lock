@@ -9,7 +9,7 @@ killall -SIGUSR1 dunst
 
 i3lock_args=(--show-failed-attempts)
 i3lock_args+=(--ignore-empty-password)
-i3lock_args+=(--color=080810)
+i3lock_args+=(--color=101030)
 
 # Check background image
 background="$HOME/.config/i3/background.png"
