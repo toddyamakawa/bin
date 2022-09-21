@@ -1,3 +1,13 @@
 #!/usr/bin/env bash
-git fetch origin refs/meta/config:refs/remotes/origin/refs/meta/config
-git checkout --track origin/refs/meta/config -b refs/meta/config
+print-warn "I forgot if this works"
+print-run git fetch origin refs/meta/config:refs/remotes/origin/refs/meta/config
+#print-run git fetch origin refs/meta/config:refs/remotes/refs/meta/config
+print-run git checkout --track origin/refs/meta/config -b refs/meta/config
+
+#mkdir gtproj
+#cd gtproj
+#git init
+#git remote add origin ssh://<USER>@<GERRITHOST>:29418/<PROJECT>
+#git fetch origin refs/meta/config:refs/remotes/origin/meta/config
+#git checkout meta/config
+
