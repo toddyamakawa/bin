@@ -7,6 +7,8 @@
 !/sourceme/*
 !/examples
 !/examples/*
+!/gerrit
+!/gerrit/*
 !/list
 !/list/*
 !/preview
