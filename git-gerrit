@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-fetch_url="$(git config --get remote.origin.url)"
+#fetch_url="$(git config --get remote.origin.url)"
+fetch_url="$(git remote get-url origin)"
 
 if ! [[ "$fetch_url" =~ ^ssh:// ]]; then
 	echo "ERROR: Unable to parse URL '$fetch_url'" 1>&2
