@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# DESCRIPTION: Set upstream branch
+upstream="${1:-origin/main}"
+print-run git remote -v
+yesno "Set upstream to '$upstream'?" || exit $?
+print-run git branch --set-upstream-to="$upstream"
+print-run git remote -v
+

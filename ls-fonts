@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+if [[ -n "$@" ]]; then
+	exec fc-list | sed 's:.*/:- :' | grep -i --color=auto "$@"
+else
+	exec fc-list | sed 's:.*/:- :'
+fi

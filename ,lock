@@ -1,10 +1,25 @@
 #!/usr/bin/env bash
+
+# Pause media
+,media pause
+
+# Pause Dunst notifications
 # https://wiki.archlinux.org/title/Dunst#Disable_dunst_temporarily
 killall -SIGUSR1 dunst
+
+i3lock_args=(--show-failed-attempts)
+i3lock_args+=(--ignore-empty-password)
+i3lock_args+=(--color=101030)
+
+# Check background image
 background="$HOME/.config/i3/background.png"
 if [[ -f "$background" ]]; then
-	i3lock --show-failed-attempts -i "$background"
-else
-	i3lock --show-failed-attempts
+	i3lock_args+=(--image="$background")
+	i3lock_args+=(--tiling)
 fi
+i3lock "${i3lock_args[@]}"
+
+# Resume Dunst notifications
+# https://wiki.archlinux.org/title/Dunst#Disable_dunst_temporarily
 killall -SIGUSR2 dunst
+

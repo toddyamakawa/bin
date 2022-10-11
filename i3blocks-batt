@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Battery indicator
+# /usr/share/i3blocks/battery
+
+
+# The battery instance defaults to 0.
+battery_icon='🔋'
+plug_icon='🔌'
+warning_icon='⚠️'
+low_icon='❗'
+really_low_icon='‼️'
+
+capacity="$(cat /sys/class/power_supply/BAT0/capacity)"
+charging="$(cat /sys/class/power_supply/AC/online)"
+
+info="$battery_icon"
+info+="${capacity}%"
+if ((capacity<10)); then
+	info+="$really_low_icon"
+elif ((capacity<30)); then
+	info+="$low_icon"
+elif ((capacity<60)); then
+	info+="$warning_icon"
+fi
+
+((charging)) && info+="$plug_icon"
+
+# TODO: Get remaining time
+# acpi -b | grep 'Battery $bat_number'
+
+echo "$info"
+

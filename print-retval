@@ -3,4 +3,4 @@ RETVAL="$1"
 [[ -z "$RETVAL" ]] && exit
 color='32'
 ((RETVAL)) && color='31'
-printf "\e[${color}m(exited %s)\e[0m\n" "$RETVAL"
+printf "\e[${color}m(exited %s)\e[0m\n" "$RETVAL" 1>&2

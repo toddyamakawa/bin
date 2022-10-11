@@ -7,6 +7,8 @@
 !/sourceme/*
 !/examples
 !/examples/*
+!/gerrit
+!/gerrit/*
 !/list
 !/list/*
 !/preview
@@ -53,6 +55,7 @@
 # i3
 !/i
 !/i3-*
+!/i3blocks-*
 
 # tmux
 !/t
@@ -95,6 +98,7 @@
 !/chi
 !/chmodd
 !/chmodg
+!/chmodx
 !/clip
 !/copy-osc52
 !/cpp.
@@ -105,6 +109,7 @@
 !/ddstat
 !/diagon-test
 !/diff-csv.rb
+!/dunst-reload
 !/echop
 !/epoch
 !/exitfail
@@ -138,9 +143,11 @@
 !/ps-env
 !/pwdc
 !/pwdh
+!/pyflags
 !/pyinfo
 !/realdir.py
 !/realpath.py
+!/relpath.py
 !/rmrf
 !/set-speaker*
 !/set-title
@@ -160,6 +167,7 @@
 !/tt
 !/tui.rb
 !/upcase
+!/vimcat
 !/viw
 !/wait-enter
 !/watch-inputs

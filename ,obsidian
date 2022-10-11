@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+check='63d1cf31a1ae9da09c976aa60f907259'
+obsidian='Obsidian-0.15.9.AppImage'
+
+# Check Obsidian
+obsidian_full="$(which "$obsidian")" || exit $?
+echo "$check  $obsidian_full" | md5sum -c - || exit $?
+
+# Run Obsidian
+exec "$obsidian"
+

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 if ! (type scrot &>/dev/null); then
-	print-cmd sudo apt-install scrot
+	print-cmd sudo apt install -y scrot
 	exit 2
 fi
 
