@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Original code:
+# https://github.com/dylanaraps/fff/blob/6f2dc6f3a003d24e8b3fd48b046241b486022ad5/fff#L43
+
+# Reset the terminal to a useable state (undo all changes).
+# '\e[?7h'   : Enable line wrapping.
+# '\e[?25h'  : Unhide cursor.
+# '\e[2J'    : Clear terminal.
+# '\e[;r'    : Restore default scroll region.
+#            : Also sets cursor to (0,0).
+# '\e[?1049l : Restore main screen buffer.
+printf '\e[?7h\e[?25h\e[2J\e[;r\e[?1049l'
+
+# Show user input.
+stty echo
+

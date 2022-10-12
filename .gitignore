@@ -18,6 +18,8 @@
 !/setup/*
 !/snippets/
 !/snippets/*
+!/tui
+!/tui/*
 !/wordle_src
 !/wordle_src/*
 
