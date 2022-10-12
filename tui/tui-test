@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PATH="$CURRENT_DIR:$PATH"
+
+clear
+tui-cursor-down 10
+echo line 10
+tui-cursor-up 5
+echo line 5
+tui-cursor-up 10
+echo line 1
+tui-cursor-right 50
+printf 50
+tui-cursor-left 28
+printf 25
+sleep 1
+
+

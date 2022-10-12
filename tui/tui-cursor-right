@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+columns="${1:-1}"
+printf '\e[%dC' "$columns"

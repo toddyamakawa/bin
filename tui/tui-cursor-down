@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+lines="${1:-1}"
+printf '\e[%dB' "$lines"
