@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# TODO: Finish this
+# https://techoverflow.net/2020/12/29/how-to-use-xargs-in-parallel/
+
+command="$@"
+hash="$(echo "${command[@]}" | md5sum | sed 's/ .*$//')"
+
+log="job/$hash.log"
+mkdir -p job
+touch "$log"
+
+exec 5> >(tee "$log")
+#exec 1> >(sed 's/^//' >&5)
+exec 1>&5
+exec 2> >(sed 's/^/[stderr] /')
+
+echo "COMMAND: ${command[@]}"
+echo "START: $(date)"
+${command[@]}
+RETVAL=$?
+echo "DONE: $(date)"
+echo "RETVAL: $RETVAL"
+exit "$RETVAL"
+
