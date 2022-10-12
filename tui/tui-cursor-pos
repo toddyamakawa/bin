@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# TODO: Print this nicer
+printf '\e[6n'

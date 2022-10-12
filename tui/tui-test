@@ -15,4 +15,11 @@ tui-cursor-left 28
 printf 25
 sleep 1
 
+tui-erase-left
+sleep 0.2
+tui-erase-right
+sleep 0.2
+tui-erase-above
+sleep 0.2
+tui-erase-below
 
