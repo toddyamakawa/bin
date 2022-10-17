@@ -2,9 +2,18 @@
 cat "${BASH_SOURCE[0]}"
 
 # https://www.willmcgugan.com/blog/tech/post/ceo-just-wants-to-draw-boxes/
-# ▁▁▁
-# ▏ ▕
-# ▔▔▔
+# ▁▁▁▁▁▁▁
+# ▏ Box ▕
+# ▔▔▔▔▔▔▔
+
+# https://en.wikipedia.org/wiki/Block_Elements
+# ▛▀▀▀▀▀▀▜
+# ▌ BOX  ▐
+# ▙▄▄▄▄▄▄▟
+#
+# █████████
+# █  BOX  █
+# █████████
 
 # ┌──┬──┬──┐
 # │  │  │  │
