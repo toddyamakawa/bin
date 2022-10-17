@@ -18,6 +18,8 @@
 !/setup/*
 !/snippets/
 !/snippets/*
+!/tui
+!/tui/*
 !/wordle_src
 !/wordle_src/*
 
@@ -154,6 +156,7 @@
 !/set-title
 !/sitename
 !/snip
+!/spinner
 !/sqlite-schema
 !/ssh.rb
 !/supercmd
@@ -171,6 +174,7 @@
 !/viw
 !/wait-enter
 !/watch-inputs
+!/wget-img
 !/xargsi
 !/xless
 !/yesno

@@ -74,6 +74,14 @@ fzf.git/bin/fzf: fzf.git
 fzf.git:
 	git clone --depth 1 https://github.com/junegunn/fzf $@
 
+# --- Gum ---
+gum: gum.git/gum
+	cp $^ $@
+gum.git/gum: gum.git
+	go build $@
+gum.git:
+	git clone --depth 1 https://github.com/charmbracelet/gum.git $@
+
 # --- nnn ---
 nnn: nnn.git/nnn
 	ln -sf $^ $@

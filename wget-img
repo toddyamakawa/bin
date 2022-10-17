@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# https://www.securitronlinux.com/debian-testing/print-awesome-artwork-in-your-linux-terminal/
+wget -qO- http://git.io/coffee
+#wget -qO- http://git.io/ff5boss
+wget -qO- http://git.io/nier2b
+wget -qO- http://git.io/pancakes
+wget -qO- http://git.io/pikachu
+wget -qO- http://git.io/pizzza
+wget -qO- http://git.io/pizzzza
+wget -qO- http://git.io/poptart
+wget -qO- http://git.io/rice
+wget -qO- http://git.io/taco
+wget -qO- http://git.io/unix
+wget -qO- http://git.io/uriel
+#wget -qO- http://git.io/v94ea
+wget -qO- http://git.io/vburger
+wget -qO- http://git.io/waffles
+wget -qO- http://ptpb.pw/~goatse
+wget -qO- http://ptpb.pw/~hal
+#wget -qO- http://z3bra.org/tits

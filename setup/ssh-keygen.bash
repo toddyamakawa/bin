@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Information:
+# - https://carlosbecker.com/posts/ssh-tips-and-tricks/
+
 # Set permissions
 umask 077
 
@@ -27,8 +30,19 @@ ForwardX11 yes
 ServerAliveInterval 120
 StrictHostKeyChecking no
 
-Host ds-gerrit
-	HostName ds-gerrit.euhpc.arm.com
+Host example.org
+	RemoteCommand tmux new -A -s default
+
+	ControlMaster  auto
+	ControlPath    /tmp/%r@%h:%p.ssh
+	ControlPersist yes
+
+Host localhost
+	UserKnownHostsFile /dev/null
+	StrictHostKeyChecking no
+
+Host charm
+	HostName git.charm.sh
 SSH_CONFIG
 
 # Fix home directory permissions
