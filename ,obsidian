@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
-check='63d1cf31a1ae9da09c976aa60f907259'
-obsidian='Obsidian-0.15.9.AppImage'
+#obsidian='Obsidian-0.15.9.AppImage'
+#check='63d1cf31a1ae9da09c976aa60f907259'
+
+obsidian='Obsidian-1.0.0.AppImage'
+check='e65cf93e1beac355de0a6124df06c0dc'
+
+print-run which "$obsidian" || exit $?
 
 # Check Obsidian
 obsidian_full="$(which "$obsidian")" || exit $?
