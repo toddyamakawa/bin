@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+function _printenv() {
+	printf "\e[33m$1\e[0m=$(printenv "$1")\n"
+}
+
+# https://www.howtogeek.com/842780/linux-list-environment-variables/
+_printenv BASH_VERSION
+_printenv COLUMNS
+_printenv HOME
+_printenv HOSTNAME
+_printenv IFS
+_printenv LANG
+_printenv LS_COLOR
+_printenv MAIL
+_printenv PS1
+_printenv PWD
+_printenv PATH
+_printenv SHELL
+_printenv TERM
+_printenv UID
+_printenv USER
+
