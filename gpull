@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -e
 
 print-run git fetch
 if ! (git behind); then
@@ -8,8 +7,15 @@ if ! (git behind); then
 	exit
 fi
 
-print-run git stash
-print-run git pull --rebase
-print-run git stash pop --quiet
-print-run git unstage-all
+print-run git diff-index --quiet --exit-code --ignore-submodules HEAD
+local_changes=$?
+
+if ((local_changes)); then
+	print-run git stash
+	print-run git pull --rebase
+	print-run git stash pop --quiet
+	print-run git unstage-all
+else
+	print-run git pull --rebase
+fi
 
