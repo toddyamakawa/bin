@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# USAGE: git g <string>
+# DESCRIPTION: git grep
+
+# Use ripgrep if available
+if command -v rg &>/dev/null; then
+	exec rg "$@"
+fi
+
+exec print-run git grep -n -i --color=always "$@"
+
