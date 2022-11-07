@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git users
+# DESCRIPTION: Shows a summary of user contributions
+exec print-run git shortlog --summary --email --numbered --no-merges
