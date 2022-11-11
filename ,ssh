@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# TODO: Check if kitty exists
+# TODO: Check if running in kitty
+kitty +kitten ssh "$@"
+
