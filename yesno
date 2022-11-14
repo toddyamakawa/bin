@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
-orig_stty="$(stty -g)"
-stty -echo
-function finish {
-	stty "$orig_stty"
-}
-trap finish EXIT
 
+# Check if interactive
+# Fixes this:
+#   stty: 'standard input': Inappropriate ioctl for device
+if [[ $- == *i* ]]; then
+	orig_stty="$(stty -g)"
+	stty -echo
+	function finish {
+		[[ -n "$orig_tty" ]] && stty "$orig_stty"
+	}
+	trap finish EXIT
+fi
+
+# Ask
 echo "${@:-Yes or no?} (y/n)"
+
+# Wait for valid response
 while true; do
 	read -s -n 1 -e reply < /dev/tty
 	case "$reply" in
