@@ -13,7 +13,7 @@ if [[ $- == *i* ]]; then
 fi
 
 # Ask
-echo "${@:-Yes or no?} (y/n)"
+cecho --bold --fg yellow "${@:-Yes or no?} (y/n)"
 
 # Wait for valid response
 while true; do
@@ -23,3 +23,4 @@ while true; do
 		[Nn]) exit 1;;
 	esac
 done
+
