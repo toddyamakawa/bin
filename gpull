@@ -12,10 +12,10 @@ local_changes=$?
 
 if ((local_changes)); then
 	print-run git stash
-	print-run git pull --rebase
+	print-run git rebase
 	print-run git stash pop --quiet
 	print-run git unstage-all
 else
-	print-run git pull --rebase
+	print-run git rebase
 fi
 
