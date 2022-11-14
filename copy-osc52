@@ -12,6 +12,9 @@ if ((debug)); then
 	#tr -d '\n' >> "$tempfile"
 	#base64 | tr -d '\n' >> "$tempfile"
 	echo -n "'" >> "$tempfile"
+	echo -e "tempfile: '$tempfile'\n---" 1>&2
+	cat "$tempfile" 1>&2
+	echo '' 1>&2
 	exit
 fi
 
