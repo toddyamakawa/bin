@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+print-header 'CLIPBOARD'
+cat <<-EOF
+There are multiple X Selections:
+- Clipboard: for when the user has explicitly copied something
+  (e.g., the ``Edit/Copy'' menu item.)
+- Primary: more ephemeral and implicit: it is for when the user has highlighted or selected something
+  (e.g., dragging the mouse over some text.)
+EOF
+print-url 'https://www.jwz.org/doc/x-cut-and-paste.html'
+
+echo
+print-run xclip -o primary
+echo
+print-run xclip -o secondary
+echo
+print-run xclip -o clipboard
+
