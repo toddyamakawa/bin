@@ -1,0 +1,277 @@
+#!/bin/sh
+#
+# https://github.com/SixArm/getoptsy/blob/438c7dee5ab4a653c68c78ee533f544523e5bf81/getoptsy
+#
+# * Package: unix-shell-script-posix-args-opts-like-getops
+# * Version: 1.0.1
+# * Created: 2022-10-23T10:25:48Z
+# * Updated: 2022-10-25T18:54:19Z
+# * License: GPL-2.0-or-later or contact us for custom
+# * Website: https://github.com/sixarm/unix-shell-script-posix-args-opts-like-getops
+# * Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+
+# getoptsy: getopts alternative to parse long options in POSIX
+#
+# This "getoptsy" Unix shell script is demonstration of how to parse command
+# line arguments to long options, by using while...case, all in POSIX code.
+#
+# The source code is commented in detail, to help developers learn faster.
+# See the help section below for information, or run "./getoptsy --help".
+
+# Set Unix shell script flags that catch some errors.
+# set -e: error returns are errors, so exit
+# set -u: unset variables are errors, so exit
+# set -f: filename expansions are errors, so exit
+set -euf
+
+# The `help` function prints a message to stdout,
+# typically documentation about the command, usage, etc.
+# This function source code is flush-left just because it
+# tends to makes the help text a bit easier to read and write.
+#
+# Syntax: help
+#
+# Example: help
+#
+help(){
+cat << EOF
+getoptsy: getopts alternative to parse long options in POSIX
+
+This "getoptsy" Unix shell script is demonstration of how to parse command
+line arguments to long options, by using while...case, all in POSIX code.
+
+The source code and detailed comments show how to process these options:
+
+  * Long options, such as "--help" for help, "--verbose" for verbose, etc.
+
+  * Short options, such as "-h" for help, "-v" for verbose, etc.
+
+  * Short options as runs, such as "-vvv" for verbose level 3.
+
+  * Value options such as "--foo=bar", "--foo bar", "-f bar", etc.
+
+
+## About this demonstration
+
+This demonstration aims to show how you can write your own code.
+
+This demonstration does not aim to provide a drop-in replacement for 
+getopts, or its specification, or its way of describing options, etc.;
+if you want that, then we can suggest "getopts_long", linked below.
+
+We welcome constructive feedback and ideas for improvements.
+
+
+## Usage
+
+Syntax:
+
+    getoptsy [options] [arguments]
+
+Options:
+
+    -h|--help            Print this help
+    -v|--verbose         Increment the verbose level (multiple use)
+    --foo bar|--foo=bar  Set foo to bar
+    --                   Finish options parsing
+
+Examples:
+
+    getoptsy --help 
+    #=> Print this help
+
+    getoptsy -vvv 
+    #=> Increment the verbose three times
+
+    getoptsy --foo bar 
+    #=> Set foo to bar
+
+
+## Comparisons
+
+Comparisons to other command line arguments options parsing:
+
+* POSIX getopts supports short options and runs, but not long options.
+
+* POSIX-compatibe getops_long supports everything her, but is complex.
+
+* Bash shell getopt supports both options, but not other shells.
+
+
+## Why use POSIX?
+
+This script aims to work with the POSIX standard, because this tends
+improves portability and compatibility with a wide range of systems.
+
+The POSIX standard provides a tool to get options, named "getopts".
+This supports for one-character "short options", such as "-h" for help,
+and does not support multi-character "long options", such as "--help".
+
+We know that some developers strongly favor runs of short options,
+such as "-abc" which is intended to be equivalent to "-a -b -c".
+
+We believe that long options tend to help people learn and use scripts.
+For example some of our daily tools now offer an option "--dry-run",
+and some of our administration tools now offer an option "--danger"
+to help caution the user to take more care about the command usage.
+
+We believe the best approach will use POSIX compatibilty, short options,
+runs of short options, and long options. So we created the code below.
+
+
+## Why use a shell script?
+
+If you're reading this, then you probably already know there are many
+alternatives for writing commands, such as by using higher-structure
+languages, which provide better argument parsing, more capabilties, etc.
+
+If you're writing a shell script, then it's wise to know the limitations.
+For example, you may want to consider changing to a different language if
+your shell script has above a hundred or so lines of code, or has many
+options, or uses complex logic, or involves work of high value to you.
+
+
+## For the future
+
+We advocate for the POSIX standard group members to consider a future POSIX
+release that upgrades the getopts tool by adding support for long options.
+
+A new getops with long options will supersede the "getoptsy" script.
+It will help many shell scripts, and many users, and many developers,
+by providing a standard built-in way to parse arguments into options.
+
+
+## Tracking
+
+* Package: unix-shell-script-posix-args-opts-like-getops
+* Version: 1.0.0
+* Created: 2022-10-23T10:25:48Z
+* Updated: 2022-10-25T18:54:19Z
+* License: GPL-2.0-or-later or contact us for custom
+* Website: https://github.com/sixarm/unix-shell-script-posix-args-opts-like-getops
+* Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+
+EOF
+}
+
+# The `die` function prints a given message (i.e. args 2 onward) to stderr,
+# then calls the built-in exit command with the given exit code (i.e. arg 1).
+#
+# Syntax: die <code> [message]...
+#
+# Example: die 1 "Your message here" "And also here"
+#
+die(){
+    code=$1
+    shift
+    >&2 printf %s\\n "$*"
+    exit "$code"
+}
+
+# Assign option variable defaults before the start of the parsing code.
+# This protects us from warnings/errors due to unintialized variables.
+verbose=0
+foo=""
+
+# While there are more command line arguments, try to parse them to options.
+while [ $# -gt 0 ]; do
+
+    # Two hyphens is the standard way to end options parsing.
+    # Check for this first, so we can do an early end to the loop.
+    case $1 in
+        --)
+            shift
+            break
+            ;;
+    esac
+
+    # Clone the first argument as a work in progress that we can cut apart.
+    # This variable may be a run of short options, such as "-abc", which 
+    # we want to process as equivalent to all the options "-a", "-b", "-c";
+    # to do this, we will cut apart the argument into its various options.
+    # If this variable is anything else, then we will send it along as-is.
+    wip=$1
+
+    # While there's work in progress to do, we loop.
+    while [ -n "$wip"  ]; do
+        case $wip in
+
+            # Is the work in progress is a run of short options?
+            -[[:alnum:]][[:alnum:]]*)
+                # Set `opt` to the first option, and `wip` to the rest.
+                # Example: when input is `-abc`, then output `opt` as `-a`,
+                # and `wip` as `-bc` which is ready forthe next iteration.
+                tmp=${wip#-?}
+                opt=${wip%"$tmp"}
+                wip="-$tmp"
+                ;;
+
+            # Is the work in progress anything else?
+            *)
+                # Save any work in progress as-is to `opt`
+                # This variable gets processed by the next `case`.
+                opt=$wip
+                # Undefine `wip`, meaning there's no more work in progress,
+                # so the next time the inner while loop test will be false.
+                wip=
+                ;;
+        esac
+
+        # When we reach here, the variable `opt` is ready for us to process,
+        # and is never a run of short options, never "--", never undefined.
+        case $opt in
+            # Print help by calling a help() function defined elsewhere.
+            -h|--help)
+                help
+                break 2
+                ;;
+            # Each verbose option increments the verbose level.
+            -v|--verbose)
+                verbose=$((verbose + 1))
+                ;;
+            # Parse an option and value via the syntax: --foo bar
+            -f|--foo)
+                if [ $# -gt 0 ]; then
+                    foo=$1
+                    shift
+                else
+                    die "The command option --foo requires a value"
+                fi
+                ;;
+            # Parse an option and value via the syntax: --foo=bar
+            --foo=?*)
+                foo=${1#*=}
+                ;;
+            # Parse an option and value via the syntax: --foo= (i.e. blank)
+            --foo=)
+                die "The command option --foo requires a value"
+                ;;            
+            # Anything remaining that starts with a dash triggers a fatal error
+            -?*)
+                die 1 "The command line option is unknown: " "$1"
+                ;;
+            # Anything remaining triggers the end of all the options parsing.
+            *)
+                echo "found *"
+                break 2
+                ;;
+        esac
+    done
+
+    # Shift all the arguments one step forward, 
+    # so $1 is set to $2, $2 is set to $3, etc.
+    shift
+
+done
+
+# Conclude the options parsing by cleaning up all variables we don't need.
+opt=
+wip=
+tmp=
+
+# Because this is example code, we print the results.
+# Be sure you delete this section from your real code.
+printf %s\\n "Parsing arguments into options is complete."
+printf %s\\n "verbose value: $verbose"
+printf %s\\n "foo value: $foo"
+printf %s\\n "remaining args: $*"
