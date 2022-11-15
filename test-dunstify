@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+result="$(dunstify --action='1,default' 'Click me! Left click to dismiss, middle click to activate.')"
+case "$result" in
+	1) dunstify 'Got middle click';;
+	2) dunstify 'Got left click';;
+	*) dunstify 'Something went wrong!!!';;
+esac
+
