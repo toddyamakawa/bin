@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+print-header 'GIT'
+# TODO: Put stuff here
+cat <<-EOF
+EOF
+print-url 'https://github.com/GitAlias/gitalias'
+
