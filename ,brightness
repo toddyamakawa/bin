@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 if ! (type xbacklight >/dev/null); then
-	notify-send -t 2000 -u critical 'xbacklight command not found. Run `sudo apt install xbacklight`'
+	notify-send -u critical 'xbacklight command not found. Run `sudo apt install xbacklight`'
 	exit 2
 fi
 
-# TODO: Check for this file: /etc/X11/xorg.conf
+intel_backlight="/sys/class/backlight/intel_backlight"
+if ! [[ -d "$intel_backlight" ]]; then
+	notify-send -u critical "intel_backlight not found"
+	exit 2
+fi
 
 # Increase/descrease brightness
 if [[ "$1" == "up" ]]; then
@@ -14,7 +18,16 @@ elif [[ "$1" == "down" ]]; then
 fi
 
 # Popup notification for brightness
-brightness="$(xbacklight -get)"
+brightness="$(xbacklight -get 2>&1)"
+if (($?)); then
+	# Example:
+	# https://askubuntu.com/questions/715306/xbacklight-no-outputs-have-backlight-property-no-sys-class-backlight-folder
+	# sudo find /sys/ -type f -iname '*brightness*'
+	# sudo ln -s /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-LVDS-1/intel_backlight  /sys/class/backlight
+	notify-send -u critical "xbacklight: $brightness"
+	# TODO: Check for this file: /etc/X11/xorg.conf
+	exit 2
+fi
 
 # If the screen turns completely off, set birghtness to 1%
 if (("${brightness%%.*}" == 0)); then
