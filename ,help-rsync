@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+print-header 'RSYNC'
+cat <<-EOF
+
+Options:
+  -a: Archive.
+  -v: Verbose.
+  -r: Recursive.
+  -l: Copy symlinks as symlinks.
+  -D: Copy special files and device files.
+  -z: Compress during transfer.
+
+More options:
+  --dry-run
+  --info=progress2
+  --delete
+  --remove-source-files
+  --include="*.c"
+  --exclude="*.o"
+
+Preserve:
+  -p: File permissions.
+  -t: File modification times.
+  -g: Group permissions.
+  -o: File ownership.
+EOF
+
