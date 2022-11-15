@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+import os.path
+import sys
+
+path = sys.argv[1]
+start = '.'
+
+argc = len(sys.argv)
+if argc >= 3:
+  start = sys.argv[2]
+
+print(os.path.relpath(path, start))
+
