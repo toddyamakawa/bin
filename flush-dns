@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# USAGE: flush-dns
+# DESCRIPTION: Flush DNS
+
+# https://www.howtogeek.com/844964/how-to-flush-dns-in-linux/
+
+# Check if local if DNS cache is active
+systemctl is-active systemd-resolved
+echo TODO: Handle isactive
+exit
+resolvectl statistics
+sudo killall -USR1 systemd-resolved
+
+resolvectl flush-caches
+resolvectl statistics
+
+sudo killall -HUP dnsmasq
+
+

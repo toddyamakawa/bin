@@ -118,6 +118,7 @@
 !/extname
 !/f
 !/file-yank
+!/flush-dns
 !/forkbomb
 !/getch.fish
 !/getch.py
