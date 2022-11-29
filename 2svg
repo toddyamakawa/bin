@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# USAGE: Convert .d2 to .svg
+print-url https://github.com/terrastruct/d2
