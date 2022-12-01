@@ -120,6 +120,7 @@
 !/f
 !/file-yank
 !/flush-dns
+!/format-sv
 !/forkbomb
 !/getch.fish
 !/getch.py

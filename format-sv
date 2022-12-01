@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+verilog_mode_file="/usr/share/emacs/24.3/lisp/progmodes/verilog-mode.elc"
+emacs_cmd=(emacs --batch --no-site-file -l "$verilog_mode_file")
+emacs_cmd+=("$@")
+emacs_cmd+=(-f verilog-batch-indent)
+print-run "${emacs_cmd[@]}"
