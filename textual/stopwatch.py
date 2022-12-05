@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # vim: ft=python noet ts=4 sw=0 sts
+# https://textual.textualize.io/tutorial/
 
 from time import monotonic
 
