@@ -104,7 +104,7 @@ args['color']+=',border:33,preview-fg:7,preview-bg:235'
 
 case "$config" in
 	default);;
-	dir) args['preview']="--preview '$preview/dir {}'";;
+	d|dir*) args['preview']="--preview '$preview/dir {}'";;
 	fpga-image) args['preview']="--preview 'burst-show-image {2}'";;
 	git-diff) args['preview']="--preview '$preview/git-diff {}'";;
 	git-show) args['preview']="--preview '$preview/git-commit {}'";;
