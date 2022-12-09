@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 top="$(git rev-parse --show-toplevel)" || exit $?
-echo "$top" | ,copy 1>&2
 echo "$top"
+echo "$top" | ,copy 1>&2
