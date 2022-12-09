@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# USAGE: git ls-dirs
+# DESCRIPTION: List git directories
+git ls-files \
+	| sed -e '/^[^/]*$/d' -e 's|/[^/]*$||' \
+	| uniq
+
