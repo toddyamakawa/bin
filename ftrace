@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+strace -e trace=open "$@"

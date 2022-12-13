@@ -124,6 +124,7 @@
 !/flush-dns
 !/format-sv
 !/forkbomb
+!/ftrace
 !/getch.fish
 !/getch.py
 !/getenv
