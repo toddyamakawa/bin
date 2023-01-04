@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# USAGE: sleep-sort 3 5 1
+# DESCRIPTION: Sort numbers using sleep
+# https://i.redd.it/kmtsw8mz9n7a1.jpg
+while [[ -n "$1" ]]; do
+	(sleep "$1"; echo "$1"; ) &
+	shift
+done
+wait

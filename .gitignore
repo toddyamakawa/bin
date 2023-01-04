@@ -161,6 +161,7 @@
 !/set-speaker*
 !/set-title
 !/sitename
+!/sleep-sort
 !/snip
 !/spinner
 !/sqlite-schema
