@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec git pull --rebase=false "$@"
+exec print-run git pull --rebase=false "$@"

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec git pull --ff-only "$@"
+exec print-run git pull --ff-only "$@"
