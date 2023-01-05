@@ -5,6 +5,8 @@
 
 !/sourceme
 !/sourceme/*
+!/cube
+!/cube/*
 !/examples
 !/examples/*
 !/gerrit
