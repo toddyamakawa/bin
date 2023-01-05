@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+if ! (type docker &>/dev/null); then
+	print-run sudo apt install -y docker
+	exit 2
+fi
+print-run docker "$@"
