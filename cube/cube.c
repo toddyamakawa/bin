@@ -1,17 +1,48 @@
 
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #define CUBE_GET_COLOR(side, piece) (((side) >> (3*(piece))) & 0b111)
-#define CUBE_SET_COLOR(side, piece, color) side = ((side) | (0b111 << (3*(piece))) & (color << (3*(piece))))
+#define CUBE_SET_COLOR(side, piece, color) side = ((side) & (~(0b111 << (3*(piece)))) | (color << (3*(piece))))
+
+// =============================================================================
+// DATA TYPES
+// =============================================================================
+typedef union {
+	uint32_t all;
+	struct {
+		uint32_t p0 : 3;
+		uint32_t p1 : 3;
+		uint32_t p2 : 3;
+		uint32_t p3 : 3;
+		uint32_t p4 : 3;
+		uint32_t p5 : 3;
+		uint32_t p6 : 3;
+		uint32_t p7 : 3;
+		uint32_t p8 : 3;
+	};
+	struct {
+		uint32_t center : 3;
+		uint32_t top    : 9;
+		uint32_t        : 3;
+		uint32_t bottom : 3;
+	};
+	struct {
+		uint32_t        : 6;
+		uint32_t right  : 3;
+	};
+	// left is impossible
+} Side;
 
 typedef struct {
-	uint32_t u;
-	uint32_t d;
-	uint32_t f;
-	uint32_t b;
-	uint32_t r;
-	uint32_t l;
+	Side u;
+	Side d;
+	Side f;
+	Side b;
+	Side r;
+	Side l;
 } Cube;
 
 typedef enum {
@@ -25,13 +56,17 @@ typedef enum {
 } Color;
 
 
+// =============================================================================
+// COLORS
+// =============================================================================
+
 // Fill one side with a color
-void cube_side_fill(uint32_t *side, Color color) {
-	uint32_t fill = 0;
+void cube_side_fill(Side *side, Color color) {
+	uint32_t fill;
 	int piece;
 	for(piece = 0; piece <= 8; piece++)
 		CUBE_SET_COLOR(fill, piece, color);
-	*side = fill;
+	side->all = fill;
 }
 
 void cube_init(Cube *cube) {
@@ -69,9 +104,11 @@ void cube_print_side(int x, int y, uint32_t side) {
 	c7 = cube_color2ansi(CUBE_GET_COLOR(side, 7));
 	c8 = cube_color2ansi(CUBE_GET_COLOR(side, 8));
 
+	// Debug code
 	//printf("%03d %03d %03d\n", c1, c2, c3);
 	//printf("%03d %03d %03d\n", c8, c0, c4);
 	//printf("%03d %03d %03d\n", c7, c6, c5);
+	//exit(0);
 
 	printf("\e[%d;%dH", x, y);
 	printf("\x1b[38;5;%dm███ \x1b[38;5;%dm███ \x1b[38;5;%dm███", c1, c2, c3);
@@ -87,30 +124,148 @@ void cube_print_side(int x, int y, uint32_t side) {
 	printf("\x1b[38;5;%dm███ \x1b[38;5;%dm███ \x1b[38;5;%dm███", c7, c6, c5);
 	printf("\e[%d;%dH", x+5, y);
 	printf("\x1b[38;5;%dm▀▀▀ \x1b[38;5;%dm▀▀▀ \x1b[38;5;%dm▀▀▀", c7, c6, c5);
-	printf("\e[0m");
+	printf("\e[0m\n");
 }
 
-void print_cube(Cube *cube, int x_offset, int y_offset) {
-	cube_print_side( 1+x_offset, 13+y_offset, cube->u);
-	cube_print_side( 7+x_offset,  1+y_offset, cube->l);
-	cube_print_side( 7+x_offset, 13+y_offset, cube->f);
-	cube_print_side( 7+x_offset, 25+y_offset, cube->r);
-	cube_print_side( 7+x_offset, 37+y_offset, cube->b);
-	cube_print_side(13+x_offset, 13+y_offset, cube->d);
+void cube_print(Cube *cube, int x_offset, int y_offset) {
+	cube_print_side( 1+x_offset, 13+y_offset, cube->u.all);
+	cube_print_side( 7+x_offset,  1+y_offset, cube->l.all);
+	cube_print_side( 7+x_offset, 13+y_offset, cube->f.all);
+	cube_print_side( 7+x_offset, 25+y_offset, cube->r.all);
+	cube_print_side( 7+x_offset, 37+y_offset, cube->b.all);
+	cube_print_side(13+x_offset, 13+y_offset, cube->d.all);
 }
 
+
+// =============================================================================
+// MOVES
+// =============================================================================
+
+// 'U' move
+void cube_move_u(Cube *cube) {
+	Side side__f;
+	side__f.top = cube->f.top;
+	cube->f.top = cube->r.top;
+	cube->r.top = cube->b.top;
+	cube->b.top = cube->l.top;
+	cube->l.top = side__f.top;
+}
+
+// Cube rotations
+void cube_move_x(Cube *cube) {
+	Side side__f;
+	side__f.all = cube->f.all;
+	cube->f.all = cube->d.all;
+	cube->d.all = cube->b.all;
+	cube->b.all = cube->u.all;
+	cube->u.all = side__f.all;
+}
+void cube_move_y(Cube *cube) {
+	Side side__f;
+	side__f.all = cube->f.all;
+	cube->f.all = cube->l.all;
+	cube->l.all = cube->b.all;
+	cube->b.all = cube->r.all;
+	cube->r.all = side__f.all;
+}
+void cube_move_z(Cube *cube) {
+	Side side__u;
+	side__u.all = cube->u.all;
+	cube->u.all = cube->l.all;
+	cube->l.all = cube->d.all;
+	cube->d.all = cube->r.all;
+	cube->r.all = side__u.all;
+}
+
+void cube_move(Cube *cube, char face, int dir) {
+	Side tmp;
+
+	switch(face) {
+		case 'U':
+			switch(dir) {
+				case -1:
+				case 3: cube_move_u(cube);
+				case 2: cube_move_u(cube);
+				case 1: cube_move_u(cube);
+				default: break;
+			}
+			break;
+
+		case 'D':
+			cube_move_x(cube);
+			cube_move_x(cube);
+			switch(dir) {
+				case -1:
+				case 3: cube_move_u(cube);
+				case 2: cube_move_u(cube);
+				case 1: cube_move_u(cube);
+				default:
+					cube_move_x(cube);
+					cube_move_x(cube);
+					break;
+			}
+			break;
+
+		case 'x':
+			switch(dir) {
+				case -1:
+				case 3: cube_move_x(cube);
+				case 2: cube_move_x(cube);
+				case 1: cube_move_x(cube);
+				default: break;
+			}
+			break;
+
+		case 'y':
+			switch(dir) {
+				case -1:
+				case 3: cube_move_y(cube);
+				case 2: cube_move_y(cube);
+				case 1: cube_move_y(cube);
+				default: break;
+			}
+			break;
+
+		case 'z':
+			switch(dir) {
+				case -1:
+				case 3: cube_move_z(cube);
+				case 2: cube_move_z(cube);
+				case 1: cube_move_z(cube);
+				default: break;
+			}
+			break;
+
+	}
+}
+
+// =============================================================================
+// MAIN
+// =============================================================================
 int main(int argc, char *argv[])
 {
 	Cube cube;
-	int i;
-	uint32_t s = 0;
+	int move;
+	//int i;
 	//for(i = 0; i < argc; i++)
 	//	printf("argv[%d] = %s\n", i, argv[i]);
 
 	cube_init(&cube);
 	printf("\e[2J");
-	print_cube(&cube, 0,0);
-	printf("\n");
+	cube_print(&cube, 0, 0);
+
+	//cube_move(&cube, 'x', 1); cube_print(&cube, 0, 0); exit(1);
+
+	cube_move(&cube, 'x', 1); cube_print(&cube, 0, 0); printf("1\n"); sleep(1);
+	cube_move(&cube, 'x', 1); cube_print(&cube, 0, 0); printf("2\n"); sleep(1);
+	cube_move(&cube, 'U', 1); cube_print(&cube, 0, 0); printf("3\n"); sleep(1);
+	cube_move(&cube, 'x', 1); cube_print(&cube, 0, 0); printf("4\n"); sleep(1);
+	cube_move(&cube, 'x', 1); cube_print(&cube, 0, 0); printf("5\n"); sleep(1);
+
+
+	//cube_move(&cube, 'D', 1);
+	//sleep(1);
+	//cube_print(&cube, 0, 0);
 
 	return 0;
 }
