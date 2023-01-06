@@ -180,6 +180,7 @@
 !/tui.rb
 !/upcase
 !/vimcat
+!/vimv
 !/viw
 !/wait-enter
 !/watch-inputs
