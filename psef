@@ -1,7 +1,3 @@
 #!/usr/bin/env bash
 format='user,pid,ppid,%cpu,%mem,etime,cputime,cmd'
-if [[ -n "$@" ]]; then
-	exec ps -e -o "$format" | grep -v 'grep' | sort -n -k 4 | grep -i --color=auto "$@"
-else
-	exec ps -e -o "$format" | grep -v 'grep' | sort -n -k 4
-fi
+exec ps -e -o "$format" | grep -v 'grep' | sort -n -k 4 | grepm "$@"
