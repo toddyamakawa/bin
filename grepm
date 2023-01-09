@@ -10,5 +10,7 @@ fi
 
 pattern="$1"
 shift
-grep -i "$pattern" | grepm "$@"
+grep_args=(-i)
+((NO_COLOR)) || grep_args+=(--color=always)
+grep "${grep_args[@]}" "$pattern" | grepm "$@"
 
