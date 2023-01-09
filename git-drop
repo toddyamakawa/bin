@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# USAGE: git ls-rebase
-# DESCRIPTION: List all of the CLs
+# USAGE: git drop <commi>
+# DESCRIPTION: Drop commit
 commit="${1?commit not set}"
 sed_expr="s/^pick $commit/drop $commit/"
 
