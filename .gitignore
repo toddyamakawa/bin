@@ -131,6 +131,7 @@
 !/getch.py
 !/getenv
 !/grepi
+!/grepm
 !/groups-users
 !/gu
 !/hterm-notify
