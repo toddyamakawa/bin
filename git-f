@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git g <string>
+# DESCRIPTION: git grep
+git -C "$(git top)" ls-files | grepm "$@"
