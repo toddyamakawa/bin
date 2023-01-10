@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 prefix=".deleting.$(hostname).$$"
-for src in $@; do
-	[[ -e "$src" ]] || continue
+for src in "$@"; do
+	if ! [[ -e "$src" ]]; then
+		echo "WARNING: '$src' not found."
+		continue
+	fi
 	src="${src%/}"
 	dest="$(dirname "$src")/$prefix.$(basename "$src")"
 	mv "$src" "$dest"
