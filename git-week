@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+print-run git ls "--author=$USER" --since '2 weeks ago' --no-merges
