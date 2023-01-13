@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# USAGE: ,bits <hex>
+# DESCRIPTION: Convert hex to binary
+hex="$(echo "$1" | upcase)"
+bits="$(bc<<<"obase=2; ibase=16; $hex")"
+reversed_bits="$(rev<<<"$bits")"
+
+pretty_bits=''
+header=''
+for ((i=0; i<"${#bits}"; i++)); do
+	bit="${reversed_bits:$i:1}"
+	pretty_bits="  $bit$pretty_bits"
+	header="$(printf '%3s' "$i")$header"
+done
+
+echo "$header"
+echo "$pretty_bits"
+
