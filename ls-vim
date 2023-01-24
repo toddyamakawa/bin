@@ -1,15 +1,10 @@
 #!/usr/bin/env bash
 
-function print_pane() {
-	pane_id="$1"
-	tmux display-message -t "$pane_id" -p '#{p6:pane_id} #{session_name}.#{window_index}.#{pane_index}'
-}
-
 format='user,pid,ppid,%cpu,%mem,etime,cputime,cmd'
 while read -r line; do
 	pid="$(echo "$line" | awk '{print $2}')"
 	pane_id="$(set -o pipefail; ps-env $pid 2>/dev/null | sed -n 's/^TMUX_PANE=\(%[0-9]\+\)$/\1/p')"
 	[[ -z "$pane_id" ]] && continue
-	printf '%-20s %s\n' "$(print_pane "$pane_id")" "$line"
+	printf '%-20s %s\n' "$(tmux-show-pane "$pane_id")" "$line"
 done < <(ps -e -o "$format" | grep vim)
 

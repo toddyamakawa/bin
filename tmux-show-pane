@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+pane_id="$1"
+exec tmux display-message -t "$pane_id" -p '#{p6:pane_id} #{session_name}.#{window_index}.#{pane_index}'
