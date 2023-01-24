@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# TODO: Fix this cut expression?
-commit="$(echo "$@" | cut -d' ' -f1)"
+commit="$*"
+commit="${commit%% *}"
+commit="${commit%:}"
 print-header "git show '$commit'"
 git show --color=always "$commit"
