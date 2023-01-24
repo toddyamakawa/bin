@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# USAGE: git check-unstaged
+# DESCRIPTION: Check if there are unstaged changes
+if ! git has-unstaged; then
+	print-error "You have unstaged changes, please commit or stash them."
+	exit 1
+fi
+exit 0
