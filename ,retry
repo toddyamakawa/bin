@@ -5,7 +5,7 @@
 count="$1" && shift
 minutes="$((${1:-0} * 60))" && shift
 cmd="$1" && shift
-cmd_args="$@"
+cmd_args=("$@")
 
 if ((!minutes)) || [[ -z "$cmd" ]]; then
 	echo "USAGE: ,retry <count> <minutes> <command>"
@@ -13,7 +13,11 @@ if ((!minutes)) || [[ -z "$cmd" ]]; then
 fi
 
 while ((count)); do
-	"$cmd" "${cmd_args[@]}"
+	if [[ -n "${cmd_args[@]}" ]]; then
+		"$cmd" "${cmd_args[@]}"
+	else
+		"$cmd"
+	fi
 	RETVAL=$?
 	((RETVAL)) || exit 0
 	sleep "$minutes"
