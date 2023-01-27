@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+lines=30
+width="$(stty size </dev/tty | cut -d' ' -f2)"
+
+i=0
+while IFS= read -r line; do
+	case "$line" in
+	  (*[![:blank:]]*);;
+	  (*) continue;;
+	esac
+	if ((++i > lines)); then
+		tput cuu "$lines"
+		tput dl1
+		if ((lines > 1)); then
+			tput cud "$((lines-1))"
+		fi
+	fi
+	echo "$line" | cut -c1-$width
+done
+
