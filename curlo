@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+url="${1?url not set}"
+filename="$(basename "$url")"
+print-cmd curl -o "$filename" "$url"
+yesno || exit $?
+curl -o "$filename" "$url"
