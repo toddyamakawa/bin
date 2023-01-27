@@ -1,2 +1,6 @@
 #!/usr/bin/env bash
 sed "s:\x1B\[[0-9;]*[a-zA-Z]::g"
+
+# REVISIT: Is this better?
+# https://gist.github.com/Sidneys1/8973f8868300c8bac2e714de3d99ede4
+#sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g")
