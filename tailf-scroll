@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+
+# Hide cursor
+printf '\e[?25l'
+
+# Show cursor on exit
+function finish {
+	printf '\e[?25h'
+}
+trap finish EXIT
+
 lines=30
 width="$(stty size </dev/tty | cut -d' ' -f2)"
 
