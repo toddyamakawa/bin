@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+
+hints = 100
+
+# TOOD: Figure out a better way to generate hints
+chars = [
+    'a', 's', 'd', 'f',
+    'q', 'w', 'e', 'r',
+    'z', 'x', 'c', 'v'
+]
+num_chars = len(chars)
+
+if hints < num_chars:
+    for i in range(hints):
+        print(chars[i])
+    exit(0)
+
+# TODO: Handle more than num_chars^2
+for h1 in chars:
+    for h2 in chars:
+        print(f'{h1}{h2}')
+        hints -= 1
+        if hints <= 0: exit(0)
+
