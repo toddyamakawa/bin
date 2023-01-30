@@ -23,6 +23,7 @@ while true; do
 		$'\e[B') echo 'down'  ;;
 		$'\e[C') echo 'left'  ;;
 		$'\e[D') echo 'right' ;;
+		q) echo "q"; exit ;;
 		*) echo "$key" ;;
 	esac
 

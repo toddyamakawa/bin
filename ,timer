@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+tempdir="$(mktemp -d)"
+fifo="$tempdir/pipe"
+mkfifo "$fifo"
+
+timer-bg "$fifo" &
+getch.sh > "$fifo"
+

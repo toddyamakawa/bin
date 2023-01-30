@@ -22,8 +22,11 @@ while true; do
 	current_ns="$(date +'%s%N')"
 	if [[ "$line" == 'q' ]]; then
 		exit
+	# TODO: Figure out how to get space
+	elif [[ "$line" == ' ' ]]; then
+		start_ns="$current_ns"
 	fi
-	[[ -n "$line" ]] && echo "line: $line"
+	#[[ -n "$line" ]] && echo "line: $line"
 	printf '\e[A'
 	print_time
 done
