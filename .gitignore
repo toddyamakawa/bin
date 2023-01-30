@@ -128,8 +128,7 @@
 !/format-sv
 !/forkbomb
 !/ftrace
-!/getch.fish
-!/getch.py
+!/getch.*
 !/getenv
 !/grepi
 !/grepm
