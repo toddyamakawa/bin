@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# TODO: Check FIFO
+fifo="${1?pipe not specified}"
+
+start_ns="$(date +'%s%N')"
+current_ns="$start_ns"
+
+# TODO: Add minutes/hours
+function print_time() {
+	total_ns=$((current_ns-start_ns))
+	total_ms=$((total_ns/1000000))
+	just_ms=$((total_ms%1000))
+	total_s=$((total_ms/1000))
+	just_s=$((total_s%60))
+	printf '%02d.%03d\n' $total_s $just_ms
+}
+print_time
+
+# Loop
+while true; do
+	read -t 0.1 -r line <>"$fifo"
+	current_ns="$(date +'%s%N')"
+	if [[ "$line" == 'q' ]]; then
+		exit
+	fi
+	[[ -n "$line" ]] && echo "line: $line"
+	printf '\e[A'
+	print_time
+done
+
