@@ -3,6 +3,9 @@ declare -r CURRENT_DIR="$(dirname "$(realpath.py "${BASH_SOURCE[0]}")")"
 declare -r preview="$CURRENT_DIR/preview_scripts"
 set -eo pipefail
 
+# Example:
+# https://github.com/xkcd386at/scripts/blob/master/laziercli
+
 # Uncomment to debug
 #verbosity=1
 
@@ -40,6 +43,9 @@ args['query']="--query='$@ '"
 #args['exact']='--exact'
 #args['tiebreak']='--tiebreak=index'
 #args['expect']='--expect=ctrl-t,ctrl-v'
+
+# TODO: Add header
+#args['header']="--header '(default)'"
 
 # Custom colorscheme
 args['color']='--color '
@@ -105,7 +111,6 @@ args['color']+=',border:33,preview-fg:7,preview-bg:235'
 case "$config" in
 	default);;
 	d|dir*) args['preview']="--preview '$preview/dir {}'";;
-	fpga-image) args['preview']="--preview 'burst-show-image {2}'";;
 	git-diff) args['preview']="--preview '$preview/git-diff {}'";;
 	git-show) args['preview']="--preview '$preview/git-commit {}'";;
 	lsf) args['preview']="--preview '$preview/lsf-job {1}'"; filter="awk '{print \$1}'";;
