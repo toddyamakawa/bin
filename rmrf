@@ -7,6 +7,9 @@ for src in "$@"; do
 	fi
 	src="${src%/}"
 	dest="$(dirname "$src")/$prefix.$(basename "$src")"
+	# TODO: rsync is faster than rm
+	#mkdir emptydir
+	#rsync -a --delete emptydir/ yourdirectory/
 	mv "$src" "$dest"
 	echo "rm -rf $src"
 	rm -rf "$dest" &>/dev/null &
