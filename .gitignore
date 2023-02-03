@@ -139,6 +139,7 @@
 !/hwinfo
 !/job-wrapper
 !/launch
+!/lld
 !/lnsp
 !/loan
 !/log-ts
