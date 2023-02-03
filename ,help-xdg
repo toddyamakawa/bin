@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+print-header 'XDG Base Directory'
+cat <<-EOF
+\$XDG_CONFIG_HOME: '$XDG_CONFIG_HOME' (default: \$HOME/.config)
+\$XDG_CACHE_HOME: '$XDG_CACHE_HOME' (default: \$HOME/.cache, like /var/cache)
+\$XDG_DATA_HOME: '$XDG_DATA_HOME' (default: \$HOME/.local/share, like /usr/share)
+\$XDG_STATE_HOME: '$XDG_STATE_HOME' (default: \$HOME/.local/state, like /var/lib)
+\$XDG_RUNTIME_DIR: '$XDG_RUNTIME_DIR' (/run/user/\$UID)
+EOF
+
