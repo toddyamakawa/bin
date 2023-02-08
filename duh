@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+start_dir="${1:-.}"
+cd "$start_dir"
+
+function get_depth() {
+	tr / $'\n' <<<"$1" | wc -l
+}
+
+function print_dir() {
+	dir="$1"
+	[[ -d "$dir" ]] || return
+	base="$(basename "$dir")"
+	depth="$(get_depth "$dir")"
+	last=0
+	if [[ "$base" == . ]]; then
+		return
+	elif [[ "$base" == .. ]]; then
+		return
+	elif [[ "$base" == .git ]]; then
+		last=1
+	elif [[ -d "$dir/.git" ]]; then
+		du -h --max-depth=0 "$dir/.git"
+		last=1
+	elif [[ -d "$dir/work" ]]; then
+		du -h --max-depth=0 "$dir/work"
+		last=1
+	fi
+	du -h --max-depth=0 "$dir"
+	((last)) && return
+	((depth > 1)) && return
+	for dir in "$dir"/* "$dir"/.*; do
+		print_dir "$dir"
+	done
+}
+
+for dir in * .*; do
+	print_dir "$dir"
+done
+
