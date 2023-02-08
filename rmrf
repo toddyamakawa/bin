@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-prefix=".deleting.$(hostname).$$"
+#prefix=".deleting.$(hostname).$$"
+prefix=".deleting.$$"
 for src in "$@"; do
 	if ! [[ -e "$src" ]]; then
 		echo "WARNING: '$src' not found."
@@ -12,5 +13,10 @@ for src in "$@"; do
 	#rsync -a --delete emptydir/ yourdirectory/
 	mv "$src" "$dest"
 	echo "rm -rf $src"
-	rm -rf "$dest" &>/dev/null &
+	(
+		rm -rf "$dest"
+		[[ -d "$dest" ]] || exit
+		chmod 700 -R "$dest"
+		rm -rf "$dest"
+	) &>/dev/null &
 done
