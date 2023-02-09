@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+type xdpyinfo &>/dev/null || exit $?
+xdpyinfo -display "$DISPLAY"
+exit $?
