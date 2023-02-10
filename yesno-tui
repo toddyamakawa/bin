@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+# Add tui to $PATH
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+tui_bin="$CURRENT_DIR/tui"
+PATH="$tui_bin:$PATH"
+
+# FIFO
+tempdir="$(mktemp -d)"
+fifo="$tempdir/pipe"
+mkfifo "$fifo"
+(getch.sh > "$fifo") </dev/stdin &
+getch_pid="$!"
+trap "kill $getch_pid" EXIT
+
+# Print question
+question="${*:-Are you sure?}"
+echo -e "  $question\n\n\n"
+tui-cursor-up 1
+
+function print_bg() {
+	printf "\x1b[48;5;%sm%s\e[0m " "$1" "$2"
+}
+
+function draw_yesno() {
+	yes="$1"
+	tui-cursor-up 1
+	bg_selected=4
+	bg_dark=235
+	if ((yes)); then
+		echo -n '  '
+		print_bg "$bg_selected" '  Yes  '
+		echo -n '  '
+		print_bg "$bg_dark" '  No  '
+		echo
+	else
+		echo -n '  '
+		print_bg "$bg_dark" '  Yes  '
+		echo -n '  '
+		print_bg "$bg_selected" '   No  '
+		echo
+	fi
+}
+
+draw_yesno 1
+
+# Loop
+while true; do
+	read -t 0.1 -r line <>"$fifo"
+	current_ns="$(date +'%s%N')"
+	if [[ "$line" == 'q' ]]; then
+		exit
+	elif [[ "$line" == 'h' ]]; then
+		draw_yesno 1
+	elif [[ "$line" == 'l' ]]; then
+		draw_yesno 0
+	fi
+done
+
+

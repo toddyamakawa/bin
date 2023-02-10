@@ -195,6 +195,7 @@
 !/xargsi
 !/xless
 !/yesno
+!/yesno-tui
 !/zsh.rb
 
 # vim: ft=sh
