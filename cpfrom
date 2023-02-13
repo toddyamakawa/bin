@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+from="${1:?}"
+while read file; do
+	print-run cp "$from/$file" "./$file"
+done < <(cat)

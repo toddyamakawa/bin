@@ -109,6 +109,7 @@
 !/chmodx
 !/clip
 !/copy-osc52
+!/cpfrom
 !/cpp.
 !/crun
 !/csv2table
