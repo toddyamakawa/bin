@@ -17,6 +17,9 @@ if [[ -z "$@" ]]; then
 	exit
 fi
 
+# TODO: Set refresh rate
+# https://www.reddit.com/r/i3wm/comments/10y1eom/comment/j7vl2ja/
+
 # Print and run
  print-run xrandr --output "$output" "$@"
 
