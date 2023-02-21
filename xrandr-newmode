@@ -4,6 +4,6 @@ width="$1"
 height="$2"
 freq="${3:-60}"
 modeline="$(gtf "$width" "$height" "$freq" | sed -n 's/.*Modeline.*" *//p')"
-gtf "$width" "$height" "$freq"
+#gtf "$width" "$height" "$freq"
 mode="${width}x${height}_${freq}.00"
 print-run xrandr --newmode "$mode" $modeline
