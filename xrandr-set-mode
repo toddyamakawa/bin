@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+declare -r USAGE="USAGE: $(basename $0) <output> <width> <height> <freq>"
+
+output="${1:?}"
+width="${2:-1920}"
+height="${3:-1080}"
+freq="${4:-60}"
+
+mode="${width}x${height}_${freq}.00"
+print-info "Setting '$output' to mode '$mode'"
+xrandr-newmode "$width" "$height" "$freq"
+xrandr --addmode "$output" "$mode"
+xrandr --output "$output" --mode "$mode"
+

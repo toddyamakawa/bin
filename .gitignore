@@ -195,7 +195,7 @@
 !/wget-img
 !/xargsi
 !/xless
-!/xrandr-newmode
+!/xrandr-*
 !/yesno
 !/yesno-tui
 !/zsh.rb
