@@ -127,6 +127,7 @@
 !/extname
 !/f
 !/file-yank
+!/flattenf
 !/flush-dns
 !/format-sv
 !/forkbomb

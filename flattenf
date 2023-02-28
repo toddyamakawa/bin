@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+# vim: ft=python noet ts=4 sw=0 sts 
+
+import os
+import re
+import sys
+
+sys.argv.pop(0)
+
+def process_filelist(filelist):
+	f = open(filelist, 'r')
+	more = []
+	lines = []
+	for line in f:
+		line = line.rstrip()
+		if len(line) == 0: continue
+		match = re.match('^\s*-f (.*\.f)\s*$', line)
+		if match:
+			more.append(match[1])
+		else:
+			lines.append(line)
+	return more, lines
+
+
+visited = {}
+filelists = sys.argv
+all_lines = []
+while len(filelists) > 0:
+	filelist = filelists.pop(0)
+	filelist = os.path.realpath(filelist) 
+	more, lines = process_filelist(filelist)
+	all_lines += lines
+	visited[filelist] = True
+	filelists += more
+
+print(all_lines)
+
