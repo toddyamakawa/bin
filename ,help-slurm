@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+print-header '(S)imple (L)inux (U)tility for (R)esource (M)anagement'
+# Variables
+echo -e "$(cat << 'EOF'
+
+\e[1msacct\e[0m     Reports active/completed job or job step accounting info.
+\e[1msalloc\e[0m    Real-time job resource allocation.
+\e[1msattach\e[0m   Attach stdin/stdout/stderr to job or job step.
+\e[1msbatch\e[0m    Submit job script. Typically contains srun commands.
+\e[1msbcast\e[0m    Transfer files from local disk to node disk.
+          Allows diskless compute nodes and improves performance over NFS.
+\e[1mscancel\e[0m   Cancel or send signal to running job or job step.
+\e[1mscontrol\e[0m  Administrative tool to view/modify Slurm sate. Requires root.
+\e[1msinfo\e[0m     Reports state of partitions and nodes.
+\e[1msmap\e[0m      Reports state information for jobs, partitions, and nodes.
+\e[1msqueue\e[0m    Reports the state of jobs or job steps.
+\e[1msrun\e[0m      Submit a job or job steps.
+\e[1mstrigger\e[0m  Set/get/view event triggers.
+\e[1msview\e[0m     GUI to get/update state for jobs/partitions/nodes.
+
+--help
+--usage
+
+sinfo
+sinfo -o '%20P %5D %14F %6t %8z %10m %11l %16f %N'
+
+squeue -u $USER
+squeue --account=<account>
+squeue --partition=<partition>
+squeue  | awk '{print $4}' | sort | uniq -c | sort -n
+
+scontrol show job <jobid>
+scontrol show partitions
+
+srun
+srun -n 8 a.out
+
+sbatch
+
+scancel <jobid>
+EOF
+)"
+
