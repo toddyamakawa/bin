@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec print-run git ls --no-merges $@
+exec print-run git ls --no-merges "$@"
