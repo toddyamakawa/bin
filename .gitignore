@@ -168,6 +168,7 @@
 !/realpath.py
 !/relpath.py
 !/rmrf
+!/sbash
 !/set-speaker*
 !/set-title
 !/sitename
