@@ -2,6 +2,6 @@
 top="$(git rev-parse --show-toplevel)"
 (
 	[[ -d "$top" ]] && (cd "$top"; git ls-dirs | sed 's|^|$GIT_TOP/|')
-	find . -type d
+	find . -type d 2>/dev/null
 ) | ,fzf dir
 
