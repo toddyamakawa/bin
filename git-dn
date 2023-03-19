@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git dn
+#DESCRIPTION: git diff --numstat
+print-run git diff --numstat "$@"
