@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-eval exec git commit -m "'$@'"
+exec git commit -m "$*"
