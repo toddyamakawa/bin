@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # USAGE: git d
-#DESCRIPTION: git diff
-print-run git diff "$@"
+# DESCRIPTION: git diff
+exec print-run git diff "$@"
