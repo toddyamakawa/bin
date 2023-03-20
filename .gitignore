@@ -162,6 +162,7 @@
 !/ps-env
 !/pwdc
 !/pwdh
+!/pyc
 !/pyflags
 !/pyinfo
 !/realdir.py
