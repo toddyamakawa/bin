@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# USAGE: mtime <file>
+# DESCRIPTION: Prints the last modified timestamp of a file
+[[ -f "$1" ]] || { echo "USAGE: mtime <file>"; exit 1; }
+print-run date '+%s' -r "$1"
+
