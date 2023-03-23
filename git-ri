@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# USAGE: git ri
+# DESCRIPTION: Interactive rebase
+print-run git fetch
+echo
+print-cmd git rebase -i
+git rebase -i
