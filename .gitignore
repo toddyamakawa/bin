@@ -158,6 +158,7 @@
 !/nobash
 !/now
 !/nvimdiff
+!/nvim-profile
 !/pnginfo
 !/prun
 !/psef
