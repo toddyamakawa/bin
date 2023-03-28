@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 print-header 'XDG Base Directory'
-cat <<-EOF
-\$XDG_CONFIG_HOME: '$XDG_CONFIG_HOME' (default: \$HOME/.config)
-\$XDG_CACHE_HOME: '$XDG_CACHE_HOME' (default: \$HOME/.cache, like /var/cache)
-\$XDG_DATA_HOME: '$XDG_DATA_HOME' (default: \$HOME/.local/share, like /usr/share)
-\$XDG_STATE_HOME: '$XDG_STATE_HOME' (default: \$HOME/.local/state, like /var/lib)
-\$XDG_RUNTIME_DIR: '$XDG_RUNTIME_DIR' (/run/user/\$UID)
+echo -e "$(cat <<-EOF
+\$XDG_CONFIG_HOME : '$XDG_CONFIG_HOME' \x1b[38;5;247m(default: \$HOME/.config)\e[0m
+\$XDG_CACHE_HOME  : '$XDG_CACHE_HOME' \x1b[38;5;247m(default: \$HOME/.cache, like /var/cache)\e[0m
+\$XDG_DATA_HOME   : '$XDG_DATA_HOME' \x1b[38;5;247m(default: \$HOME/.local/share, like /usr/share)\e[0m
+\$XDG_STATE_HOME  : '$XDG_STATE_HOME' \x1b[38;5;247m(default: \$HOME/.local/state, like /var/lib)\e[0m
+\$XDG_RUNTIME_DIR : '$XDG_RUNTIME_DIR' \x1b[38;5;247m(default: /run/user/\$UID)\e[0m
 EOF
+)"
 
