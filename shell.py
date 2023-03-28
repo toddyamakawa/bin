@@ -15,3 +15,6 @@ def cd(path):
     import os
     return os.chdr(path)
 
+def run(file):
+    exec(open(file).read())
+
