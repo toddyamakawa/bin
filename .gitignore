@@ -175,6 +175,7 @@
 !/sbash
 !/set-speaker*
 !/set-title
+!/shell.py
 !/sitename
 !/sleep-sort
 !/snip
