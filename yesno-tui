@@ -11,7 +11,7 @@ fifo="$tempdir/pipe"
 mkfifo "$fifo"
 (getch.sh > "$fifo") </dev/stdin &
 getch_pid="$!"
-trap "kill $getch_pid" EXIT
+trap "kill $getch_pid &>/dev/null" EXIT
 
 # Print question
 question="${*:-Are you sure?}"
@@ -37,7 +37,7 @@ function draw_yesno() {
 		echo -n '  '
 		print_bg "$bg_dark" '  Yes  '
 		echo -n '  '
-		print_bg "$bg_selected" '   No  '
+		print_bg "$bg_selected" '  No  '
 		echo
 	fi
 }
@@ -49,11 +49,13 @@ while true; do
 	read -t 0.1 -r line <>"$fifo"
 	current_ns="$(date +'%s%N')"
 	if [[ "$line" == 'q' ]]; then
-		exit
+		exit 1
 	elif [[ "$line" == 'h' ]]; then
 		draw_yesno 1
 	elif [[ "$line" == 'l' ]]; then
 		draw_yesno 0
+	elif [[ "$line" == 'enter' ]]; then
+		exit $((!yes))
 	fi
 done
 
