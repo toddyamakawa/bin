@@ -18,3 +18,7 @@ def cd(path):
 def run(file):
     exec(open(file).read())
 
+def cmd(command):
+    import os
+    os.system(command)
+
