@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-
-printkey=''
-
 function getkey() {
 	#read -t 0.5 -srn 1
 	read -srn 1
