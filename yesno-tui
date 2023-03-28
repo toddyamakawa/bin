@@ -9,9 +9,13 @@ PATH="$tui_bin:$PATH"
 tempdir="$(mktemp -d)"
 fifo="$tempdir/pipe"
 mkfifo "$fifo"
-(getch.sh > "$fifo") </dev/stdin &
+(getch.sh > "$fifo") </dev/stdin 2>/dev/null &
 getch_pid="$!"
-trap "kill $getch_pid &>/dev/null" EXIT
+function restore() {
+	kill $getch_pid &>/dev/null 2>dev/null
+	stty echo
+}
+trap restore EXIT
 
 # Print question
 question="${*:-Are you sure?}"
@@ -42,7 +46,7 @@ function draw_yesno() {
 	fi
 }
 
-draw_yesno 1
+draw_yesno 0
 
 # Loop
 while true; do
