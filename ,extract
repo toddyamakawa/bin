@@ -29,6 +29,7 @@ case $file in
 	*.rar) cmd=(unrar x);;
 	*.xz)  cmd=(unxz);;
 	*.zip) cmd=(unzip);;
+	*.gpg) cmd=(gpg);;
 	*)
 		echo "Unrecognized file extension: \`$file'" >&2
 		exit 2;;
@@ -36,5 +37,5 @@ esac
 
 # Extract
 print-cmd "${cmd[@]}" "$file"
-exec command "${cmd[@]}" "$file"
+exec "${cmd[@]}" "$file"
 
