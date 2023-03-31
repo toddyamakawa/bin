@@ -34,3 +34,10 @@ ${parameter/#pat/string}   │ Replaces 'pat' with 'string' matched against the 
 ${parameter/%pat/string}   │ Replaces 'pat' with 'string' matched against the beginning.
 EOF
 
+
+# Declare
+cat << 'EOF'
+
+declare -i  │ Variable is treated as integer
+EOF
+
