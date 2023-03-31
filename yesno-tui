@@ -50,8 +50,7 @@ draw_yesno 0
 
 # Loop
 while true; do
-	read -t 0.1 -r line <>"$fifo"
-	current_ns="$(date +'%s%N')"
+	read -r line <>"$fifo"
 	if [[ "$line" == 'q' ]]; then
 		exit 1
 	elif [[ "$line" == 'h' ]]; then
