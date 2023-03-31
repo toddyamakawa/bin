@@ -146,6 +146,7 @@
 !/job-wrapper
 !/launch
 !/lld
+!/lns
 !/lnsp
 !/loan
 !/log-ts
