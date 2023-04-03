@@ -35,6 +35,19 @@ if (("${brightness%%.*}" == 0)); then
 	xbacklight -set 1
 fi
 
+# Display brightness notification
+brightness_icon="🔆"
+bar_color="#6090b0"
+dunstify \
+	--timeout=1000 \
+	--replace=2593 \
+	--urgency=normal \
+	"$brightness_icon $brightness%" \
+	--hints="int:value:$brightness" \
+	--hints="string:hlcolor:$bar_color"
+exit
+
+# Use notify-send to print brightness
 notify-send \
 	-t 400 \
 	-u normal \
