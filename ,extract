@@ -19,17 +19,17 @@ cmd=''
 case $file in
 	# TODO: Fix this giant mess
 	#*.t@(gz|lz|xz|b@(2|z?(2))|a@(z|r?(.@(Z|bz?(2)|gz|lzma|xz)))))
-	*.tgz)
-		   cmd=(bsdtar xvf);;
 	*.7z)  cmd=(7z x);;
-	*.Z)   cmd=(uncompress);;
 	*.bz2) cmd=(bunzip2);;
 	*.exe) cmd=(cabextract);;
+	*.gpg) cmd=(gpg);;
 	*.gz)  cmd=(gunzip);;
 	*.rar) cmd=(unrar x);;
+	*.tar) cmd=(untar);;
+	*.tgz) cmd=(bsdtar xvf);;
 	*.xz)  cmd=(unxz);;
+	*.Z)   cmd=(uncompress);;
 	*.zip) cmd=(unzip);;
-	*.gpg) cmd=(gpg);;
 	*)
 		echo "Unrecognized file extension: \`$file'" >&2
 		exit 2;;

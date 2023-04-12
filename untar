@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec tar xf "$@"
+exec print-run tar xf "$@"
