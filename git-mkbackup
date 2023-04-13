@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# USAGE: git backup
+# DESCRIPTION: Push your current commit as a branch
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}"
+backup_dir="$cache_dir/git_backup/$(git project)" || exit $?
+[[ -d "$backup_dir" ]] && exit
+print-run mkdir -pv "$(dirname "$backup_dir")"
+url="$(git url)" || exit $?
+print-run git clone "$url" "$backup_dir"
