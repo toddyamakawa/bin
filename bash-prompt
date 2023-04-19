@@ -102,18 +102,24 @@ fi
 
 # Directory permissions
 permission=$(stat -c %a .)
-p1="${permission:(-3):1}"
-p2="${permission:(-2):1}"
-p3="${permission:(-1):1}"
-prompt+=" "
-[[ $(whoami) == $(stat -c %U .) ]] && prompt+="$green$p1" || prompt+="$red$p1"
-groups | grep -q $(stat -c %G .)   && prompt+="$green$p2" || prompt+="$red$p2"
-prompt+="$green$p3"
+bad_dir=$?
+if ((bad_dir)); then
+	prompt+=" ${red}???"
 
-# Check PWD for user
-base="$(basename "$(pwd)")"
-#base='\W'
-pwd | grep -q $(whoami) && prompt+=" $green$base" || prompt+=" $yellow$base"
+else
+	p1="${permission:(-3):1}"
+	p2="${permission:(-2):1}"
+	p3="${permission:(-1):1}"
+	prompt+=" "
+	[[ $(whoami) == $(stat -c %U .) ]] && prompt+="$green$p1" || prompt+="$red$p1"
+	groups | grep -q $(stat -c %G .)   && prompt+="$green$p2" || prompt+="$red$p2"
+	prompt+="$green$p3"
+
+	# Check PWD for user
+	base="$(basename "$(pwd)")"
+	#base='\W'
+	pwd | grep -q $(whoami) && prompt+=" $green$base" || prompt+=" $yellow$base"
+fi
 
 
 # ==============================================================================
@@ -122,7 +128,8 @@ pwd | grep -q $(whoami) && prompt+=" $green$base" || prompt+=" $yellow$base"
 in_git="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
 RETVAL=$?
 
-if ((RETVAL == 0)); then
+#if ((!RETVAL && !bad_dir)); then
+if ((!RETVAL)); then
 	#git_url="$(git config --get remote.origin.url 2>/dev/null)"
 	git_branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
 
@@ -171,7 +178,7 @@ else
 	prompt+=" $green"
 fi
 
-prompt_char='$'
+#prompt_char='$'
 prompt_char='»'
 #prompt_char='≫'
 #prompt_char='⪢'
