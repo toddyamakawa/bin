@@ -162,6 +162,7 @@
 !/now
 !/nvimdiff
 !/nvim-profile
+!/open-xls
 !/pnginfo
 !/prun
 !/psef
@@ -182,6 +183,8 @@
 !/sitename
 !/sleep-sort
 !/snip
+!/sortn
+!/sortu
 !/spinner
 !/sqlite-schema
 !/ssh.rb
@@ -199,6 +202,7 @@
 !/tt
 !/typewriter
 !/tui.rb
+!/uniqc
 !/upcase
 !/vimcat
 !/vimv
