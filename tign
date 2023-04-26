@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: tiwn [args]
+# DESCRIPTION: Run tig and ignore merge commits and whitespace changes
+exec print-run tig --no-merges --ignore-all-space --ignore-blank-lines "$@"
