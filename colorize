@@ -1,0 +1,35 @@
+#!/bin/bash
+
+ESC="$(         echo -e "\033")"
+RESET="$(       echo -e "\033[0m")"
+BOLD_RED="$(    echo -e "\033[31;1m")"
+BOLD_GREEN="$(  echo -e "\033[32;1m")"
+BOLD_YELLOW="$( echo -e "\033[33;1m")"
+BOLD_BLUE="$(   echo -e "\033[34;1m")"
+BOLD_MAGENTA="$(echo -e "\033[35;1m")"
+BOLD_CYAN="$(   echo -e "\033[36;1m")"
+
+BOLD_UNDERLINE_CYAN="$(echo -e "\033[36;4;1m")"
+BOLD="$(echo -e "\033[1m")"
+
+BAR='────────────────────────────────────────────────────────────────────────────────'
+
+# TODO: Add OSC-52 for clicking links
+sed \
+	-u \
+	-e "s/^[# ]*HEADER:[[:space:]]*\([^[:space:]].*\)/$BOLD$BAR\n\\1\\n$BAR$RESET/" \
+	-e "s/^[# ]*\(FATAL\|ERROR\|FAIL\|FAILED\|USER_ERROR\):/$BOLD_RED\\1:$RESET/" \
+	-e "s/^[# ]*\(PASS\|PASSED\):/$BOLD_GREEN\\1:$RESET/" \
+	-e "s/^[# ]*\(WARNING\):/$BOLD_YELLOW\\1:$RESET/" \
+	-e "s/^[# ]*\(INFO\):/$BOLD_BLUE\\1:$RESET/" \
+	-e "s/^[# ]*\(DEBUG\|COMMAND\):/$BOLD_MAGENTA\\1:$RESET/" \
+	-e "s/^[# ]*\(USAGE\|RESULT\|QUESTION\):/$BOLD_CYAN\\1:$RESET/" \
+	-e "s/URL:\(http[^[:space:]]\+\)/${BOLD_BLUE}$BOLD_UNDERLINE_CYAN\\1$RESET/" \
+	-e "s/^[Uu]sage:/${BOLD_CYAN}USAGE:$RESET/" \
+	-e "s/\(.*the following arguments are required:.*\)/${BOLD_RED}USER_ERROR: $RESET\\1/" \
+	-e "s/\(^Traceback (.*):\)/${BOLD_RED}FATAL: $RESET\\1/" \
+	-e "s/\(^\w\+Error: .*\)/${BOLD_RED}ERROR: $RESET\\1/" \
+	-e "s/^[# ]*\(Exception occurred: \)/${BOLD_RED}ERROR: $RESET\\1/" \
+	-e "s/\(.*: error: .*\)/${BOLD_RED}ERROR: $RESET\\1/" \
+	-e "s/\(.*: warning: .*\)/${BOLD_YELLOW}WARNING: $RESET\\1/"
+
