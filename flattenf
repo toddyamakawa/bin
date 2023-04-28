@@ -33,5 +33,5 @@ while len(filelists) > 0:
 	visited[filelist] = True
 	filelists += more
 
-print(all_lines)
+print("\n".join(all_lines))
 
