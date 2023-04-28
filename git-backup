@@ -12,7 +12,8 @@ fi
 print-run git -C "$backup_dir" fetch "$(git top)"
 
 commit="$(git rev-parse --short HEAD)"
+timestamp="$(now 2>/dev/null)"
 project_name="$(basename "$(git top)")"
-branch_name="${project_name}-${commit}"
+branch_name="${project_name}-${timestamp}"
 print-run git push backup "HEAD:$branch_name"
 
