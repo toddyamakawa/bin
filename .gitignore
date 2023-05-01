@@ -136,6 +136,7 @@
 !/forkbomb
 !/ftrace
 !/getch.*
+!/getch2.sh
 !/getenv
 !/grepi
 !/grepm
