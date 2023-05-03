@@ -135,6 +135,11 @@ if ((!RETVAL)); then
 	#git_url="$(git config --get remote.origin.url 2>/dev/null)"
 	git_branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
 
+	# TODO: Add timeout here
+	# https://unix.stackexchange.com/questions/43340/how-to-introduce-timeout-for-shell-scripting
+	#stat="$(git status -sb -uno 2>/dev/null | head -1)"
+	#git_slow=$?
+
 	if ((git_slow)); then
 		prompt+=" $white$git_branch"
 
