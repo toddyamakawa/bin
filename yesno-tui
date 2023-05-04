@@ -10,6 +10,7 @@ tempdir="$(mktemp -d)"
 fifo="$tempdir/pipe"
 mkfifo "$fifo"
 (getch.sh > "$fifo") </dev/stdin 2>/dev/null &
+#(getch2.sh > "$fifo") </dev/stdin 2>/dev/null &
 getch_pid="$!"
 function restore() {
 	kill $getch_pid &>/dev/null 2>dev/null
