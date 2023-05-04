@@ -8,7 +8,7 @@ freq="${4:-60}"
 
 mode="${width}x${height}_${freq}.00"
 print-info "Setting '$output' to mode '$mode'"
-xrandr-newmode "$width" "$height" "$freq"
-xrandr --addmode "$output" "$mode"
-xrandr --output "$output" --mode "$mode"
+xrandr-newmode "$width" "$height" "$freq" 2>/dev/null
+xrandr --addmode "$output" "$mode" 2>/dev/null
+print-run xrandr --verbose --output "$output" --mode "$mode"
 
