@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Check swig
+if ! type swig &>/dev/null; then
+	print-cmd sudo apt -y install swig
+	exit 1
+fi
+
 # Arguments
 module_type="$1"
 interface_file="$2"
