@@ -31,13 +31,13 @@ case "$module_type" in
 		libs+=(-I"$ruby_lib")
 		;;
 	python)
-		ruby_lib='/usr/include/python3.9'
-		libs+=(-I"$ruby_lib")
+		python_lib='/usr/include/python3.9'
+		libs+=(-I"$python_lib")
 		;;
 esac
 
 # Generate swig wrapper
-print-run swig "-$module_type" -o '$cfile' '$interface_file' || exit $?
+print-run swig "-$module_type" -o "$cfile" "$interface_file" || exit $?
 
 # Compile swig wrapper
 print-cmd gcc -fpic -c "$cfile" "${libs[@]}" || exit $?
