@@ -55,6 +55,7 @@
 !/vnc-*
 
 # git
+!/gitd
 !/gitc
 !/gpull
 
