@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+# REVISIT: Another way to do this?
+# https://github.com/iruzo/pxmenu/blob/2508ee1200b98b68897618bf3c8e60632f29fdb1/pxmenu#L10
+
 function getkey() {
 	#read -t 0.5 -srn 1
 	read -srn 1
