@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+tr '[:blank:]' ' ' \
+	| tr -s '[:blank:]' \
+	| tr -d ':' \
+	| tr ' ' '-'
