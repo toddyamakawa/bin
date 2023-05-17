@@ -49,6 +49,7 @@
 !/print-*
 !/rand*
 !/test-*
+!/tr-*
 !/tui-*
 !/untar*
 !/volume-*
@@ -180,7 +181,6 @@
 !/realpath.py
 !/relpath.py
 !/rmrf
-!/rot13
 !/sbash
 !/set-speaker*
 !/set-title
