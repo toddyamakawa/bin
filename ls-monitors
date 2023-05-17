@@ -2,6 +2,6 @@
 print-run xrandr --auto
 print-run xrandr --listmonitors
 
-print-cmd 'xrandr | greo connected'
+print-cmd 'xrandr | grep connected'
 xrandr | grep ' connected'
 
