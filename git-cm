@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec git commit -m "$*"
+exec print-run git commit -m "$*"
