@@ -178,6 +178,7 @@
 !/pyc
 !/pyflags
 !/pyinfo
+!/pymath
 !/realdir.py
 !/realpath.py
 !/relpath.py
