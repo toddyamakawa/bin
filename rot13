@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+tr 'A-Z-a-z' 'N-ZA-Mn-za-m'

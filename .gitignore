@@ -180,6 +180,7 @@
 !/realpath.py
 !/relpath.py
 !/rmrf
+!/rot13
 !/sbash
 !/set-speaker*
 !/set-title
