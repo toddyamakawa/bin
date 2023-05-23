@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -e
+dir="${1:-tmux}"
+print-run git clone "git@github.com:toddky/tmux" "$dir" || exit $?
