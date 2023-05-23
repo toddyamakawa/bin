@@ -111,8 +111,8 @@ else
 	p2="${permission:(-2):1}"
 	p3="${permission:(-1):1}"
 	prompt+=" "
-	[[ $(whoami) == $(stat -c %U .) ]] && prompt+="$green$p1" || prompt+="$red$p1"
-	groups | grep -q $(stat -c %G .)   && prompt+="$green$p2" || prompt+="$red$p2"
+	[[ $(whoami) == "$(stat -c %U .)" ]] && prompt+="$green$p1" || prompt+="$red$p1"
+	groups | grep -q "$(stat -c %G .)" && prompt+="$green$p2" || prompt+="$red$p2"
 	prompt+="$green$p3"
 
 	# Check PWD for user
