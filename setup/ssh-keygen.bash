@@ -43,6 +43,12 @@ Host localhost
 
 Host charm
 	HostName git.charm.sh
+
+Host github.com
+	User git
+	Hostname github.com
+	PreferredAuthentications publickey
+	IdentityFile /home/user/.ssh/id_rsa
 SSH_CONFIG
 
 # Fix home directory permissions
