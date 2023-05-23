@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+repo="${1?}" && shift
+print-run git clone "https://github.com/toddky/$repo" "$@" || exit $?
