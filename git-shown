@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git shown
+# DESCRIPTION: git show --numstat
+print-run git show --numstat "$@"
