@@ -30,7 +30,7 @@
 
 current_ms="$(date +'%s%3N')"
 
-parent="$(cat /proc/$PPID/comm)"
+parent="$(cat /proc/$PPID/comm 2>/dev/null)"
 
 if [[ "$parent" == bash ]]; then
 	reset="\[\e[0m\]"
@@ -69,7 +69,7 @@ else
 fi
 
 # Print failing exit code of last command
-((RETVAL)) && echo -e "\e[31m(exited $RETVAL)\e[0m"
+((RETVAL)) && printf "\e[31m(exited $RETVAL)\e[0m\n"
 
 # Get execution time
 ((start_ms)) && bash-prompt-time "$start_ms" "$current_ms"
@@ -101,7 +101,8 @@ fi
 #dir2=${PWD#$dir/}
 
 # Directory permissions
-permission=$(stat -c %a .)
+[[ "$OSTYPE" =~ .*darwin.* ]] && ismac=1 || ismac=0
+((ismac)) && permission="$(stat -f %Lp .)" || permission="$(stat -c %a .)"
 bad_dir=$?
 if ((bad_dir)); then
 	prompt+=" ${red}???"
@@ -111,8 +112,16 @@ else
 	p2="${permission:(-2):1}"
 	p3="${permission:(-1):1}"
 	prompt+=" "
-	[[ $(whoami) == "$(stat -c %U .)" ]] && prompt+="$green$p1" || prompt+="$red$p1"
-	groups | grep -q "$(stat -c %G .)" && prompt+="$green$p2" || prompt+="$red$p2"
+	if ((ismac)); then
+		owner="$(stat -f %Su .)"
+		group="$(stat -f %Sg .)"
+	else
+		owner="$(stat -c %U .)"
+		group="$(stat -c %G .)" 
+	fi
+
+	[[ "$(whoami)" == "$owner" ]] && prompt+="$green$p1" || prompt+="$red$p1"
+	groups | grep -q "$group" && prompt+="$green$p2" || prompt+="$red$p2"
 	prompt+="$green$p3"
 
 	# Check PWD for user
@@ -200,5 +209,5 @@ prompt_char='»'
 #prompt+="$prompt_char$reset "
 prompt+="$prompt_char$reset "
 
-echo -e "$prompt"
+printf "$prompt"
 
