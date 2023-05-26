@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-print-cmd "git remote set-url $@"
-exec git remote set-url "$@"
+exec print-run git remote set-url "$@"
