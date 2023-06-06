@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git au
+# DESCRIPTION: git add -u
+print-run git add -u  "$@"
