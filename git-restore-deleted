@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
-declare -r top=$(git rev-parse --show-toplevel 2>/dev/null)
-cd $top
-printf "\e[33;1m$> %s\e[0m\n" 'pwd'
-pwd
-
+top="$(git top)" || exit $?
+cd "$top"
 while read line; do
-	printf "\e[33;1m$> %s\e[0m\n" "git checkout $line"
-	git checkout "$line"
-	retval=$?
-	((retval)) && printf "(exited $?)\n"
+	print-run git checkout "$line"
 done < <(git ls-files --deleted)
 
