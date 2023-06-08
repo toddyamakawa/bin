@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+#set -u
+#declare -r CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)"
+
+# Go to top
+top="$(git top)" || exit $?
+[[ -d "$top" ]] || exit $?
+cd "$top"
+print-cmd pwd
+pwd
+echo
+
+# Add untracked files
+while read -r untracked_file; do
+	if yesno "Add '$untracked_file'?"; then
+		git add "$untracked_file"
+		git commit -m "Adding '$untracked_file'"
+	fi
+done < <(git ls-untracked -- "*.md" 2>/dev/null)
+
+git ls-untracked
+
+exit
+
+
+# TODO: Figure out how to handle renamed files
+
+# TODO: Add .obsidian directory.
+# TODO: Add .gitignore
+while read -r modified_file; do
+	git add "$modified_file"
+	git commit -m "Updating '$modified_file'"
+done < <(git ls-files -m '*.md')
+
+function yes_no() {
+	while true; do
+		read -s -n 1 -e reply < /dev/tty
+		case "$reply" in
+			[Yy]) return 0;;
+			[Nn]) return 1;;
+		esac
+	done
+}
+
+obsidian_dir=".obsidian"
+config_file="$obsidian_dir/config"
+"$CURRENT_DIR/2cfg" "$config_file" > "$config_file.cfg"
+if ! (git diff --exit-code "$config_file.cfg"); then
+	echo
+	echo "Do you want to commit config? (y/n)"
+	if (yes_no); then
+		git add "$config_file"
+		git add "$config_file.cfg"
+		git commit -m "Updating '$config_file'"
+	fi
+fi
+
+# Add untracked files`
+while read -r untracked_file; do
+	echo
+	echo "Do you want to add $untracked_file? (y/n)"
+	if (yes_no);then
+		git add "$untracked_file"
+		git commit -m "Adding '$untracked_file'"
+	fi
+done < <(git ls-files --others --exclude-standard '*.md')
+
+exit
+print-run git add "$@" || exit $?
+
+echo
+exec print-run git diff --staged --numstat
