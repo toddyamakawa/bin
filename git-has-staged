@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git has-staged
+# DESCRIPTION: Check for staged changes
+git diff --quiet --cached && exit 1 || exit 0
