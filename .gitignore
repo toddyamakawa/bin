@@ -189,6 +189,7 @@
 !/set-speaker*
 !/set-title
 !/sg
+!/sgpy
 !/shell.py
 !/sitename
 !/sleep-sort

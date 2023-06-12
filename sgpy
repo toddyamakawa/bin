@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: sgpy "python question"
+# DESCRIPTION: Run sgpt and asks a Python question
+sg --code "write python code: $*"
