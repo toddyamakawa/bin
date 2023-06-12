@@ -188,6 +188,7 @@
 !/sbash
 !/set-speaker*
 !/set-title
+!/sg
 !/shell.py
 !/sitename
 !/sleep-sort
