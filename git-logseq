@@ -18,7 +18,7 @@ git add journals
 git has-staged && git commit -m 'Updating journals.'
 
 # Update pages
-git add pages
+git add -u pages
 git has-staged && git commit -m 'Updating pages.'
 
 # Add untracked files
