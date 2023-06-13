@@ -1,9 +1,23 @@
 #!/usr/bin/env bash
 # USAGE: sgpy "python question"
 # DESCRIPTION: Run sgpt and asks a Python question
-tempfile="$(mktemp -d)/code.py"
+hash="$(md5string "$*")"
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/shellgpt"
+mkdir -p "$cache_dir" || exit $?
+tempfile="$cache_dir/$hash.py"
+
+# Print temp file if it already exists
+if [[ -f "$tempfile" ]]; then
+	cat "$tempfile"
+	print-info "$tempfile"
+	exit
+fi
+
+# Generate temp file
 echo '#!/usr/bin/env python3' > "$tempfile"
-chmod +x "$tempfile"
+echo "PROMPT: $*" | sed 's/^/# /' >> "$tempfile"
 sg --code "write python code: $*" >> "$tempfile"
+
+chmod +x "$tempfile"
 cat "$tempfile"
 print-info "$tempfile"
