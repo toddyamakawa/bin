@@ -160,6 +160,7 @@
 !/Makefile
 !/mailv
 !/manhack
+!/md5string
 !/mktmpfs
 !/mon
 !/mon-res
