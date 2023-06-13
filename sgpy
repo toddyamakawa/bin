@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
 # USAGE: sgpy "python question"
 # DESCRIPTION: Run sgpt and asks a Python question
-sg --code "write python code: $*"
+tempfile="$(mktemp -d)/code.py"
+echo '#!/usr/bin/env python3' > "$tempfile"
+chmod +x "$tempfile"
+sg --code "write python code: $*" >> "$tempfile"
+cat "$tempfile"
+print-info "$tempfile"
