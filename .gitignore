@@ -106,6 +106,7 @@
 !/bsplit
 !/catn
 !/catw
+!/cdiff
 !/cecho
 !/check-display
 !/chi
