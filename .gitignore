@@ -227,6 +227,7 @@
 !/xargsi
 !/xless
 !/xrandr-*
+!/ydiff
 !/yesno
 !/yesno-tui
 !/zsh.rb
