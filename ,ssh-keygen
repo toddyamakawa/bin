@@ -10,6 +10,9 @@ SSH_DIR="$HOME/.ssh"
 
 # Generate SSH key
 keyfile="$SSH_DIR/id_rsa_${name}"
+args=(-f "$keyfile" -N "")
+# If a server doesn't accept RSA, then you can use this
+#args+=(-t ed25519)
 print-run ssh-keygen -f "$keyfile" -N ""
 #cp $SSH_DIR/id_rsa.pub $SSH_DIR/authorized_keys
 
