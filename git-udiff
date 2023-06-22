@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git udiff
+# DESCRIPTION: git diff --unified=0
+exec git d --unified=0 "$@"
