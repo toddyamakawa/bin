@@ -79,6 +79,9 @@
 !/tsave
 !/ts
 
+# Weird symbol that I use for my prompt
+!/»
+
 # JSON/XML/YAML
 !/2cfg
 !/2cfg.go
