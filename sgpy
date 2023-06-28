@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # USAGE: sgpy "python question"
 # DESCRIPTION: Run sgpt and asks a Python question
-hash="$(md5string "$*")"
+hash="$(md5string "$*" | cut -d' ' -f1)"
 cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/shellgpt"
 mkdir -p "$cache_dir" || exit $?
 tempfile="$cache_dir/$hash.py"
@@ -17,6 +17,12 @@ fi
 echo '#!/usr/bin/env python3' > "$tempfile"
 echo "PROMPT: $*" | sed 's/^/# /' >> "$tempfile"
 sg --code "write python code: $*" >> "$tempfile"
+RETVAL=$?
+
+if ((RETVAL)); then
+	rm "$tempfile"
+	exit "$RETVAL"
+fi
 
 chmod +x "$tempfile"
 cat "$tempfile"
