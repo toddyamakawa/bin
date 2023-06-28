@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# USAGE: age <file>
+# DESCRIPTION: Get age of file
+now="$(date +%s)"
+mtime="$(stat -c %Y "$1")" || exit $?
+echo "$((now-mtime))"
