@@ -5,15 +5,30 @@
 # Set your OpenAI API key
 #OPENAI_API_KEY=''
 
-export OPENAI_API_KEY
+# Check $OPENAI_API_KEY
 if [[ -z "$OPENAI_API_KEY" ]]; then
-	print-warn 'OPENAI_API_KEY not set'
-	#exit 2
+	if command -v openaikey &>/dev/null; then
+		OPENAI_API_KEY="$(openaikey)"
+	else
+		print-warn 'OPENAI_API_KEY not set'
+		print-url 'https://platform.openai.com/account/api-keys'
+		exit 2
+	fi
+fi
+export OPENAI_API_KEY
+
+# Add sgpt to $PATH
+bin="/Users/$USER/Library/Python/3.11/bin"
+[[ -d "$bin" ]] && PATH="$bin:$PATH"
+
+# Check if sgpt is installed
+if ! which sgpt; then
+	print-error 'sgpt command not found'
+	print-cmd ,pip install shell-gpt
+	exit 1
 fi
 
-bin="/Users/$USER/Library/Python/3.11/bin"
-PATH="$bin:$PATH"
-#which sgpt
 sgpt "$@"
+
 #python3 -m venv shellgpt
-#sgpt
+#
