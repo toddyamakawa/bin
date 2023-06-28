@@ -22,7 +22,7 @@ bin="/Users/$USER/Library/Python/3.11/bin"
 [[ -d "$bin" ]] && PATH="$bin:$PATH"
 
 # Check if sgpt is installed
-if ! which sgpt; then
+if ! command -v sgpt &>/dev/null; then
 	print-error 'sgpt command not found'
 	print-cmd ,pip install shell-gpt
 	exit 1
