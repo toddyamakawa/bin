@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
+# TODO: Open in floating window
 exec tmux list-keys | grepm "$@"
