@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+which caffeinate >/dev/null || exit $?
+
+cat <<EOF
+caffeinate – prevent the system from sleeping on behalf of a utility
+  -d      Prevent display from idle sleeping
+  -i      Prevent system from idle sleeping
+  -m      Prevent disk from idle sleeping
+  -s      Prevent system from sleeping on AC power.
+  -u      User is active.
+  -t      Timeout in seconds.
+  -w      Wait for PID to exit.
+EOF
+
+print-run caffeinate "$@"
+
