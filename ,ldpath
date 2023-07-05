@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+echo "$LD_LIBRARY_PATH" | tr ':' $'\n' | cat -n | tac
+
