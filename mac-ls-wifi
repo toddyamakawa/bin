@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
-exec print-run "$airport" -s "$@"
+exec "mac-airport" -s "$@"
