@@ -1,0 +1,12 @@
+#!/usr/bin/env osascript
+# USAGE: mac notify "message" "title"
+# Generated from Copilot, there's probably a better way to write this
+on run argv
+	set message to item 1 of argv
+	if (count of argv) is 1 then
+		set title to "Notification"
+	else
+		set title to item 2 of argv
+	end if
+	display notification message with title title
+end run
