@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+screencapture_args=("$@")
+screenshot="$HOME/Desktop/Screenshot-$(date +%Y%m%d-%H%M%S).png"
+screencapture_args+=("$screenshot")
+exec print-run screencapture "${screencapture_args[@]}"
