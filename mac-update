@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+print-run softwareupdate --list
+echo
+print-info 'To update, run:'
+print-cmd sudo softwareupdate -ia
