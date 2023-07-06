@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 if [[ "$#" -eq 0 ]]; then
-	exec find .
+	find_args=(.)
 elif [[ "$#" -eq 1 ]]; then
 	name="$1"
-	exec find . -iname "*$name*"
+	find_args=(. -iname "*$name*")
 else
 	# TODO: Support more names
 	path="$1"
 	name="$2"
-	exec find "$path" -iname "*$name*"
+	find_args=("$path" -iname "*$name*")
 fi
-
+exec find "${find_args[@]}" 2>/dev/null
