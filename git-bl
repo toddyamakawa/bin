@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git bl
+# DESCRIPTION: git branch | grep
+exec print-run git branch -vv -a 2>/dev/null | grepm "$@"
