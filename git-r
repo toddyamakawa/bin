@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# USAGE: git r <string>
-# DESCRIPTION: git r <command>
+# USAGE: git r <command>
+# DESCRIPTION: Recursively run <command> in each git repo
 
 # Get args
 # Always print in color
@@ -11,6 +11,7 @@ reset="$(printf "\033[0m")"
 yellow="$(printf "\033[33m")"
 
 # Run git command
+cd "$(git top)"
 git "${args[@]}"
 
 while IFS= read -r -d '' file; do
