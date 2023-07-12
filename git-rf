@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git rf <string>
+# DESCRIPTION: Recursively search in git directories for files
+git r f "$@"
