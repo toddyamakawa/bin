@@ -14,6 +14,12 @@ if [[ ! -f "$file" ]]; then
 	exit 2
 fi
 
+if is-macos; then
+	tar=bsdtar
+else
+	tar=tar
+fi
+
 # Find command
 cmd=''
 case $file in
@@ -26,7 +32,7 @@ case $file in
 	*.gz)  cmd=(gunzip);;
 	*.rar) cmd=(unrar x);;
 	*.tar) cmd=(untar);;
-	*.tgz) cmd=(bsdtar xvf);;
+	*.tgz) cmd=($tar xf);;
 	*.xz)  cmd=(unxz);;
 	*.Z)   cmd=(uncompress);;
 	*.zip) cmd=(unzip);;
