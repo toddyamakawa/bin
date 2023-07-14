@@ -158,6 +158,7 @@
 !/hintgen
 !/hterm-notify
 !/hwinfo
+!/isfile.py
 !/job-wrapper
 !/launch
 !/lld
