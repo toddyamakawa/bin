@@ -16,6 +16,8 @@ git "${args[@]}"
 
 while IFS= read -r -d '' file; do
 	[[ -d "$file/.git" ]] || continue
+	[[ -L "$file" ]] && continue
+
 	# Run git command in subdirectory
 	(
 		cd "$file"
