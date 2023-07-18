@@ -9,6 +9,10 @@ def goodbye(name):
     print()
     print(f'Goodbye {name}')
 
+@atexit.register
+def one_more_goodbye():
+    print(f'Farewell')
+
 atexit.register(goodbye, 'Todd')
 
 print('Sleeping for 10 seconds... kill with Ctrl-C')
