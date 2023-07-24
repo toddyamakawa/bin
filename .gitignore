@@ -31,6 +31,8 @@
 !/bash-*
 !/bjobs*
 !/bmod*
+!/bz
+!/bz-*
 !/chrome-*
 !/cp-*
 !/du*
