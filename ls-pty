@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+ls -l /dev/pts | cut -d' '  -f3 | sortu
