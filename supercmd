@@ -10,9 +10,14 @@ subcmd="$1" && shift
 
 # List subcommands
 if [[ -z "$subcmd" ]]; then
+	echo 'Available comamnds:'
 	while read -r dir; do
 		(cd "$dir" && ls "$supercmd"-*) 2>/dev/null
-	done < <(echo $PATH | tr ':' $'\n') | sort | uniq
+	done < <(echo $PATH | tr ':' $'\n') \
+		| sort \
+		| uniq \
+		| sed "s/^$supercmd-/- /"
+	exit 1
 fi
 
 # Check command
