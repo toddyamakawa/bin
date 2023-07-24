@@ -237,6 +237,7 @@
 !/watch-inputs
 !/wget-img
 !/xargsi
+!/xdg-config
 !/xless
 !/xrandr-*
 !/ydiff
