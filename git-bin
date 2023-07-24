@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: git bin <command>
+# DESCRIPTION: Run command in bin directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec gitc "$SCRIPT_DIR" "$@"
