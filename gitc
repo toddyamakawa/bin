@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-USAGE='USAGE: gitc <dir> <command>'
+USAGE='USAGE: gitc <dir> [command]'
 dir="$1" && shift
 if [[ -z "$dir" ]]; then
 	printf "$USAGE\n" 1>&2
 	exit 2
 fi
+git_args="$@"
 if [[ -z "$@" ]]; then
-	printf "$USAGE\n" 1>&2
-	exit 2
+	git_args=(status)
 fi
 cd "$dir" || exit $?
-exec git "$@"
+exec git "${git_args[@]}"
