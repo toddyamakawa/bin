@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+if ! command -v zbarimg &>/dev/null; then
+	print-error zbar not installed
+	print-cmd brew install zbar
+	exit 1
+fi
+print-run zbarimg "$1"

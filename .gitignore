@@ -33,6 +33,7 @@
 !/bmod*
 !/bz
 !/bz-*
+!/cat-*
 !/chrome-*
 !/cp-*
 !/du*
