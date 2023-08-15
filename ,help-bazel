@@ -1,15 +1,30 @@
 #!/usr/bin/env bash
-print-header 'BAZEL'
 
-# Variables
+# Directories
+echo
+print-header 'SYMLINK'
 cat << 'EOF'
-
-bazel-my-project => <...my-project>     <== Symlink to execRoot
-bazel-out => <...bin>                   <== Convenience symlink to outputPath
-bazel-bin => <...bin>                   <== Convenience symlink to most recent written bin dir $(BINDIR)
-bazel-testlogs => <...testlogs>         <== Convenience symlink to the test logs directory
-
-bazel clean --expunge
-
+bazel-my-project => <...my-project>     <== execRoot
+bazel-out => <...bin>                   <== outputPath
+bazel-bin => <...bin>                   <== Most recent written bin dir $(BINDIR)
+bazel-testlogs => <...testlogs>         <== Test logs directory
 EOF
+
+echo
+print-header 'COMMANDS'
+cat << 'EOF'
+bazel clean --expunge
+EOF
+
+echo
+print-header 'VISIBILITY'
+cat << 'EOF'
+- //visibility
+- //visibility:private
+- //foo/bar:__pkg__            Grants access to //foo/bar package
+- //foo/bar:__subpackages__    Grants access to //foo/bar and all subpackages
+
+load(":internal_defs.bzl", _helper="helper")
+EOF
+
 
