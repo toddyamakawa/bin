@@ -1,23 +1,31 @@
 #!/usr/bin/env bash
-dest="${1?}" && shift
+user="$1" && shift
+host="$1" && shift
+remote_dest="$1" && shift
+local_dest="$1" && shift
 
-# TODO: Support for multiple sources
-src="${1?}" && shift
-if ! [[ -e "$src" ]]; then
-	echo "ERROR: '$src' not found"
-	exit 2
+src="$1"
+if [[ -z "$src" ]]; then
+	print-usage ,scp '<user>' '<host>' '<remote_dest>' '<local_dest>' '<src/dest>'
+	exit 1
 fi
 
-# Parse remote host and destination
-read -r remote_host remote_dest <<< $(echo "$dest" | tr : ' ')
-if [[ -z "$remote_host" || -z "$remote_dest" ]]; then
-	echo "ERROR: Unable to parse remote host and destination from '$dest'"
-	exit 2
+if [[ -e "$src" ]]; then
+	print-info local to remote
+	dest="$user@$host:$remote_dest"
+else
+	print-info remote to local
+	src="$user@$host:$1"
+	dest="$local_dest"
 fi
 
-# Run
-src_base="$(basename "$src")"
-src_dir="$(dirname "$src")"
-print-cmd "tar -czf - -C $src_dir $src_base | ssh $remote_host tar -xvzf - -C $remote_dest"
-tar -czf - -C "$src_dir" "$src_base" | ssh "$remote_host" tar -xzvf - -C "$remote_dest"
+cmd_args=()
+cmd_args+=(--archive --compress)
+cmd_args+=(--progress)
+#cmd_args+=(-e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null")
+cmd_args+=("$src" "$dest")
+
+print-cmd rsync "${cmd_args[@]}"
+yesno || exit 0
+rsync "${cmd_args[@]}"
 
