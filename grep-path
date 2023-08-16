@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# USAGE: pgrep <pattern>
+# USAGE: grep-path <pattern>
 # DESCRIPTION: greps the PATH for the given pattern
 while read -r path; do
 	[[ -d "$path" ]] || continue
