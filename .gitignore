@@ -157,6 +157,7 @@
 !/getenv
 !/grepi
 !/grepm
+!/grepv
 !/groups-users
 !/gu
 !/hintgen
