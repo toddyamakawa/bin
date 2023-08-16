@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# USAGE: pgrep <pattern>
+# DESCRIPTION: greps the PATH for the given pattern
+while read -r path; do
+	[[ -d "$path" ]] || continue
+	ls -1 "$path" | sed "s|^|$path/|"
+done < <(echo "$PATH" | tr ':' $'\n' | sort | uniq) | grepm "$@"
