@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+find_args=()
+find_args+=(/usr/bin)
+find_args+=(-perm -u=s)
+find_args+=(-perm -4000)
+find_args+=(-type f)
+print-cmd find "${find_args[@]}"
+find "${find_args[@]}" | xargs ls -lh
+
