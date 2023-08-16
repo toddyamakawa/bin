@@ -246,6 +246,7 @@
 !/tailf-scroll
 !/tax
 !/tclsh-info
+!/tcpserver.py
 !/tig*
 !/timeout.pl
 !/timer-bg
