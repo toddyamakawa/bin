@@ -4,7 +4,7 @@ if [[ -z "$1" ]]; then
 	current_branch="$(git rev-parse --abbrev-ref HEAD)"
 	remote_branch="$(git upstream-branch)"
 else
-	remote_branch="$1"
+	remote_branch="$1" && shift
 fi
-print-cmd git ls "$remote_branch..HEAD"
-git ls "$remote_branch..HEAD"
+print-cmd git ls "$remote_branch..HEAD" "$@"
+git ls "$remote_branch..HEAD" "$@"
