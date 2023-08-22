@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+print-run mount -t tmpfs
+
+echo
+print-run mount -t ext4
+
+echo
+print-cmd df \| grep /dev/sd
+df | grep /dev/sd
+
+echo
+echo "Mount ISO image:"
+print-cmd sudo mount -t iso9660 -o loop TinyCore-current.iso /mnt
+
+echo "Unmount:"
+print-cmd sudo umount /mnt
+
+echo
+echo "Mount Samba:"
+print-cmd sudo apt-get install cifs-utils
+print-cmd sudo mount -t cifs -o credentials=/etc/samba/creds,uid=1000,gid=1000 //192.168.4.13/share /media/dave/NAS
+
