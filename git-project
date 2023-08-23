@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: git project
+# DESCRIPTION: Get the name of the "project"
+url="$(git url)" || exit $?
+basename "$url"

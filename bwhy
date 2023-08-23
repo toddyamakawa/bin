@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: bwhy <jobid>
+print-run blimits
+

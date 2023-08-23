@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec mac-screencapture -c -i

@@ -26,6 +26,7 @@ if (($?)); then
 	# sudo ln -s /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-LVDS-1/intel_backlight  /sys/class/backlight
 	notify-send -u critical "xbacklight: $brightness"
 	# TODO: Check for this file: /etc/X11/xorg.conf
+	# https://askubuntu.com/questions/715306/xbacklight-no-outputs-have-backlight-property-no-sys-class-backlight-folder
 	exit 2
 fi
 
@@ -34,6 +35,19 @@ if (("${brightness%%.*}" == 0)); then
 	xbacklight -set 1
 fi
 
+# Display brightness notification
+brightness_icon="🔆"
+bar_color="#6090b0"
+dunstify \
+	--timeout=1000 \
+	--replace=2593 \
+	--urgency=normal \
+	"$brightness_icon $brightness%" \
+	--hints="int:value:$brightness" \
+	--hints="string:hlcolor:$bar_color"
+exit
+
+# Use notify-send to print brightness
 notify-send \
 	-t 400 \
 	-u normal \

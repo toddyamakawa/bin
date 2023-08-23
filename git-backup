@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# USAGE: git backup
+# DESCRIPTION: Push your current commit as a branch
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}"
+backup_dir="$cache_dir/git_backup/$(git project)" || exit $?
+if ! [[ -d "$backup_dir" ]]; then
+	print-run git mkbackup || exit $?
+fi
+if ! git config remote.backup.url &>/dev/null; then
+	git remote add backup "$backup_dir"
+fi
+print-run git -C "$backup_dir" fetch "$(git top)"
+
+commit="$(git rev-parse --short HEAD)"
+timestamp="$(now 2>/dev/null)"
+project_name="$(basename "$(git top)")"
+branch_name="${project_name}-${timestamp}"
+print-run git push backup "HEAD:$branch_name"
+

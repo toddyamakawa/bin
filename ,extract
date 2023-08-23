@@ -14,20 +14,27 @@ if [[ ! -f "$file" ]]; then
 	exit 2
 fi
 
+if is-macos; then
+	tar=bsdtar
+else
+	tar=tar
+fi
+
 # Find command
 cmd=''
 case $file in
 	# TODO: Fix this giant mess
 	#*.t@(gz|lz|xz|b@(2|z?(2))|a@(z|r?(.@(Z|bz?(2)|gz|lzma|xz)))))
-	*.tgz)
-		   cmd=(bsdtar xvf);;
 	*.7z)  cmd=(7z x);;
-	*.Z)   cmd=(uncompress);;
 	*.bz2) cmd=(bunzip2);;
 	*.exe) cmd=(cabextract);;
+	*.gpg) cmd=(gpg);;
 	*.gz)  cmd=(gunzip);;
 	*.rar) cmd=(unrar x);;
+	*.tar) cmd=(untar);;
+	*.tgz) cmd=($tar xf);;
 	*.xz)  cmd=(unxz);;
+	*.Z)   cmd=(uncompress);;
 	*.zip) cmd=(unzip);;
 	*)
 		echo "Unrecognized file extension: \`$file'" >&2
@@ -36,5 +43,5 @@ esac
 
 # Extract
 print-cmd "${cmd[@]}" "$file"
-exec command "${cmd[@]}" "$file"
+exec "${cmd[@]}" "$file"
 

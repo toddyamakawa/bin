@@ -3,6 +3,7 @@ declare -r CURRENT_DIR="$(dirname "$(realpath.py "${BASH_SOURCE[0]}")")"
 
 # TODO: Should probably shift until last arg and use $1
 dir="$(echo "$@" | awk '{print $NF}')"
+dir="$(echo "$dir" 2>/dev/null | sed "s|\$GIT_TOP|$(git-top)|")"
 [[ -d "$dir" ]] || { cecho --fg red --bold "Directory '$dir' does not exist"; exit 2; }
 cd "$dir"
 export LC_ALL=C
@@ -58,12 +59,7 @@ fi
 # Contents
 echo
 cecho --fg yellow --bold "CONTENTS:"
-if [[ -r "$NNN_FIFO" ]]; then
-	ls -lth --color=always
-else
-	ls -lrth --color=always | tail
-	echo '...'
-fi
+ls -lth --color=always
 
 if [[ -e "uart.log" ]]; then
 	echo

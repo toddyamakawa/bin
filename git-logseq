@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+#set -u
+#declare -r CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)"
+
+# Go to top
+top="$(git top)" || exit $?
+[[ -d "$top" ]] || exit $?
+cd "$top"
+print-cmd pwd
+pwd
+echo
+
+# Unstage everything
+git unstage-all
+
+# Update journal
+git add journals
+git has-staged && git commit -m 'Updating journals.'
+
+# Update pages
+git add -u pages
+git has-staged && git commit -m 'Updating pages.'
+
+# Add untracked files
+while read -r untracked_file; do
+	if yesno "Add '$untracked_file'?"; then
+		git add "$untracked_file"
+		git commit -m "Adding '$untracked_file'"
+	fi
+done < <(git ls-untracked -- "*.md" 2>/dev/null)
+
+git ls-untracked
+
+# TODO: Figure out how to handle renamed files
+
+exit
+
+# TODO: Handle config directory
+# Obsidian example
+obsidian_dir=".obsidian"
+config_file="$obsidian_dir/config"
+"$CURRENT_DIR/2cfg" "$config_file" > "$config_file.cfg"
+if ! (git diff --exit-code "$config_file.cfg"); then
+	echo
+	echo "Do you want to commit config? (y/n)"
+	if (yes_no); then
+		git add "$config_file"
+		git add "$config_file.cfg"
+		git commit -m "Updating '$config_file'"
+	fi
+fi

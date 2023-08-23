@@ -9,7 +9,7 @@ USAGE: ,which [name] [var] [type]
 
 Arguments:
     name           Name of item
-	var            \$ENV_VAR (default=PATH)
+    var            \$ENV_VAR (default=PATH)
     type           Type to find: x (executable), f (file), d (directory)
 EOF
 )

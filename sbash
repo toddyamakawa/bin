@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec srun -n 1 -c 2 --pty --x11 "$@" bash

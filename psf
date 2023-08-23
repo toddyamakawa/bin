@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+ps fx | sed \
+	-e 's/  |/  │/' \
+	-e 's/  \\_/  ├─/'

@@ -1,10 +1,22 @@
 #!/usr/bin/env bash
-prefix=".deleting.$(hostname).$$"
-for src in $@; do
-	[[ -e "$src" ]] || continue
+#prefix=".deleting.$(hostname).$$"
+prefix=".deleting.$$"
+for src in "$@"; do
+	if ! [[ -e "$src" ]]; then
+		echo "WARNING: '$src' not found."
+		continue
+	fi
 	src="${src%/}"
 	dest="$(dirname "$src")/$prefix.$(basename "$src")"
+	# TODO: rsync is faster than rm
+	#mkdir emptydir
+	#rsync -a --delete emptydir/ yourdirectory/
 	mv "$src" "$dest"
 	echo "rm -rf $src"
-	rm -rf "$dest" &
+	(
+		rm -rf "$dest"
+		[[ -d "$dest" ]] || exit
+		chmod 700 -R "$dest"
+		rm -rf "$dest"
+	) &>/dev/null &
 done

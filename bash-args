@@ -16,3 +16,12 @@ echo
 echo '"$*"'
 for arg in "$*"; do echo "- '$arg'"; done
 
+exit
+# TODO: Implement args.bash
+echo
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$CURRENT_DIR/setup/args.bash"
+DEFINE_file i 'Input file'
+DEFINE_file o 'Output file'
+echo "source $CURRENT_DIR/setup/args.bash"
+

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# USAGE: ,retry <count> <minutes> <command>
+# DESCRIPTION: Retry <command> <count> times every <minute> minutes
+
+count="$1" && shift
+minutes="$((${1:-0} * 60))" && shift
+cmd="$1" && shift
+cmd_args=("$@")
+
+if ((!minutes)) || [[ -z "$cmd" ]]; then
+	echo "USAGE: ,retry <count> <minutes> <command>"
+	exit 1
+fi
+
+while ((count)); do
+	if [[ -n "${cmd_args[@]}" ]]; then
+		"$cmd" "${cmd_args[@]}"
+	else
+		"$cmd"
+	fi
+	RETVAL=$?
+	((RETVAL)) || exit 0
+	sleep "$minutes"
+	((count--))
+done
+
+exit $RETVAL
+

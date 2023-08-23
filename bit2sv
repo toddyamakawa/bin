@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+
+from sys import argv
+
+argv.pop(0)
+
+# Convert to bits
+bits = []
+for arg in argv:
+    for bit in [*arg]:
+        bits.append(bit)
+
+print(f'length = {len(bits)}')
+
+# Convert to groups
+groups = []
+group = None
+group_is_number = False
+
+bit = bits[0]
+for bit in bits:
+    is_number = (bit == '0' or bit == '1')
+    if not group:
+        group = bit
+        group_is_number = is_number
+        continue
+
+    if group_is_number == is_number:
+        group += bit
+    else:
+        size = len(group)
+        if group_is_number:
+            group = f"{size}'b{group}"
+        else:
+            group = f"{group[0]}[{size-1}:0]"
+        groups.append(group)
+        group = bit
+        group_is_number = is_number
+
+size = len(group)
+if group_is_number:
+    group = f"{size}'b{group}"
+else:
+    group = f"{group[0]}[{size-1}:0]"
+groups.append(group)
+
+# Print groups
+print(f'{{{", ".join(groups)}}}')
+

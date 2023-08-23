@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# USAGE: ,bazel-graph <target>
+# DESCRIPTION: Generate a dependency graph
+target="${1:?}"
+
+tmpdir="$(mktemp -d)"
+graph_in="$tmpdir/graph.in"
+graph_png="$tmpdir/graph.png"
+
+print-run bazel query 'deps(TARGET LABEL)' --output graph
+bazel query 'deps(TARGET LABEL)' --output graph > "$graph_in"
+print-run dot -Tpng
+dot -Tpng < "$graph_in" > "$graph_png"
+
+echo "OUTPUT: $graph_png"
+

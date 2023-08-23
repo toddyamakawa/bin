@@ -2,4 +2,4 @@
 # DESCRIPTION: Open executable in Vim
 set -u
 exe="$(which "$1")" || exec exitfail "'$1' not found"
-exec "$EDITOR" "$exe"
+exec "${EDITOR:-e}" "$exe"

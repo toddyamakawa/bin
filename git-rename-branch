@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git rename-branch <old> <new>
+# DESCRIPTION: Rename branch
+exec print-run git branch --move "$@"

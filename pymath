@@ -1,0 +1,6 @@
+#!/usr/bin/env python3
+from math import *
+import sys
+sys.argv.pop(0)
+cmd = ' '.join(sys.argv)
+print(eval(cmd))

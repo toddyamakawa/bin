@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: grepv <grep_args>
+# DESCRIPTION: grep -v <args>
+exec grep -v "$@"

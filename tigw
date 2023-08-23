@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: tigw [args]
+# DESCRIPTION: Run tig and ignore whitespace changes
+exec print-run tig --ignore-all-space --ignore-blank-lines "$@"

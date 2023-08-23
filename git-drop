@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# USAGE: git drop <commi>
+# DESCRIPTION: Drop commit
+commit="${1?commit not set}"
+sed_expr="s/^pick $commit/drop $commit/"
+git check-unstaged || exit $?
+
+print-info "Running 'git rebase -i'"
+git ls-rebase | sed "$sed_expr"
+echo
+yesno 'Do you wish to continue?' || exit $?
+echo
+GIT_SEQUENCE_EDITOR="sed -i -e '$sed_expr'" git rebase -i
+git ls-rebase
+

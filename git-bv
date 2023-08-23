@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git bv
+# DESCRIPTION: git branch -vv
+exec print-run git branch -vv "$@"

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# USAGE: ,clock &
+while true; do
+	tput sc
+	tput cup 0 $(($(tput cols)-29))
+	date
+	tput rc
+	sleep 1
+done
+

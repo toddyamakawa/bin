@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Get bazel command
+bazel=bazel
+if command -v ',bazel' &>/dev/null; then
+	bazel=',bazel'
+fi
+
+# Check bazel
+if ! command -v ',bazel' &>/dev/null; then
+	print-error "$bazel command not found"
+	exit 2
+fi
+
+# Run bz-<cmd> if valid
+if command -v "bz-$1" &>/dev/null; then
+	SUPERCMD=bz exec supercmd "$@"
+fi
+
+# Run bazel command
+exec "$bazel" "$@"
+

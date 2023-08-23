@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+# TODO: Cleaner way to handle colors: https://github.com/SinaKhalili/mecho/blob/main/mecho.sh
+
 function fg_color() {
 	case "$1" in
 		black)   echo 30;;

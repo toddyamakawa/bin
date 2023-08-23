@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: git bin <command>
+# DESCRIPTION: Run command in bin directory
+NVIM_DIR="$(xdg-config)"
+exec gitc "$NVIM_DIR" "$@"

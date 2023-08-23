@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec git ls --no-merges $@
+print-run git ls-files --modified "$@"

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: echo "some string" | typewriter
+# DESCRIPTION: Simulate typing
+# https://www.commandlinefu.com/commands/view/224/mount-a-temporary-ram-partition
+pv -qL 50

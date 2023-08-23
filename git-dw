@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git dw
+# DESCRIPTION: Run git diff and ignore whitespace
+exec git d --ignore-all-space --ignore-blank-lines "$@"

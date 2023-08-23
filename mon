@@ -1,4 +1,18 @@
 #!/usr/bin/env bash
+if [[ -z "$@" ]]; then
+	xrandr -q | awk '
+		/ connected/ {
+			(count++)
+			if ($3 == "primary") {
+				print count, $2, $1, $4, $3
+			}
+			else {
+				print count, $2, $1, $3
+			}
+		}'
+	exit
+fi
+
 index="${1:-1}" && shift
 output="$(xrandr | awk '
 	/ connected/ {count++}
@@ -16,6 +30,9 @@ if [[ -z "$@" ]]; then
 	echo "$output"
 	exit
 fi
+
+# TODO: Set refresh rate
+# https://www.reddit.com/r/i3wm/comments/10y1eom/comment/j7vl2ja/
 
 # Print and run
  print-run xrandr --output "$output" "$@"

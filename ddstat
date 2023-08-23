@@ -10,6 +10,6 @@ function finish() {
 eval trap "'finish $0 $@'" EXIT
 
 # Print stats
-df -Ph $dir
-dd if=/dev/zero of=$tmpfile bs=32768 count=1000
+print-run df -Ph "$dir"
+print-run dd if=/dev/random of="$tmpfile" bs=32768 count=10000
 

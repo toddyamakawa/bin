@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: ydiff <file1> <file2>
+# DESCRIPTION: diff files side by side
+width="$(tput cols)"
+exec diff -t -y -W "$width" "$@"

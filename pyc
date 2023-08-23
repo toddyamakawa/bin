@@ -1,0 +1,6 @@
+#!/usr/bin/env python3
+import re, sys
+sys.argv.pop(0)
+cmd = ' '.join(sys.argv)
+#print(cmd)
+exec(cmd)

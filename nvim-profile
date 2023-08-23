@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+tempdir="$(mktemp -d)"
+log="$tempdir/startuptime.log"
+print-run nvim --headless --startuptime "$log" -c q
+print-info "Log file: $log"
+sort -n -k 2 "$log" | tail
+echo
+tail -n 1 "$log"

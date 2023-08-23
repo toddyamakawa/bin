@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Args
+name="${1?}"
+
+# Create SSH directory
+umask 077
+SSH_DIR="$HOME/.ssh"
+[[ -d "$SSH_DIR" ]] || mkdir -pv "$SSH_DIR"
+
+# Generate SSH key
+keyfile="$SSH_DIR/id_rsa_${name}"
+args=(-f "$keyfile" -N "")
+# If a server doesn't accept RSA, then you can use this
+#args+=(-t ed25519)
+print-run ssh-keygen -f "$keyfile" -N ""
+#cp $SSH_DIR/id_rsa.pub $SSH_DIR/authorized_keys
+

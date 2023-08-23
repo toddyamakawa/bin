@@ -7,5 +7,6 @@ if command -v rg &>/dev/null; then
 	exec rg "$@"
 fi
 
-exec print-run git grep -n -i --color=always "$@"
+#exec print-run git grep -n -i --color=always "$@"
+exec print-run git grep --break --heading --line-number --color=always "$@"
 

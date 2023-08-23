@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# USAGE: grep-ldpath <pattern>
+# DESCRIPTION: Recursively greps $LD_LIBRARY_PATH for the given pattern
+pattern="${1:?}" && shift
+while read -r path; do
+	[[ -d "$path" ]] || continue
+	grep -rin "$pattern" "$path"
+done < <(echo "$LD_LIBRARY_PATH" | tr ':' $'\n' | sort | uniq) | grepm "$@"

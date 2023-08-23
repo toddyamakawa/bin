@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec du -h --max-depth=1 "$@"
+exec print-run du -h --max-depth=1 "$@"

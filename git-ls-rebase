@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: git ls-rebase
+# DESCRIPTION: List all of the commits
+git check-unstaged || exit $?
+GIT_SEQUENCE_EDITOR="grep ^pick" git rebase -i 2>/dev/null

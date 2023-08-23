@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+repo='git@github.com:toddky/tmux'
+dir="${1:-"$(basename "$repo")"}"
+print-run git clone "$repo" "$dir" || exit $?

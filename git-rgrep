@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git rgrep <string> [string2...]
+# DESCRIPTION: Grep recursively in git repos
+git r grep "$1" | grepm "${@:2}"

@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
+print-run git ls-files --modified --others --exclude-standard
+echo
+
 while read -r untracked_file; do
 	#print-run git add "$@" || exit $?
 	if yesno "Do you want to add '$untracked_file'?"; then
 		git add "$untracked_file"
 	fi
-done < <(git ls-files --others --exclude-standard)
+done < <(git ls-files --modified --others --exclude-standard)

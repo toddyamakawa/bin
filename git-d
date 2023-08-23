@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git d
+# DESCRIPTION: git diff
+exec print-run git diff --color "$@"

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# https://github.com/samwho/spacer
+timeout="${1:-10}"
+waiting=1
+while ((RETVAL!=1)); do
+	read -t "$timeout" -r line
+	RETVAL=$?
+	if ((RETVAL==142)); then
+		if ((waiting)); then
+			printf "\x1b[38;5;8m[$(date +%T)]----------------------------------------------------------------------\e[0m\n"
+			waiting=0
+		fi
+	elif ((RETVAL==0)); then
+		echo "$line"
+		waiting=1
+	fi
+done
+

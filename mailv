@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec print-run "${EDITOR:-vim}" "${MAIL:-/var/spool/mail/$USER}"

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# USAGE: grepm <expr1> <expr2> ...
+# DESCRIPTION: grep for multiple expression
+
+# Exit for empty string
+if [[ -z "$*" ]]; then
+	cat
+	exit
+fi
+
+pattern="$1"
+shift
+grep_args=(-i)
+((NO_COLOR)) || grep_args+=(--color=always)
+grep "${grep_args[@]}" "$pattern" | grepm "$@"
+

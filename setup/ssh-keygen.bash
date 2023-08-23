@@ -25,10 +25,10 @@ cp $SSH_DIR/id_rsa.pub $SSH_DIR/authorized_keys
 echo "Generating $SSH_DIR/config file..."
 cat >$SSH_DIR/config << SSH_CONFIG
 Host *
-ForwardAgent yes
-ForwardX11 yes
-ServerAliveInterval 120
-StrictHostKeyChecking no
+	ForwardAgent yes
+	ForwardX11 yes
+	ServerAliveInterval 120
+	StrictHostKeyChecking no
 
 Host example.org
 	RemoteCommand tmux new -A -s default
@@ -43,6 +43,12 @@ Host localhost
 
 Host charm
 	HostName git.charm.sh
+
+Host github.com
+	User git
+	Hostname github.com
+	PreferredAuthentications publickey
+	IdentityFile /home/user/.ssh/id_rsa
 SSH_CONFIG
 
 # Fix home directory permissions

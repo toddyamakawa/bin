@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# DESCRIPTION: Add staged changes to most recent commit
+exec git extend --no-verify "$@"

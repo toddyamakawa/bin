@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+which pip3 > /dev/null || exit $?
+pip_cmd=(pip3)
+
+if [[ "$1" == install ]]; then
+	shift
+	pip_cmd+=(install --user "$@")
+fi
+
+print-run "${pip_cmd[@]}"
+

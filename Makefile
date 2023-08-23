@@ -66,6 +66,8 @@ devour.git:
 	git clone --depth 1 https://github.com/salman-abedin/devour $@
 
 # --- fzf ---
+# TODO: Make this into order only pre-req
+# https://www.gnu.org/software/make/manual/html_node/Prerequisite-Types.html
 fzf: fzf.git/bin/fzf
 	cp $^ $@
 fzf.git/bin/fzf: fzf.git

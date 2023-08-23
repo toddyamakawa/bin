@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
-exec git remote get-url origin | ,copy
+url="$(git remote get-url origin)" || exit $?
+echo "$url"
+echo "$url" | ,copy &>/dev/null

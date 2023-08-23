@@ -1,4 +1,5 @@
 
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,6 +7,20 @@
 
 #define CUBE_GET_COLOR(side, piece) (((side) >> (3*(piece))) & 0b111)
 #define CUBE_SET_COLOR(side, piece, color) side = ((side) & (~(0b111 << (3*(piece)))) | (color << (3*(piece))))
+
+#define CUBE_FACE_CW(face) ( \
+	( (face) & 0x7)                    | \
+	(((face) & (0x3ffff <<  3)) <<  6) | \
+	(((face) & (0x3f    << 21)) >> 18))
+#define CUBE_FACE_CCW(face) ( \
+	( (face) & 0x7)                    | \
+	(((face) & (0x3f    <<  3)) << 18) | \
+	(((face) & (0x3ffff <<  9)) >>  6))
+#define CUBE_FACE_2(face) ( \
+	( (face) & 0x7)                    | \
+	(((face) & (0xfff   <<  3)) << 12) | \
+	(((face) & (0xfff   << 15)) >> 12))
+
 
 // =============================================================================
 // DATA TYPES
@@ -30,8 +45,8 @@ typedef union {
 		uint32_t bottom : 3;
 	};
 	struct {
-		uint32_t        : 6;
-		uint32_t right  : 3;
+		uint32_t        : 9;
+		uint32_t right  : 9;
 	};
 	// left is impossible
 } Side;
@@ -149,7 +164,20 @@ void cube_move_u(Cube *cube) {
 	cube->r.top = cube->b.top;
 	cube->b.top = cube->l.top;
 	cube->l.top = side__f.top;
+	cube->u.all = CUBE_FACE_CW(cube->u.all);
 }
+
+// 'R' move
+void cube_move_r(Cube *cube) {
+	Side side__f;
+	side__f.right = cube->f.right;
+	cube->f.right = cube->d.right;
+	cube->d.right = cube->b.right;
+	cube->b.right = cube->u.right;
+	cube->u.right = side__f.right;
+	cube->r.all = CUBE_FACE_CW(cube->r.all);
+}
+
 
 // Cube rotations
 void cube_move_x(Cube *cube) {
@@ -159,6 +187,10 @@ void cube_move_x(Cube *cube) {
 	cube->d.all = cube->b.all;
 	cube->b.all = cube->u.all;
 	cube->u.all = side__f.all;
+	cube->l.all = CUBE_FACE_CCW(cube->l.all);
+	cube->r.all = CUBE_FACE_CW( cube->r.all);
+	cube->b.all = CUBE_FACE_2(  cube->b.all);
+	cube->d.all = CUBE_FACE_2(  cube->d.all);
 }
 void cube_move_y(Cube *cube) {
 	Side side__f;
@@ -167,14 +199,15 @@ void cube_move_y(Cube *cube) {
 	cube->l.all = cube->b.all;
 	cube->b.all = cube->r.all;
 	cube->r.all = side__f.all;
+	cube->u.all = CUBE_FACE_CW( cube->u.all);
+	cube->d.all = CUBE_FACE_CCW(cube->d.all);
 }
 void cube_move_z(Cube *cube) {
-	Side side__u;
-	side__u.all = cube->u.all;
-	cube->u.all = cube->l.all;
-	cube->l.all = cube->d.all;
-	cube->d.all = cube->r.all;
-	cube->r.all = side__u.all;
+	cube_move_x(cube);
+	cube_move_x(cube);
+	cube_move_x(cube);
+	cube_move_y(cube);
+	cube_move_x(cube);
 }
 
 void cube_move(Cube *cube, char face, int dir) {
@@ -199,10 +232,33 @@ void cube_move(Cube *cube, char face, int dir) {
 				case 3: cube_move_u(cube);
 				case 2: cube_move_u(cube);
 				case 1: cube_move_u(cube);
-				default:
-					cube_move_x(cube);
-					cube_move_x(cube);
-					break;
+				default: break;
+			}
+			cube_move_x(cube);
+			cube_move_x(cube);
+			break;
+
+		case 'F':
+			cube_move_y(cube);
+			switch(dir) {
+				case -1:
+				case 3: cube_move_u(cube);
+				case 2: cube_move_u(cube);
+				case 1: cube_move_u(cube);
+				default: break;
+			}
+			cube_move_y(cube);
+			cube_move_y(cube);
+			cube_move_y(cube);
+			break;
+
+		case 'R':
+			switch(dir) {
+				case -1:
+				case 3: cube_move_r(cube);
+				case 2: cube_move_r(cube);
+				case 1: cube_move_r(cube);
+				default: break;
 			}
 			break;
 
@@ -245,7 +301,7 @@ void cube_move(Cube *cube, char face, int dir) {
 int main(int argc, char *argv[])
 {
 	Cube cube;
-	int move;
+	int key;
 	//int i;
 	//for(i = 0; i < argc; i++)
 	//	printf("argv[%d] = %s\n", i, argv[i]);
@@ -254,18 +310,31 @@ int main(int argc, char *argv[])
 	printf("\e[2J");
 	cube_print(&cube, 0, 0);
 
-	//cube_move(&cube, 'x', 1); cube_print(&cube, 0, 0); exit(1);
+	system ("/bin/stty raw");
+	while((key = getchar()) != 'q') {
+		switch(key) {
+			case 'f': cube_move(&cube, 'U', -1); break;
+			case 'd': cube_move(&cube, 'L',  1); break;
+			case 'e': cube_move(&cube, 'L', -1); break;
+			case 's': cube_move(&cube, 'D',  1); break;
 
-	cube_move(&cube, 'x', 1); cube_print(&cube, 0, 0); printf("1\n"); sleep(1);
-	cube_move(&cube, 'x', 1); cube_print(&cube, 0, 0); printf("2\n"); sleep(1);
-	cube_move(&cube, 'U', 1); cube_print(&cube, 0, 0); printf("3\n"); sleep(1);
-	cube_move(&cube, 'x', 1); cube_print(&cube, 0, 0); printf("4\n"); sleep(1);
-	cube_move(&cube, 'x', 1); cube_print(&cube, 0, 0); printf("5\n"); sleep(1);
+			case 'a': cube_move(&cube, 'y', -1); break;
 
+			case 'j': cube_move(&cube, 'U',  1); break;
+			case 'k': cube_move(&cube, 'R', -1); break;
+			case 'i': cube_move(&cube, 'R',  1); break;
+			case 'l': cube_move(&cube, 'D', -1); break;
 
-	//cube_move(&cube, 'D', 1);
-	//sleep(1);
-	//cube_print(&cube, 0, 0);
+			case 'r': cube_move(&cube, 'x',  1); break;
+			case 'v': cube_move(&cube, 'x', -1); break;
+			case ';': cube_move(&cube, 'y',  1); break;
+
+			case 'p': cube_init(&cube); break;
+			default: break;
+		}
+		cube_print(&cube, 0, 0);
+	}
+	system ("/bin/stty cooked");
 
 	return 0;
 }

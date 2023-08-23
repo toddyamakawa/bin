@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# USAGE: ,gpg ls
+# DESCRIPTION: List gpg keys
+
+print-cmd gpg --list-keys
+gpg --list-keys
+
+print-cmd gpg --list-secret-keys
+gpg --list-secret-keys
+

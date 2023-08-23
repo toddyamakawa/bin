@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git fix
+# DESCRIPTION: Open all files with merge conflicts
+git diff --name-only | uniq | xargs "$EDITOR"

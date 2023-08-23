@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+print-header 'BASH'
+
+# Variables
+cat << 'EOF'
+
+"$0" │ Script name/path. (Unreliable)
+"$1" │ Positional parameters.
+"$*" │ String of all parameters.
+"$@" │ List of all parameters.
+$#   │ Number of parameters.
+$?   │ Most recent exit code.
+$$   │ PID of current shell.
+$!   │ PID of most recenet command.
+"$_" │ Last argument of most recent command.
+EOF
+
+
+# Parameter expansion
+cat << 'EOF'
+
+${parameter:-word}         │ Use 'word' if parameter is unset.
+${parameter:=word}         │ Assign 'word` if parameter is unset.
+${parameter:+word}         │ Use 'word' if paramter is set.
+${parameter:offset:length} │ Substring.
+${#parameter}              │ Length.
+${parameter#pattern}       │ Delete shortest pattern from the beginning.
+${parameter##pattern}      │ Delete longest pattern from the beginning.
+${parameter%pattern}       │ Delete shortest pattern from the end.
+${parameter%%pattern}      │ Delete longest pattern from the end.
+${parameter/pat/string}    │ Replace first match of 'pat' with 'string'.
+${parameter//pat/string}   │ Replace all matches of 'pat' with 'string'.
+${parameter/#pat/string}   │ Replaces 'pat' with 'string' matched against the beginning.
+${parameter/%pat/string}   │ Replaces 'pat' with 'string' matched against the beginning.
+EOF
+
+
+# Declare
+cat << 'EOF'
+
+declare -i  │ Variable is treated as integer
+EOF
+

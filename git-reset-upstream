@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# USAGE: git reset-upstream
+# DESCRIPTION: Hard resets to upstream
+upstream="$(git upstream)"
+print-cmd git reset --hard "$upstream"
+yesno 'Do you wish to continue?' || exit $?
+git reset --hard "$upstream"
+RETVAL=$?
+print-retval $RETVAL
+exit $RETVAL

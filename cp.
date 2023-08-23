@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+print-run cp -r -t . "$@"

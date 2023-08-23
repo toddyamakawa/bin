@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git deep
+# DESCRIPTION: git fetch --unshallow
+exec print-run git fetch --unshallow "$@"

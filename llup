@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+dirs=()
+dir="$1"
+while [[ "$dir" != '/' ]]; do
+	dirs+=("$dir")
+	dir="$(dirname "$dir")"
+done
+ls -ld --color=always "${dirs[@]}"

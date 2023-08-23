@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# USAGE: git r <command>
+# DESCRIPTION: Recursively run <command> in each git repo
+
+# Get args
+# Always print in color
+# Don't use pager
+args=(-c color.ui=always --no-pager "$@")
+
+reset="$(printf "\033[0m")"
+yellow="$(printf "\033[33m")"
+
+# Run git command
+cd "$(git top)"
+git "${args[@]}"
+
+while IFS= read -r -d '' file; do
+	[[ -d "$file/.git" ]] || continue
+	[[ -L "$file" ]] && continue
+
+	# Run git command in subdirectory
+	(
+		cd "$file"
+		git "${args[@]}"
+	) | sed -e "s|^|$yellow$file$reset|"
+done < <(git ls-files --others --directory -z)
+

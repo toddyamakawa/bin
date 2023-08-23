@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git ds
+# DESCRIPTION: git diff --staged
+exec git d --staged "$@"

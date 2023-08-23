@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+# Add tui to $PATH
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+tui_bin="$CURRENT_DIR/tui"
+PATH="$tui_bin:$PATH"
+
+# FIFO
+tempdir="$(mktemp -d)"
+fifo="$tempdir/pipe"
+mkfifo "$fifo"
+(getch.sh > "$fifo") </dev/stdin 2>/dev/null &
+#(getch2.sh > "$fifo") </dev/stdin 2>/dev/null &
+getch_pid="$!"
+function restore() {
+	kill $getch_pid &>/dev/null 2>dev/null
+	stty echo
+}
+trap restore EXIT
+
+# Print question
+question="${*:-Are you sure?}"
+echo -e "  $question\n\n\n"
+tui-cursor-up 1
+
+function print_bg() {
+	printf "\x1b[48;5;%sm%s\e[0m " "$1" "$2"
+}
+
+function draw_yesno() {
+	yes="$1"
+	tui-cursor-up 1
+	bg_selected=4
+	bg_dark=235
+	if ((yes)); then
+		echo -n '  '
+		print_bg "$bg_selected" '  Yes  '
+		echo -n '  '
+		print_bg "$bg_dark" '  No  '
+		echo
+	else
+		echo -n '  '
+		print_bg "$bg_dark" '  Yes  '
+		echo -n '  '
+		print_bg "$bg_selected" '  No  '
+		echo
+	fi
+}
+
+draw_yesno 0
+
+# Loop
+while true; do
+	read -r line <>"$fifo"
+	if [[ "$line" == 'q' ]]; then
+		exit 1
+	elif [[ "$line" == 'h' ]]; then
+		draw_yesno 1
+	elif [[ "$line" == 'l' ]]; then
+		draw_yesno 0
+	elif [[ "$line" == 'enter' ]]; then
+		exit $((!yes))
+	fi
+done
+
+

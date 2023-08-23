@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: mktmpfs
+# DESCRIPTION: Mount a temporary RAM partition
+# https://www.commandlinefu.com/commands/view/224/mount-a-temporary-ram-partition
+print-run mount -t tmpfs tmpfs /mnt -o size=1024m

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# USAGE: md5string <string>
+# DESCRIPTION: Returns md5sum of <string>
+if is-macos; then
+	exec md5 <<< "$*"
+fi
+md5sum <<< "$@" | cut -d- -f1

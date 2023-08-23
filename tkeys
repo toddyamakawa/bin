@@ -1,7 +1,2 @@
 #!/usr/bin/env bash
-# TODO: Open in floating window
-if [[ -n "$@" ]]; then
-	exec tmux list-keys | grep -i --color=auto "$@"
-else
-	exec tmux list-keys
-fi
+exec tmux list-keys | grepm "$@"

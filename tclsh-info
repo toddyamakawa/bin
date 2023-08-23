@@ -1,0 +1,3 @@
+#!/usr/bin/env tclsh
+puts "tclsh: [exec which tclsh]"
+puts "version: $tcl_version"

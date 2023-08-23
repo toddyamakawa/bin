@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: cdiff <file1> <file2>
+# DESCRIPTION: diff files with color
+exec git diff --color=always --no-index "$@" \
+	| tail -n +5

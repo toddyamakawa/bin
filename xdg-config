@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: xdg-config
+# DESCRIPTION: Get $XDG_CONFIG_HOME
+echo "${XDG_CONFIG_HOME:-$HOME/.config}"
