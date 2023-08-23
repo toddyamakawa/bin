@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git push-skip-ci [args]
+# DESCRIPTION: Pushes and skips GitLab CI
+exec print-run git push -o ci.skip "$@"
