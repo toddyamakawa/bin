@@ -1,6 +1,2 @@
 #!/usr/bin/env bash
-if [[ -n "$@" ]]; then
-	exec ls-env | grep -i --color=auto "$@"
-else
-	exec ls-env
-fi
+exec ls-env | grepm "$@"
