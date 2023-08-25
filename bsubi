@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: bsubi [args] <cmd>
+# DESCRIPTION: Run interactive bsub job
+exec print-run bsub -I -q interactive "$@"
