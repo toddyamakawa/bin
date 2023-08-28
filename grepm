@@ -2,6 +2,8 @@
 # USAGE: grepm <expr1> <expr2> ...
 # DESCRIPTION: grep for multiple expression
 
+# FIXME: This script can't be used by xargs
+
 # Exit for empty string
 if [[ -z "$*" ]]; then
 	cat
