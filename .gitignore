@@ -144,6 +144,7 @@
 !/dunst-reload
 !/e
 !/echop
+!/env2json
 !/epoch
 !/exitfail
 !/extname
