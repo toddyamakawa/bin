@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# USAGE: mktoday
+# DESCRIPTION: Make a directory with the name "$name-$today"
+today="$(today 2>/dev/null)"
+name="${1:-name}"
+dir="$name-$today"
+print-run mkdir -pv "$dir"
