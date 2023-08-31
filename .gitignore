@@ -179,6 +179,7 @@
 !/mailv
 !/manhack
 !/md5string
+!/mktoday
 !/mktmpfs
 !/mon
 !/mon-res
@@ -229,6 +230,7 @@
 !/tig*
 !/timer-bg
 !/tless
+!/today
 !/toddo
 !/tr:
 !/tt.old
