@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
-exec ,bsub --shell
+# USAGE: bsbash
+# DESCRIPTION: Run bash shell
+exec bsubi bash
