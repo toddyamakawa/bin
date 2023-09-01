@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+print-header 'Hugo Commands'
+cat <<-EOF
+hugo new site [path] [flags]
+EOF
+
+echo
+print-header 'Hugo Files'
+cat <<-EOF
+.
+├── config.yaml
+├── content
+│   ├── _index.md
+│   ├── contact.md
+│   └── posts
+│       └── hello-world.md
+└── layouts
+    ├── _default
+    │   ├── list.html
+    │   └── single.html
+    ├── index.html
+    └── partials
+        ├── footer.html
+        └── header.html
+EOF
+
