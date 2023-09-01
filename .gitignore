@@ -57,6 +57,7 @@
 !/rand*
 !/test-*
 !/tr-*
+!/tree*
 !/tui-*
 !/untar*
 !/volume-*
