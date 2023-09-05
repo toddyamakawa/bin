@@ -1,0 +1,6 @@
+Bootstrap: docker
+From: centos/devtoolset-7-toolchain-centos7
+
+%post
+	yum install -y readline-devel
+
