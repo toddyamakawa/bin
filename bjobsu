@@ -3,7 +3,9 @@
 hl_args=()
 hl_args+=('^Job Name' '^Job' User Project Status Queue)
 hl_args+=('Interactive mode' Command 'Submitted from host')
-hl_args+=(CWD Started Allocated 'Resource usage collected')
+hl_args+=(Started Allocated 'Resource usage collected')
+hl_args+=('^Output File' '^Error File')
+hl_args+=('^Execution Home' '^Execution CWD' CWD)
 hl_args+=(RUNLIMIT MEMLIMIT 'MEMORY USAGE' 'CPU USAGE')
 hl_args+=('SCHEDULING PARAMETERS' 'RESOURCE REQUIREMENT DETAILS')
 #
