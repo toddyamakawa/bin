@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-RESET="$(echo -e "\033[0m")"
+RESET="$(printf "\033[0m")"
 exec cut -c "1-$(tput cols)" \
 	| sed "s|^|$RESET|"
