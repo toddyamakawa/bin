@@ -108,12 +108,13 @@
 !/arm
 !/ascii2hex
 !/awkc
-!/bgrep
 !/batt-check
 !/batt-stat
+!/bgrep
 !/bin.plugin.zsh
 !/bit2sv
 !/bls
+!/bpwd
 !/bshell
 !/bsplit
 !/bwhy
