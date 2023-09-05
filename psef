@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
-format='user:13,pid,ppid,%cpu,%mem,etime,cputime,command'
-exec ps -e -o "$format" | grep -v 'grep' | sort -n -k 4 | grepm "$@"
+# TODO: Figure out how to make it display memory used in GB
+format='user:13,pid:7,ppid:7,%cpu,%mem,rsz:8,vsz:8,etime:12,cputime:8,command'
+exec ps -e -o "$format" \
+	| grepm "$@" \
+	| grep -v 'grep' \
+	| sort -n -k 4 \
+	| cutw
