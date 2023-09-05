@@ -1,3 +1,13 @@
 #!/usr/bin/env bash
-exec bjobs -UF "$@" | \
-	awk 'BEGIN{RS=", +|;?\n"} {$1=$1;print}'
+
+hl_args=()
+hl_args+=('^Job Name' '^Job' User Project Status Queue)
+hl_args+=('Interactive mode' Command 'Submitted from host')
+hl_args+=(CWD Started Allocated 'Resource usage collected')
+hl_args+=(RUNLIMIT MEMLIMIT 'MEMORY USAGE' 'CPU USAGE')
+hl_args+=('SCHEDULING PARAMETERS' 'RESOURCE REQUIREMENT DETAILS')
+#
+exec bjobs -UF "$@" \
+	| awk 'BEGIN{RS=", +|;?\n"} {$1=$1;print}' \
+	| hl "${hl_args[@]}"
+
