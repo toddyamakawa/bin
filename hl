@@ -1,0 +1,25 @@
+#!/bin/bash
+
+ESC="$(         echo -e "\033")"
+RESET="$(       echo -e "\033[0m")"
+BOLD_RED="$(    echo -e "\033[31;1m")"
+BOLD_GREEN="$(  echo -e "\033[32;1m")"
+BOLD_YELLOW="$( echo -e "\033[33;1m")"
+BOLD_BLUE="$(   echo -e "\033[34;1m")"
+BOLD_MAGENTA="$(echo -e "\033[35;1m")"
+BOLD_CYAN="$(   echo -e "\033[36;1m")"
+
+BOLD_UNDERLINE_CYAN="$(echo -e "\033[36;4;1m")"
+BOLD="$(echo -e "\033[1m")"
+
+BAR='────────────────────────────────────────────────────────────────────────────────'
+
+color="$BOLD_YELLOW"
+
+sed_args=(-u)
+for str in "$@"; do
+	sed_args+=(-e "s|\($str\)|$color\\1$RESET|")
+done
+
+sed "${sed_args[@]}"
+
