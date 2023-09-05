@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec bjobs-print sub_cwd "$@"
+exec print-run bjobs -o 'jobid:8 stat:5 sub_cwd' $@
