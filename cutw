@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
-exec cut -c "1-$(tput cols)"
+RESET="$(echo -e "\033[0m")"
+exec cut -c "1-$(tput cols)" \
+	| sed "s|^|$RESET|"
