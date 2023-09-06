@@ -8,3 +8,5 @@ else
 fi
 print-cmd git ls "$remote_branch..HEAD" "$@"
 git ls "$remote_branch..HEAD" "$@"
+print-cmd git ls "HEAD..$remote_branch" "$@"
+git ls "HEAD..$remote_branch" "$@"
