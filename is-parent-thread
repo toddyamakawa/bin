@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+pid="$1"
+[[ -f "/proc/$pid/status" ]] || exit 1
+
+# Get PID and TGID
+while read field value; do
+	if [[ "$field" == "Pid:" ]]; then
+		pid="$value"
+	fi
+	if [[ "$field" == "Tgid:" ]]; then
+		tgid="$value"
+	fi
+done < <(cat "/proc/$pid/status")
+
+# If PID and TGID are the same, then it's a parent thread
+[[ "$pid" == "$tgid" ]] && exit 0 || exit 1
+
