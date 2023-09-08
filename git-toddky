@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 repo="${1?}" && shift
-print-run git clone "https://github.com/toddky/$repo" "$repo" || exit $?
-print-cmd cd "$repo"
-cd "$repo"
+dir="${1:-$repo}" && shift
+print-run git clone "https://github.com/toddky/$repo" "$dir" || exit $?
+print-cmd cd "$dir"
+cd "$dir"
 print-run git remote add toddky "git@github.com:toddky/$repo"
 print-run git remote add toddyamakawa "git@github.com:toddyamakawa/$repo"
