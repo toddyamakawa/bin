@@ -17,8 +17,16 @@ BAR='─────────────────────────
 color="$BOLD_YELLOW"
 
 sed_args=(-u)
-for str in "$@"; do
-	sed_args+=(-e "s|\($str\)|$color\\1$RESET|")
+for arg in "$@"; do
+	case "$arg" in
+		--red)     color="$BOLD_RED"     && continue;;
+		--green)   color="$BOLD_GREEN"   && continue;;
+		--yellow)  color="$BOLD_YELLOW"  && continue;;
+		--blue)    color="$BOLD_BLUE"    && continue;;
+		--magenta) color="$BOLD_MAGENTA" && continue;;
+		--cyan)    color="$BOLD_CYAN"    && continue;;
+	esac
+	sed_args+=(-e "s|\($arg\)|$color\\1$RESET|g")
 done
 
 sed "${sed_args[@]}"
