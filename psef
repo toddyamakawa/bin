@@ -5,4 +5,5 @@ exec ps -e -o "$format" \
 	| grepm "$@" \
 	| grep -v 'grep' \
 	| sort -n -k 4 \
-	| cutw
+	| cutw \
+	| hl "$USER"
