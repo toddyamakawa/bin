@@ -162,6 +162,7 @@
 !/getenv
 !/grepi
 !/grepm
+!/grepu
 !/grepv
 !/groups-users
 !/gu
