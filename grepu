@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: grepu
+# DESCRIPTION: grep for $USER
+exec grep "$USER"
