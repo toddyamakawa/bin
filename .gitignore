@@ -209,6 +209,7 @@
 !/realpath.py
 !/relpath.py
 !/rmrf
+!/run.py
 !/sbash
 !/set-speaker*
 !/set-title
