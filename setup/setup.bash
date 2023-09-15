@@ -3,9 +3,12 @@
 repo='https://github.com/toddky/bin'
 bin="$HOME/bin"
 
-if ! [[ -d "$bin" ]] ; then
+if ! command -v git &>/dev/null; then
 	sudo apt install -y git
-	which git || exit $?
+	type git || exit $?
+fi
+
+if ! [[ -d "$bin" ]]; then
 	echo git clone https://github.com/toddky/bin "$bin"
 	git clone "$repo" "$bin"
 fi
@@ -16,5 +19,6 @@ if ! [[ -d "$bin" ]] ; then
 fi
 
 PATH="$bin:$PATH"
+print-cmd "$bin/setup/all.bash"
 "$bin/setup/all.bash"
 
