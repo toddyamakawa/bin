@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# DESCRIPTION: Exit 0 if behind
+#+2 -4 » git rev-list --left-right --count $(git upstream)...$(git bname)
+#4       2
+
+upstream="$(git upstream)" || exit $?
+branch="$(git bname)" || exit $?
+
+result="$(git rev-list --left-right --count "$upstream...$branch")" || exit $?
+read -r behind ahead <<<"$result"
+
+echo "$ahead"
+exit 0
+
