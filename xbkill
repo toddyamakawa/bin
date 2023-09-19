@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# USAGE: bjobs [flags] | xbkill
+# DESCRIPTION: bkill jobs
+
+while read line; do
+	read -r jobid remain <<<"$line"
+	[[ "$jobid" == "JOBID" ]] && continue
+	print-info "$line"
+	yesno "bkill?" && bkill "$jobid"
+done
+

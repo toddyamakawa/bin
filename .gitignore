@@ -250,6 +250,7 @@
 !/watch-inputs
 !/wget-img
 !/xargsi
+!/xbkill
 !/xdg-config
 !/xless
 !/xrandr-*
