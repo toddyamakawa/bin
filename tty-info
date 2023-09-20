@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+echo "tty : '$(tty)'"
+echo '$-  : '"'$-'"
+
+echo
+print-run shopt -q login_shell
+
