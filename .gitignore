@@ -114,6 +114,7 @@
 !/bin.plugin.zsh
 !/bit2sv
 !/bls
+!/bkilli
 !/bpwd
 !/bshell
 !/bsplit
@@ -250,7 +251,6 @@
 !/watch-inputs
 !/wget-img
 !/xargsi
-!/xbkill
 !/xdg-config
 !/xless
 !/xrandr-*
