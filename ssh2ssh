@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+src_host="${1?}"
+dest_host="${2?}"
+src="${3?}"
+
+tmpdir="$(mktemp -d)"
+output="$tmpdir/$(basename "$src")"
+echo "$output"
+
+dest='/path/to/output/dir'
+
+ssh "$src_host" tar czf - "$src" \
+	| ssh "$dest_host" tar xzf - -C "$dest"
+
