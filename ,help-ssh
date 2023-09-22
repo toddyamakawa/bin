@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+print-header 'SSH'
+print-url https://grahamhelton.com/blog/ssh-cheatsheet/
+
+echo
+cat <<-EOF
+ssh -t <host> top
+scp -F ~/.ssh/config ...
+EOF
+
