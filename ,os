@@ -11,10 +11,18 @@ function _cat() {
 _cat /etc/os-release
 _cat /etc/redhat-release
 
+print-cmd uname
+uname
+
+echo
 print-cmd uname -r
 uname -r
 
 echo
 print-cmd lsb_release -a
 lsb_release -a
+
+echo
+print-cmd last reboot
+last reboot
 
