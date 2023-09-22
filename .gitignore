@@ -149,6 +149,7 @@
 !/echop
 !/env2json
 !/epoch
+!/eval.py
 !/exitfail
 !/extname
 !/f
