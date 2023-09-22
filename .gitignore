@@ -226,6 +226,7 @@
 !/spinner
 !/sqlite-schema
 !/ssh.rb
+!/ssh2ssh
 !/supercmd
 !/svn-url
 !/swigi
