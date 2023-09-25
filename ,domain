@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+domain=${1:?}
+
+command -v whois &>/dev/null && print-run whois "$domain"
+
+echo
+print-run dig "$domain"
+
+echo
+print-run host "$domain"
+
