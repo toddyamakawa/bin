@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+format='jobid:8 stat:5 submit_time:21 pend_reason'
+exec print-run bjobs -o "$format" $@
