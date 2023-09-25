@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+pid=${1:?}
+
+print-run kill -0 "$pid" || exit 0
+print-run kill "$pid"
+sleep 1
+print-run kill -0 "$pid" || exit 0
+print-cmd kill -9 "$pid"
+yesno
+kill -9 "$pid"
+print-run kill -0 "$pid" && exit $? || exit 0
+
