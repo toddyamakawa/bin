@@ -2,4 +2,4 @@
 # USAGE: ,ports
 # DESCRIPTION: Show ports
 print-cmd netstat -ltnup
-netstat -ltnup 2>/dev/null
+netstat -ltnup 2>/dev/null | grepm "$@"
