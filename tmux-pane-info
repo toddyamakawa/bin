@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# USAGE: tmux-pane-info
+# DESCRIPTION: Displays pane info
+format='#{pane_id};#{pane_tty};#{pane_in_mode};#{cursor_x};#{cursor_y};#{alternate_on};#{scroll_position};#{pane_height};#{pane_width}'
+pane_id="$1"
+info="$(tmux display-message -t "$pane_id" -p -F "$format")"
+IFS=';' read -r id tty mode x y alt scroll_pos height width <<<"$info"
+echo "$info"
