@@ -7,7 +7,7 @@ hl_args+=(Started Allocated 'Resource usage collected')
 hl_args+=('^Output File' '^Error File')
 hl_args+=('^Execution Home' '^Execution CWD' CWD)
 hl_args+=('Requested Resources' 'PENDING REASONS')
-hl_args+=(RUNLIMIT MEMLIMIT 'MEMORY USAGE' 'CPU USAGE')
+hl_args+=(RUNLIMIT ESTIMATED_RUNTIME MEMLIMIT 'MEMORY USAGE' 'CPU USAGE')
 hl_args+=('SCHEDULING PARAMETERS' 'RESOURCE REQUIREMENT DETAILS')
 #
 exec bjobs -UF "$@" \
