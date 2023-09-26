@@ -1,0 +1,9 @@
+Bootstrap: docker
+From: centos/devtoolset-7-toolchain-centos7
+
+%post
+	yum install -y gcc-c++
+	yum --enablerepo=extras install -y epel-release
+	yum --enablerepo=epel install -y fuse-sshfs
+	#usermod -a -G fuse "$(whoami)"
+
