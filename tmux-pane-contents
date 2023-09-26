@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# USAGE: tmux-pane-info
-# DESCRIPTION: Displays pane info
+# USAGE: tmux-pane-contents
+# DESCRIPTION: Print the contents of the pane
 pane_id="$1"
 
 tmux_args=(capture-pane)
