@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+print-header 'apptainer'
+cat << 'EOF'
+apptainer output.sif input.def
+apptainer run output.sif bash
+EOF
+
