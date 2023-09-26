@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: ,ports
+# DESCRIPTION: Show ports
+print-cmd netstat -ltnup
+netstat -ltnup 2>/dev/null
