@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# USAGE: tmux-pane-info
+# DESCRIPTION: Displays pane info
+pane_id="$1"
+
+tmux_args=(capture-pane)
+tmux_args+=(-p -e)
+[[ -n "$pane_id" ]] && tmux_args+=(-t "$pane_id")
+tmux "${tmux_args[@]}"
+
