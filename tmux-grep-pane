@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+# vim: ft=python noet ts=4 sw=0 sts
+
+# TODO: Remove extra prints
+# TODO: Output this is .yaml or .json
+
+import re
+
+ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+
+with open('pane.txt', 'r') as f:
+     lines = []
+     for line in f:
+        line = ansi_escape.sub('', line.rstrip('\n'))
+        lines.append(line)
+
+def find(lines, regex, group):
+    matches = []
+    for line in lines:
+        print('--------------------------------------------------------------------------------')
+        print(line)
+        m = re.match(regex, line)
+        print(m)
+        if m:
+            print('MATCH')
+            matches.append([m.group(group), m.span(group)])
+    return matches
+
+regex = r".*» *(.*)"
+#regex = r".*(todd)"
+
+print(find(lines, regex, 1))
+
