@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+print-cmd mac-airport --getinfo
+ssid="$(mac-airport --getinfo | awk '($1 == "SSID:") {print $2}')"
+if [[ -z "$ssid" ]]; then
+	print-error "No SSID found" >&2
+	exit 1
+fi
+echo "$ssid"
