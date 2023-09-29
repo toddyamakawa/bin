@@ -1,2 +1,5 @@
 #!/usr/bin/env bash
-ps -ef | sed -n 's/^\(\w\+\).*Xvnc\s\+:\([0-9]\+\).*$/\2 \1/gp' | sort -n
+ps -e -o 'user:13,command' \
+	| sed -n 's/^\(\w\+\).*Xvnc\s\+:\([0-9]\+\).*$/\2 \1/gp' \
+	| sort -n \
+	| hl "$USER"
