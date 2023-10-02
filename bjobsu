@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
 hl_args=()
-hl_args+=('^Job Name' '^Job Description' '^Job' User Project Status Queue)
+
+hl_args+=(--yellow '^Job <.*>' '^Status <.*>')
+
+hl_args+=(--blue)
+hl_args+=('^Job Name' '^Job Description' '^Job Group' '^Job Priority')
+hl_args+=(User Project Application Queue)
 hl_args+=('Interactive mode' Command 'Submitted from host')
 hl_args+=(Started Allocated 'Resource usage collected')
 hl_args+=('^Output File' '^Error File')
