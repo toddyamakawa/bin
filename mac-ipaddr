@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# USAGE: mac-ipaddr
+# DESCRIPTION: Print ip address
+
+iface="en0"
+os_name=`uname -s`
+if [[ $os_name = "Darwin" ]]; then
+	ipconfig getifaddr $iface
+else
+	ip addr show $iface | grep 'inet ' | awk '{print $2}' |cut -f1 -d'/'
+fi
+
