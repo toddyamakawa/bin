@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: dad-joke
+# DESCRIPTION: Print a dad joke
+curl -s -H "Accept: text/plain" https://icanhazdadjoke.com/
+echo
