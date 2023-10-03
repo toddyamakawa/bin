@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# USAGE: ,gpg new
+# DESCRIPTION: Create new GPG key
+
+USERNAME="$USER"
+EMAIL="your.email@example.com"
+
+# Define the key type and key length (you can adjust these as needed)
+KEY_TYPE="RSA"
+KEY_LENGTH="4096"
+
+# Generate the GPG key
+# REVIIST: Fix this command
+print-cmd gpg --batch --generate-key --pinentry-mode loopback
+gpg --batch --generate-key --pinentry-mode loopback <<EOF
+Key-Type: $KEY_TYPE
+Key-Length: $KEY_LENGTH
+Name-Real: $USERNAME
+Name-Email: $EMAIL
+Expire-Date: 0
+EOF
+
+RETVAL=$?
+((RETVAL)) && exit "$RETVAL"
+
+ls
+
+
+# Output the public key
+gpg --armor --export "$USERNAME" > "${USERNAME}_public_key.asc"
+
+echo "New GPG key generated and saved as ${USERNAME}_public_key.asc"
+
+
+exit
+
+
+gpg_args=()
+gpg_args+=(--expert)
+gpg_args+=(--full-generate-key)
+
+# Why doesn’t GnuPG default to using RSA-4096?
+# https://www.gnupg.org/faq/gnupg-faq.html#no_default_of_rsa4096
+#gpg_args+=(--size 3072)
+
+#gpg_args+=(--cipher-algo AES256)
+
+
+gpg "${gpg_args[@]}"
+
