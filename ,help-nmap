@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+print-header 'nmap'
+cat <<-EOF
+nmap -sn 192.168.0.1-255
+EOF
+
