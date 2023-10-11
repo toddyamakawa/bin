@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-
-format='user,pid,ppid,%cpu,%mem,etime,cputime,cmd'
+# USAGE: ls-vim
+# DESCRIPTION: Print vim processes along with TMUX_PANE ID
 while read -r line; do
 	pid="$(echo "$line" | awk '{print $2}')"
 	pane_id="$(set -o pipefail; ps-env $pid 2>/dev/null | sed -n 's/^TMUX_PANE=\(%[0-9]\+\)$/\1/p')"
 	[[ -z "$pane_id" ]] && continue
 	printf '%-20s %s\n' "$(tmux-show-pane "$pane_id")" "$line"
-done < <(ps -e -o "$format" | grep vim)
+done < <(pseo | grep vim)
 
