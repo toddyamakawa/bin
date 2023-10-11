@@ -10,3 +10,7 @@ echo
 print-cmd last reboot
 last reboot | sed '/^$/d'
 
+echo
+print-cmd free -h
+free -h
+
