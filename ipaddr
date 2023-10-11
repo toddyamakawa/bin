@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: ipaddr
+# DESCRIPTION: Print ip address
+print-run hostname -I
