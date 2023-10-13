@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: xdg-cache
+# DESCRIPTION: Get $XDG_CACHE_HOME
+echo "${XDG_CACHE_HOME:-$HOME/.cache}"
