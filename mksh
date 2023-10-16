@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# USAGE: mksh <name>
+# DESCRIPTION: Create shell script
+
+filename="$1"
+[[ -f "${filename:?}" ]] && { print-error "File '$filename' already exists"; exit 1; }
+
+cat > "$filename" << EOF
+#!/usr/bin/env bash
+# USAGE: $(basename "$filename)")
+# DESCRIPTION: TODO
+SCRIPT_DIR="\$(cd "\$(dirname "\${BASH_SOURCE[0]}")" && pwd)"
+EOF
+chmod +x "$filename"
+
