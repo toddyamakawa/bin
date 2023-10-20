@@ -50,6 +50,8 @@ elif [[ "$file" =~ .*\.json ]]; then
 	exit
 
 elif [[ "$file" =~ .*\.log ]]; then
+	print-header 'errors'
+	grep -i error: "$file" | cutw
 	print-header 'contents'
 	headn 5 $file
 	echo -e "\e[31m...\e[0m"
