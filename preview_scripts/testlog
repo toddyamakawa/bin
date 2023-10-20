@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+declare -r CURRENT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+
+# Check file
+file="$1"
+[[ -f "$file" ]] || exit $?
+
+source "$CURRENT_DIR/lib.bash"
+
+print-header 'test.log file'
+grep -i error: "$file"
+echo '...tail...'
+tailn 20 "$file" | strings | cutw
+print-header 'end'
+

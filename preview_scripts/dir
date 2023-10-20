@@ -67,3 +67,9 @@ if [[ -e "uart.log" ]]; then
 	exit
 fi
 
+if [[ -e "test.log" ]]; then
+	echo
+	"$CURRENT_DIR/testlog" "test.log"
+	exit
+fi
+
