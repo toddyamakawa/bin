@@ -6,4 +6,4 @@ if (command -v "tnew-$name" &>/dev/null); then
 else
 	tmux new-session -d -s "$name"
 fi
-ts "$name"
+tmux-s "$name"
