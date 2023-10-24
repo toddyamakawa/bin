@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# USAGE: ,ts
+# DESCRIPTION: Adds a timestamp to each line
+ts -i '%.s' | \
+awk '
+	BEGIN {start = systime()}
+	{
+		now = systime()
+		$1 = sprintf("| %s | %06.2f |", strftime("%H:%M:%S", now), $1)
+		print
+	}
+'
