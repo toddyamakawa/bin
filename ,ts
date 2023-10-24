@@ -5,8 +5,9 @@ ts -i '%.s' | \
 awk '
 	BEGIN {start = systime()}
 	{
-		now = systime()
-		$1 = sprintf("| %s | %06.2f |", strftime("%H:%M:%S", now), $1)
+		s = systime() - start
+		elapsed = sprintf("%02d:%02d:%02d", s/3600, s/60%60, s%60)
+		$1 = sprintf("| %s | %06.2f |", elapsed, $1)
 		print
 	}
 '
