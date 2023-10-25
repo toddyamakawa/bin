@@ -3,6 +3,8 @@
 # DESCRIPTION: Start a cgi server
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# REVISIT: Get cookies: https://archive.ph/EnTBf
+
 #dir="${1:-.}"
 #[[ -d "$dir" ]] || { print-error "Directory '$dir' not found"; exit 1; }
 dir='.'
