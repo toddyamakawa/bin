@@ -8,5 +8,4 @@ if [[ -n "$table" ]]; then
 else
 	cmd='.dump'
 fi
-echo "$cmd" \
-	| sqlite3 -column "${db:?}"
+echo "$cmd" | sqlite3 "${db:?}"
