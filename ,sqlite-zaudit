@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# USAGE: ,sqlite tables <database>
+# DESCRIPTION: Prints a list of tables
+db="${1:-zAudit.db}"
+echo "SELECT Phase, ElapsedTime from zcui_compilation_summary" \
+	| sqlite3 "${db:?}"
