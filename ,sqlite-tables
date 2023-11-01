@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# USAGE: ,sqlite tables <database>
+# DESCRIPTION: Prints a list of tables
+db="$1"
+#echo '.tables' | sqlite3 -column "${db:?}"
+echo 'SELECT name FROM sqlite_schema where type = "table"' \
+	| sqlite3 -column "${db:?}" \
+	| sort
