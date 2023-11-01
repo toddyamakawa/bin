@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# USAGE: ,sqlite tables <database>
+# DESCRIPTION: Prints a list of tables
+db="$1"
+table="$2"
+if [[ -n "$table" ]]; then
+	cmd=".dump $table"
+else
+	cmd='.dump'
+fi
+echo "$cmd" \
+	| sqlite3 -column "${db:?}"
