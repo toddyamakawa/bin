@@ -2,5 +2,5 @@
 # USAGE: ,bhosts
 # DESCRIPTION: Show LSF hosts
 bhosts "$@" \
-	| hl --blue '^HOST_NAME.*' --green ok --red closed
+	| hl --blue '^HOST_NAME.*' --green ok --red closed unreach
 
