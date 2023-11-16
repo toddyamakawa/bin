@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# USAGE: ,bhists <jobid>
+# DESCRIPTION: Print a history of jobs and write it to a file
+jobid="$1"
+print-run bhist -l -n 0 "${jobid:?}" \
+	| tee "$jobid.log"
+
