@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+gcc="$(which riscv64-unknown-elf-gcc 2>/dev/null)"
+gcc_path="$(dirname "$gcc")"
+
+usage="USAGE: risc <cmd> [args]"
+
+# Check usage
+if [[ -z "$1" ]]; then
+	echo "$usage"
+	echo
+	ls -hl --color=auto "$gcc_path/"riscv64-unknown-elf-*
+	exit 2
+fi
+
+# Get command
+gcc_cmd="$1" && shift
+case "$gcc_cmd" in
+	elf)
+		# TODO: Implement this to check if it's an ARM ELF
+		echo "Not implemented yet."
+		exit 2
+		;;
+
+	disass)
+		elf="$1" && shift
+		# TODO: Check with `arm elf` command
+		exec riscv64-unknown-elf-objdump -axdS "$elf" > "$elf.disass"
+		;;
+
+	*)
+		gcc_cmd="riscv64-unknown-elf-$gcc_cmd"
+		if !(type "$gcc_cmd" &>/dev/null); then
+			echo "Command '$gcc_cmd' not found"
+			exit 2
+		fi
+		riscv_cmd=("$gcc_cmd" "${@}")
+		;;
+esac
+
+# Run
+print-cmd "${riscv_cmd[@]}"
+exec "${riscv_cmd[@]}"
+
