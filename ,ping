@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# USAGE: ,ping <host>
+# DESCRIPTION: Ping a URL
+url="$1"
+print-run ping -c 1 "$url"
+print-run traceroute "$url"
+print-cmd mtr "$url"
+
