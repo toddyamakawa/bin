@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# USAGE: bhist <jobid> | parse-bhist
+# DESCRIPTION: 
+
+# REVISIT: Finish making this beautiful
+sed \
+	-e 's|, |\n    |g' \
+	-e 's| \{26\}|    |' \
+	-e 's|^\(.\{24\}:\) \(.*\)|\1\n    \2|'
+
