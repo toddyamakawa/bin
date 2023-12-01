@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+format='jobid:8 stat:5 job_priority:3 user:12 queue:10 exec_host:14 job_name:15 submit_time'
+exec bjobs -o "$format" "$@" \
+	| hl "$USER" --blue DONE --red EXIT --green RUN
