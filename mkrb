@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# USAGE: mksh <name>
+# DESCRIPTION: Create shell script
+
+filename="$1"
+[[ -f "${filename:?}" ]] && { print-error "File '$filename' already exists"; exit 1; }
+
+cat > "$filename" << EOF
+#!/usr/bin/env ruby
+# vim: ft=sh noet ts=4 sw=0 sts
+file = ARGV[0] || 'input.txt'
+EOF
+chmod +x "$filename"
+
