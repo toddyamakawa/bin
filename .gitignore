@@ -192,6 +192,8 @@
 !/mktmpfs
 !/mon
 !/mon-res
+!/mkrb
+!/mksh
 !/mtime
 !/my
 !/noansi
