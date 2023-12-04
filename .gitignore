@@ -47,6 +47,7 @@
 !/grep-*
 !/is-*
 !/install-*
+!/jq-*
 !/lp*
 !/ls-*
 !/lsf-*
