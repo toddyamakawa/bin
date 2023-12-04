@@ -128,6 +128,7 @@
 !/cecho
 !/check-display
 !/chi
+!/chmod-uid
 !/chmodd
 !/chmodg
 !/chmodw
