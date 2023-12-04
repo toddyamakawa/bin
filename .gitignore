@@ -134,6 +134,7 @@
 !/chmodx
 !/clip
 !/colorize
+!/copy-nvim
 !/copy-osc52
 !/cpfrom
 !/cp.
