@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# USAGE: jq-strings <str1> [str2...strn]
+# DESCRIPTION: Convert values into csv
+jq_args=()
+jq_args+=(-r)
+filter="$(printf '+", "+(%s|tostring)' "$@")"
+filter="${filter:6}"
+jq_args+=("$filter")
+jq "${jq_args[@]}"
