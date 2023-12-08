@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+print-header 'LSF Commands'
+cat <<-EOF
+bjobs -UF <jobid>
+bhist -l -n 0 <jobid>
+
+bparams -l
+bqueues -l <queue-name>
+EOF
+
+#echo
+#print-header 'LSF Resources'
+
+echo
+print-header 'Absolute Priority Scheduling (APS)'
+print-url https://www.ibm.com/docs/en/spectrum-lsf/10.1.0?topic=priorities-absolute-priority-scheduling
+cat <<-EOF
+bjobs -aps
+bmod -aps "system=10.00" <jobid>
+bmod -aps "admin=10.00" <jobid>
+bmod -apsn <jobid>
+
+bjobs -l <jobid>
+bhist -l <jobid>
+EOF
+
