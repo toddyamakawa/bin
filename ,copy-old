@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Examples:
+# https://github.com/tmux-plugins/tmux-yank/blob/master/scripts/helpers.sh
+# https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/clipboard.zsh
+
+# Print all stdout to stderr
+exec 1>&2
+
+# Check display
+if (type xdpyinfo &>/dev/null); then
+
+	if ! (xdpyinfo -display "$DISPLAY" &> /dev/null); then
+
+		# Copy to tmux buffer
+		if [[ -e "${TMUX%%,*}" ]]; then
+			tmux-copy
+			print-header 'TMUX BUFFER'
+			tmux-paste
+			exit
+		fi
+
+		# Exit if display fails
+		exec exitfail "Unable to open display '$DISPLAY'"
+	fi
+
+fi
+
+# Find copy command
+if (type xclip &>/dev/null); then
+	# REVISIT: Should I do both here?
+	# https://github.com/ms-jpq/isomorphic_copy/blob/b52377407caad8670c6651390b78f9f720ad3780/iso_cp/copy.py#L52
+	xclip -selection clipboard || exit $?
+	xclip -selection primary || exit $?
+elif (type pbcopy &>/dev/null); then
+	pbcopy || exit $?
+else
+	exec exitfail "Copy command not found."
+fi
+
+# Check clipboard
+copied="$(,paste)" || exit $?
+
+newline=$'\n'
+case "$copied" in
+	*$newline*)
+		print-header 'CLIPBOARD'
+		echo "$copied"
+		cecho --fg yellow --bold "wc: $(echo "$copied" | wc)"
+		;;
+	*)
+		cecho --fg yellow --bold -n 'CLIPBOARD: '
+		echo "'$copied'"
+		;;
+esac
+
+# Copy to tmux buffer
+if [[ -e "${TMUX%%,*}" ]]; then
+	tmux set-buffer "$copied"
+fi
+
