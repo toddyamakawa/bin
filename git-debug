@@ -3,4 +3,4 @@ print-cmd export GIT_CURL_VERBOSE=1
 export GIT_CURL_VERBOSE=1
 print-cmd export GIT_TRACE=1
 export GIT_TRACE=1
-print-run git "$@"
+time print-run git "$@"
