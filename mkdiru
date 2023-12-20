@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: mkdiru
+# DESCRIPTION: Creates a $USER directory with permissions 710
+mkdir -p "$USER"
+chmod 710 "$USER"
