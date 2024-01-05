@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
 
+import argparse
+import sys
+
 from rich.console import Console
 from rich.table import Table
-from sys import argv
 
 # TODO: Set from flag
 header = True
 
 # TODO: Add better argument parsing
-csv_file = argv[1]
+
+parser = argparse.ArgumentParser()
+parser.add_argument('input', nargs='?', type=argparse.FileType(), default=sys.stdin)
+args = parser.parse_args()
 
 table = Table(show_footer=False)
-
-log_lines = open(csv_file, 'r').readlines()
-for line_number, line in enumerate(log_lines):
+for line_number, line in enumerate(args.input):
 
     # Parse line
     line = line.strip()
