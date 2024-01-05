@@ -14,6 +14,7 @@ echo
 print-header 'COMMANDS'
 cat << 'EOF'
 bazel clean --expunge
+bazel query '//foo:bar' --output=build
 EOF
 
 echo
