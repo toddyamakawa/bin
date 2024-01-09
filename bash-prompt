@@ -138,8 +138,11 @@ in_git="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
 RETVAL=$?
 #git_slow=1
 
-#if ((!RETVAL && !bad_dir)); then
-if ((!RETVAL)); then
+if ((RETVAL)); then
+	if git safe-top &>/dev/null; then
+		prompt+=" ${red}<unsafe>"
+	fi
+else
 
 	#git_url="$(git config --get remote.origin.url 2>/dev/null)"
 	git_branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
