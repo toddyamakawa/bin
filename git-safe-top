@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# USAGE: git safe-top
+dir="$(pwd)"
+while [[ "$dir" != / ]]; do
+	if [[ -d "$dir/.git" ]]; then
+		echo "$dir"
+		exit 0
+	fi
+	dir="$(dirname "$dir")"
+done
+exit 128
