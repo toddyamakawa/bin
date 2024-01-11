@@ -25,7 +25,10 @@ function print_dir() {
 		du -h --max-depth=0 "$dir/work"
 		last=1
 	fi
-	du -h --max-depth=0 "$dir"
+	read -r size dir <<<"$(du --max-depth=0 "$dir")"
+	((size=size/1024))
+	((size<100)) && return
+	printf '%-10s %s\n' "$size" "$dir"
 	((last)) && return
 	((depth > 1)) && return
 	for dir in "$dir"/* "$dir"/.*; do
