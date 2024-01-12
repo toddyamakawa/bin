@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # USAGE: git safe-top
-dir="$(pwd)"
+dir="$(pwd 2>/dev/null)"
 while [[ "$dir" != / ]] && [[ -n "$dir" ]]; do
 	if [[ -d "$dir/.git" ]]; then
 		echo "$dir"
