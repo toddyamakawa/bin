@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # USAGE: git safe-top
 dir="$(pwd)"
-while [[ "$dir" != / ]]; do
+while [[ "$dir" != / ]] && [[ -n "$dir" ]]; do
 	if [[ -d "$dir/.git" ]]; then
 		echo "$dir"
 		exit 0
