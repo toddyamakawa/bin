@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-exec print-run git pull --rebase "$@"
+exec print-run git pull --rebase --autostash "$@"
