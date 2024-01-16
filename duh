@@ -1,42 +1,42 @@
 #!/usr/bin/env bash
-start_dir="${1:-.}"
-cd "$start_dir"
+dir="${1:-.}"
+depth="${2:-3}"
+[[ -d "$dir" ]] || exit 1
 
-function get_depth() {
-	tr / $'\n' <<<"$1" | wc -l
-}
+base="$(basename "$dir")"
+if [[ "$base" == '.' ]] && [[ "$dir" != . ]]; then
+	exit 1
+elif [[ "$base" == '..' ]]; then
+	exit 1
+fi
 
-function print_dir() {
-	dir="$1"
-	[[ -d "$dir" ]] || return
-	base="$(basename "$dir")"
-	depth="$(get_depth "$dir")"
-	last=0
-	if [[ "$base" == . ]]; then
-		return
-	elif [[ "$base" == .. ]]; then
-		return
-	elif [[ "$base" == .git ]]; then
-		last=1
-	elif [[ -d "$dir/.git" ]]; then
-		du -h --max-depth=0 "$dir/.git"
-		last=1
-	elif [[ -d "$dir/work" ]]; then
-		du -h --max-depth=0 "$dir/work"
-		last=1
-	fi
-	read -r size dir <<<"$(du --max-depth=0 "$dir")"
-	((size=size/1024))
-	((size<100)) && return
+result="$(du --max-depth=0 "$dir" 2>/dev/null)" || exit 1
+read -r size _ <<<"$result"
+((size=size/1024))
+
+
+case "$base" in
+	.git) last=1;;
+	work) last=1;;
+	logs) last=1;;
+	test.outputs) last=1;;
+	*) last=0;;
+esac
+
+if ((last)); then
 	printf '%-10s %s\n' "$size" "$dir"
-	((last)) && return
-	((depth > 1)) && return
-	for dir in "$dir"/* "$dir"/.*; do
-		print_dir "$dir"
-	done
-}
+	exit 0
+fi
 
-for dir in * .*; do
-	print_dir "$dir"
-done
+((size<100)) && exit 1
+
+if ((depth)); then
+	((depth--))
+	for d in "$dir"/* "$dir"/.*; do
+		"$0" "$d" "$depth"
+	done
+fi
+
+printf '%-10s %s\n' "$size" "$dir"
+exit 0
 
