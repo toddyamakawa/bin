@@ -7,7 +7,7 @@ filename="$1"
 
 cat > "$filename" << EOF
 #!/usr/bin/env bash
-# USAGE: $(basename "$filename)")
+# USAGE: $(basename "$filename")
 # DESCRIPTION: TODO
 SCRIPT_DIR="\$(cd "\$(dirname "\${BASH_SOURCE[0]}")" && pwd)"
 EOF
