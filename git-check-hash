@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# USAGE: git-check-hash <hash>
+# DESCRIPTION: Compare hash
+hash="$1"
+a="$(git show --numstat "${hash:?}")" || exit $?
+b="$(git show --numstat)"
+[[ "$a" == "$b" ]] && exit 0 || exit $?
+
