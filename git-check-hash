@@ -2,7 +2,11 @@
 # USAGE: git-check-hash <hash>
 # DESCRIPTION: Compare hash
 hash="$1"
-a="$(git show --numstat "${hash:?}")" || exit $?
-b="$(git show --numstat)"
-[[ "$a" == "$b" ]] && exit 0 || exit $?
+[[ -z "$hash" ]] && { print-error "Hash not specified"; exit 1; }
+expected="$(git log -1 --format='%H' "$hash")" || exit $?
+actual="$(git log -1 --format='%H')"
+if [[ "$expected" != "$actual" ]]; then
+	print-error "Expected hash '$expected' does not match actual hash '$actual'"
+	exit 1
+fi
 
