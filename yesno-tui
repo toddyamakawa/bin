@@ -3,20 +3,7 @@
 # Add tui to $PATH
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 tui_bin="$CURRENT_DIR/tui"
-PATH="$tui_bin:$PATH"
-
-# FIFO
-tempdir="$(mktemp -d)"
-fifo="$tempdir/pipe"
-mkfifo "$fifo"
-(getch.sh > "$fifo") </dev/stdin 2>/dev/null &
-#(getch2.sh > "$fifo") </dev/stdin 2>/dev/null &
-getch_pid="$!"
-function restore() {
-	kill $getch_pid &>/dev/null 2>dev/null
-	stty echo
-}
-trap restore EXIT
+PATH="$CURRENT_DIR/tui:$PATH"
 
 # Print question
 question="${*:-Are you sure?}"
@@ -49,9 +36,13 @@ function draw_yesno() {
 
 draw_yesno 0
 
+function restore() {
+	[[ -t 0 ]] && stty echo
+}
+trap restore EXIT
+
 # Loop
-while true; do
-	read -r line <>"$fifo"
+while read -r line; do
 	if [[ "$line" == 'q' ]]; then
 		exit 1
 	elif [[ "$line" == 'h' ]]; then
@@ -61,6 +52,6 @@ while true; do
 	elif [[ "$line" == 'enter' ]]; then
 		exit $((!yes))
 	fi
-done
+done < <(getch.sh 2>/dev/null)
 
 
