@@ -32,9 +32,15 @@ args['height']='--height 40%'
 args['tiebreak']='--tiebreak=length'
 args['reverse']='--reverse'
 args['info']='--info inline'
-#args['keybind']='--bind=ctrl-s:toggle-sort'
-args['keybind']='--bind=ctrl-c:clear-query'
-args['bind']='--bind backward-eof:abort'
+
+binds=()
+binds+=('ctrl-c:clear-query')
+binds+=('backward-eof:abort')
+#binds+=('--bind=ctrl-s:toggle-sort')
+binds+=('home:first')
+binds+=('end:last')
+#binds+=('tab:down')
+#binds+=('shift-tab:up')
 
 args['preview']="--preview '$preview/unknown {}'"
 # TODO: Dynamically set preview-window size and position
@@ -127,13 +133,14 @@ case "$config" in
 esac
 
 # Combine options
-cmd='fzf'
+fzf_args=()
 for name in "${!args[@]}"; do
 	((verbosity)) && printf "ARG %-8s : %s\n" "$name" "${args[$name]}"
-	cmd+=" ${args[$name]}"
+	fzf_args+=("${args[$name]}")
 done
+fzf_args+=("--bind=$(IFS=,; echo "${binds[*]}")")
 
 # Print and run
-((verbosity)) && echo "COMMAND: $cmd"
-eval exec $cmd | eval $filter
+((verbosity)) && echo "COMMAND: fzf $cmd"
+eval exec fzf "${fzf_args[@]}" | eval $filter
 
