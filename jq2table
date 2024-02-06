@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# USAGE: jq2table <str1> [str2...strn]
+# DESCRIPTION: Convert jq into table
+(
+	IFS=','
+	echo "$*"
+	jq-csv "$@"
+) | csv2table
+

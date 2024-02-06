@@ -48,6 +48,7 @@
 !/is-*
 !/install-*
 !/jq-*
+!/jq2*
 !/lp*
 !/ls-*
 !/lsf-*
