@@ -67,6 +67,31 @@ if [[ -e "uart.log" ]]; then
 	exit
 fi
 
+if [[ -e 'state.txt' ]]; then
+	echo
+	print-header 'state.txt'
+	cat state.txt
+fi
+
+if [[ -e 'fail.txt' ]]; then
+	echo
+	print-header 'fail.txt'
+	cat fail.txt
+fi
+
+if [[ -e 'action.log' ]]; then
+	echo
+	print-header 'action.log'
+	echo -e "\e[33m...\e[0m"
+	tail action.log
+fi
+
+if [[ -e 'url.txt' ]]; then
+	echo
+	print-header 'url.txt'
+	cat url.txt
+fi
+
 if [[ -e "test.log" ]]; then
 	echo
 	"$CURRENT_DIR/testlog" "test.log"
