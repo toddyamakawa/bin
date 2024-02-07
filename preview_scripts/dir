@@ -76,7 +76,9 @@ fi
 if [[ -e 'fail.txt' ]]; then
 	echo
 	print-header 'fail.txt'
+	printf '\e[1;31m'
 	cat fail.txt
+	printf '\e[0m'
 fi
 
 if [[ -e 'action.log' ]]; then
@@ -89,7 +91,7 @@ fi
 if [[ -e 'url.txt' ]]; then
 	echo
 	print-header 'url.txt'
-	cat url.txt
+	printf '\e[1;4;96m\e]%s\e[0m\n' "$(cat url.txt)"
 fi
 
 if [[ -e "test.log" ]]; then
