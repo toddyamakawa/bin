@@ -151,6 +151,9 @@ else
 	# https://unix.stackexchange.com/questions/43340/how-to-introduce-timeout-for-shell-scripting
 	#stat="$(git status -sb -uno 2>/dev/null | head -1)"
 	#git_slow=$?
+	
+	[[ -f "$(git rev-parse --show-toplevel 2>/dev/null)/.git/index.lock" ]] && prompt+=" ${red}<locked>"
+	#[[ -f "$(git rev-parse --show-toplevel 2>/dev/null)/.git/index.lock" ]] && prompt+=" 🔒"
 
 	if ((git_slow)); then
 		prompt+=" $white$git_branch"
