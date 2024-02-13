@@ -1,6 +1,20 @@
 #!/usr/bin/env bash
-print-header 'nmap'
+print-header 'NMAP'
 cat <<-EOF
+
+nmap 192.168.1.1
+nmap scanme.nmap.org
+nmap -iL targets.txt
 nmap -sn 192.168.0.1-255
+
+nmap 192.168.1.1 -sS	TCP SYN port scan (Default)
+nmap 192.168.1.1 -sT	TCP connect port scan (Default without root privilege)
+nmap 192.168.1.1 -sU	UDP port scan
+nmap 192.168.1.1 -sA	TCP ACK port scan
+nmap 192.168.1.1 -sW	TCP Window port scan
+nmap 192.168.1.1 -sM	TCP Maimon port sca
+
 EOF
+
+print-url https://www.stationx.net/nmap-cheat-sheet/
 
