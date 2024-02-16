@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: ,helmet [numlines]
+# DESCRIPTION: Print the top n lines to stderr, default n=1
+awk -v n="${1:-1}" 'NR <= n { print >"/dev/stderr"; next } { print }'
