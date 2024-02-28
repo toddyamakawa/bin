@@ -6,5 +6,24 @@ echo
 cat <<-EOF
 ssh -t <host> top
 scp -F ~/.ssh/config ...
+
+# Local Port Forwarding (-L)
+# Binds local port 1337 to remote server port 80
+ssh -N -f -L 1337:127.0.0.1:80 root@internal-web.int
+  -N:                    No commands
+  -f:                    Open SSH in the background
+  -L:                    Tells SSH to forward a local port
+  1337:127.0.0.1:80:     Bind local port 1337 to the remote port of 80
+  root@internal-web.int: Login to the remote server as the root
+
+# Remote Port Forwarding (-R)
+# Opposite of local port forwarding
+# Binds remote port 3000 to the local port 80
+ssh -N -f -R 3000:127.0.0.1:80 root@vuln-server.int.
+
+# Jumphosts (-J)
+# Jump chain: campfire.int -> vuln-server.int -> internal-web.int -> dns.int.
+ssh -J root@vuln-server.int,root@internal-web.int root@dns.int
+  -J: Each jump is separated by a comma
 EOF
 
