@@ -11,6 +11,7 @@ info = yaml.safe_load(args.input)
 #print(yaml.dump(info, indent=2))
 
 def to_cfg_list(info, parent=''):
+    if not info: return [f'{parent}=[]']
     config = []
     for index, value in enumerate(info):
         config += to_cfg(value, f'{parent}[{index}]')
