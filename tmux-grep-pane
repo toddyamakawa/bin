@@ -1,42 +1,43 @@
 #!/usr/bin/env python3
 # vim: ft=python noet ts=4 sw=0 sts
 
-# TODO: Remove extra prints
-# TODO: Output this is .yaml or .json
-
+import argparse
+import json
 import re
+from sys import stdin
 
+parser = argparse.ArgumentParser()
+parser.add_argument('input', nargs='?', type=argparse.FileType(), default=stdin)
+args = parser.parse_args()
+pane = args.input.read()
+
+# Parse lines
 ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+lines = [ansi_escape.sub('', line.rstrip('\n')) for line in pane.split('\n')]
 
-with open('pane.txt', 'r') as f:
-	lines = []
-	for line in f:
-		line = ansi_escape.sub('', line.rstrip('\n'))
-		lines.append(line)
-
-def find(lines, regex, group, hint = 'a'):
+def find(lines, regex, group=1):
+	'''
+	Find matches in lines using regex and group
+	'''
 	matches = []
-	for i, line in enumerate(lines):
-		#print('--------------------------------------------------------------------------------')
-		#print(line)
+	for row, line in enumerate(lines):
 		m = re.match(regex, line)
-		#print(m)
-		if m:
-			#print('MATCH')
-			start, end = m.span(group)
-			matches.append([hint, m.group(group), i, start, end])
+		if not m: continue
+		start_col, end_col = m.span(group)
+		matches.append([m.group(group), row, start_col, end_col-start_col])
 	return matches
 
-matches = []
+matches = {}
 
 # todd 755 bin main » <command>
-matches += find(lines, r".*» *(.*)", 1, 'c')
+matches['command'] = find(lines, r".*»\s*(\S.*)")
 
 # lrwxrwxrwx 1 todd group   11 Jan  1 23:59 file -> /path/to/file
-
 # drwxrwxrwx 1 todd group    0 Jan  1 23:59 dir/
+# -rw-r--r-- 1 todd group  10K Jan  1 23:59 file.txt
+perms = '[-dl][-r][-w][-x][-r][-w][-x][-r][-w][-x]'
+matches['file'] = find(lines, r"[-dl]([-r][-w][-x]){3}.* (\S+)", 2)
 
-# drwxrwxrwx 1 todd group  10K Jan  1 23:59 file.txt
-
-print(json.dumps(matches, indent=2))
+#print(json.dumps(matches, indent=2))
+print(json.dumps(matches))
 
