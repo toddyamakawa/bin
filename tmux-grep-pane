@@ -39,7 +39,7 @@ perms = '[-dl][-r][-w][-x][-r][-w][-x][-r][-w][-x]'
 matches['file'] = find(lines, r"[-dl]([-r][-w][-x]){3}.* (\S+)", 2)
 
 # Generate hints
-hintchars = 'fdsavcxzrewqtgb1234567890'
+hintchars = 'fdsavcxzrewqtgb1234567890jklmuiopyhn'
 for key, value in matches.items():
 	for i, match in enumerate(value):
 		match.append(hintchars[i])
