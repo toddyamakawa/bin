@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+# USAGE: tmux-better-yank
+# DESCRIPTION: TODO
+
+# tmux bind-key -T prefixless M-y run-shell /home/$USER/bin/tmux-better-yank
+
+import atexit
+import json
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+
+# Use temp dir
+temp_dir = tempfile.mkdtemp()
+os.chdir(temp_dir)
+def cleanup(): shutil.rmtree(temp_dir)
+atexit.register(cleanup)
+
+# Get tmux pane info
+pane_tty, orig_x, orig_y = os.popen("tmux display-message -p '#{pane_tty} #{cursor_x} #{cursor_y}'").read().strip().split()
+
+# Open tty
+tty = open(pane_tty, "w")
+def print_tty(msg):
+    print(msg, file=tty, end='', flush=True)
+
+# Get pane content
+result = subprocess.run(['tmux-pane-contents'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+pane = result.stdout.decode('utf-8').strip()
+result = subprocess.run(['tmux-grep-pane'], input=pane, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, shell=True)
+info = json.loads(result.stdout.strip())
+#print_tty(info)
+
+# Hide cursor
+def show_cursor():
+    print_tty("\033[?25h")
+atexit.register(show_cursor)
+print_tty("\033[?25l")
+
+# Move cursor to original position
+def move_cursor_orig():
+    global orig_x, orig_y
+    print_tty(f'\033[{int(orig_y)+1};{int(orig_x)+1}H')
+atexit.register(move_cursor_orig)
+
+# Print matches
+def print_hint(x, y, hint):
+    print_tty(f"\033[{x+1};{y+1}H{hint}")
+
+for type, matches in info.items():
+    for match in matches:
+        print_hint(match[1], match[2], match[4])
+
