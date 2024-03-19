@@ -6,5 +6,5 @@ pane_id="$1"
 tmux_args=(capture-pane)
 tmux_args+=(-p -e)
 [[ -n "$pane_id" ]] && tmux_args+=(-t "$pane_id")
-tmux "${tmux_args[@]}" 2>/dev/null
+exec tmux "${tmux_args[@]}"
 
