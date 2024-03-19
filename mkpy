@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# USAGE: mkpy <name>
+# DESCRIPTION: Create a Python script
+
+filename="$1"
+[[ -f "${filename:?}" ]] && { print-error "File '$filename' already exists"; exit 1; }
+
+cat > "$filename" << EOF
+#!/usr/bin/env python3
+# USAGE: $(basename "$filename")
+# DESCRIPTION: TODO
+
+EOF
+chmod +x "$filename"
+
