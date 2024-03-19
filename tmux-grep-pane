@@ -38,6 +38,12 @@ matches['command'] = find(lines, r".*»\s*(\S.*)")
 perms = '[-dl][-r][-w][-x][-r][-w][-x][-r][-w][-x]'
 matches['file'] = find(lines, r"[-dl]([-r][-w][-x]){3}.* (\S+)", 2)
 
+# Generate hints
+hintchars = 'fdsavcxzrewqtgb1234567890'
+for key, value in matches.items():
+	for i, match in enumerate(value):
+		match.append(hintchars[i])
+
 #print(json.dumps(matches, indent=2))
 print(json.dumps(matches))
 
