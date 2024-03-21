@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# USAGE: 
+# DESCRIPTION: 
+
+# Create FIFO and read from it
+fifo="$(mktemp -u --suffix=.fifo)"
+function cleanup { rm -rf "$fifo"; }
+trap cleanup EXIT
+(umask 077; mkfifo "$fifo";)
+exec 3<>"$fifo"
+
+#while true; do tmux display-message -p '#{pane_in_mode} #{client_control_mode} #{pane_mode}'; sleep 1; done &
+
+# Get char from tmux
+tmux command-prompt -k -p 'char:' "run-shell 'printf %1 > $fifo'; wait -S getch"
+tmux wait getch
+
+# Read char from FIFO
+read -t 1 -n 1 -u 3 char
+
+# Check if Ctrl-C, or Escape were pressed
+bad_chars='CE'
+if [[ $bad_chars == *"$char"* ]]; then
+	exit 1
+fi
+
+# Return char
+echo "$char"
+
