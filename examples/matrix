@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# MATRIX
+# ==============================================================================
+# LICENSE: GPL 3.0
+# https://github.com/wick3dr0se/matrix
+
+read -r LINES COLUMNS < <(stty size)
+
+init_term() {
+    printf '\e[?1049h\e[2J\e[?25l'
+    shopt -s checkwinsize|| return 1; (:;:)
+}
+
+deinit_term(){ printf '\e[?1049l\e[?25h'; stty echo; }
+
+print_to() {
+    printf '\e[%d;%dH\e[%d;38;2;%sm%s\e[m' "$2" "$3" "${5:-2}" "$4" "$1"
+}
+
+rain() {
+    dropStart=$((RANDOM%LINES/9))
+    ((dropCol=RANDOM%COLUMNS+1))
+    ((dropLen=RANDOM%(LINES/2)+2))
+    ((dropSpeed=RANDOM%9+1))
+    ((dropColDim=RANDOM%4))
+    color="${COLORS[RANDOM%${#COLORS}]}"
+
+    for ((i = dropStart; i <= LINES+dropLen; i++)); do
+        symbol="${1:RANDOM%${#1}:1}"
+        (( dropColDim ))|| print_to "$symbol" "$i" "$dropCol" "$color" 1
+        (( i > dropStart ))&& print_to "$symbol" "$((i-1))" "$dropCol" "$color"
+        (( i > dropLen ))&& printf '\e[%d;%dH\e[m ' "$((i-dropLen))" "$dropCol"
+
+        sleep "0.$dropSpeed"
+    done
+}
+
+trap deinit_term EXIT
+trap 'wait; exit' INT
+trap 'init_term' WINCH
+
+SYMBOLS='0123456789!@#$%^&*()-_=+[]{}|;:,.<>?abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+COLORS=('102;255;102' '255;176;0' '169;169;169')
+
+init_term || { printf 'Failed initializing terminal\n'; exit 1; }
+stty -echo
+for((;;)) { rain "$SYMBOLS" & sleep 0.1; }
+
