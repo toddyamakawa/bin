@@ -102,7 +102,7 @@ fi
 
 # Directory permissions
 [[ "$OSTYPE" =~ .*darwin.* ]] && ismac=1 || ismac=0
-((ismac)) && permission="$(stat -f %Lp .)" || permission="$(stat -c %a .)"
+((ismac)) && permission="$(stat -f %Lp . 2>/dev/null)" || permission="$(stat -c %a . 2>/dev/null)"
 bad_dir=$?
 if ((bad_dir)); then
 	prompt+=" ${red}???"
