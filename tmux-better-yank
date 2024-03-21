@@ -12,6 +12,7 @@ import subprocess
 import sys
 import tempfile
 import termios
+import time
 import tty
 
 # Use temp dir
@@ -42,10 +43,16 @@ atexit.register(show_cursor)
 print_tty("\033[?25l")
 
 # Move cursor to original position on exit
-def move_cursor_orig():
-    global orig_x, orig_y
+def revert_screen():
+    # Clear screen
+    print_tty("\033[2J")
+    # Move cursor to 0,0
+    print_tty("\033[H")
+    # Reprint pane
+    print_tty(pane)
+    # Move cursor to original position
     print_tty(f'\033[{int(orig_y)+1};{int(orig_x)+1}H')
-atexit.register(move_cursor_orig)
+atexit.register(revert_screen)
 
 # Print hints
 def print_hint(x, y, hint):
@@ -67,6 +74,13 @@ def getch():
     finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     return ch
+
+# sleep 1s
+time.sleep(1)
+
+sys.exit(0)
+
+# TODO: Figure out how to getch()
 
 key = ''
 while key != 'q':
