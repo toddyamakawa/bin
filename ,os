@@ -15,6 +15,10 @@ print-cmd uname
 uname
 
 echo
+print-cmd uname -m
+uname -m
+
+echo
 print-cmd uname -r
 uname -r
 
