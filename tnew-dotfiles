@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-session_name="dotfiles"
+session_name="${BASH_SOURCE[0]#*tnew-}"
 tmux has-session -t "$session_name" &>/dev/null && exit
 
 tneww "$session_name" bin    "$HOME/bin"
