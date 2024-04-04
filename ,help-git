@@ -5,3 +5,15 @@ cat <<-EOF
 EOF
 print-url 'https://github.com/GitAlias/gitalias'
 
+echo
+echo -e "$(cat << EOF
+\e[33m<<<<<<< HEAD\e[0m
+These are changes from the current branch.
+\e[33m||||||| <common-ancestor>\e[0m
+These are changes from the common ancestor.
+\e[33m=======\e[0m
+These are changes from the incoming branch.
+\e[33m>>>>>>> feature2
+EOF
+)"
+
