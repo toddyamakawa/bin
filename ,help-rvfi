@@ -24,5 +24,21 @@ rvfi_rd_wdata ,NRET * XLEN,value of the rd register
 rvfi_pc_rdata ,NRET * XLEN,pc of retired instruction
 rvfi_pc_wdata ,NRET * XLEN,pc of next instruction
 
+,,
+rvfi_mem_addr ,NRET * XLEN  ,memory address
+rvfi_mem_rmask,NRET * XLEN/8,specifies valid bytes
+rvfi_mem_wmask,NRET * XLEN/8,
+rvfi_mem_rdata,NRET * XLEN  ,pre-state data read
+rvfi_mem_wdata,NRET * XLEN  ,post-state data write
+
+,,
+rvfi_csr_<csrname>_rmask,NRET * XLEN,specifes valid bits
+rvfi_csr_<csrname>_wmask,NRET * XLEN,
+rvfi_csr_<csrname>_rdata,NRET * XLEN,
+rvfi_csr_<csrname>_wdata,NRET * XLEN,
+
+,,
+rvfi_rollback_valid, 1,
+rvfi_rollback_order,64,
 EOF
 
