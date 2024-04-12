@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+print-header 'RVFI'
+print-url 'https://github.com/SymbioticEDA/riscv-formal/blob/master/docs/rvfi.md'
+
+csv2table <<-EOF
+FIELD,WIDTH,DESCRIPTION
+
+rvfi_valid,NRET       ,
+rvfi_order,NRET *   64,instruction index
+rvfi_insn ,NRET * ILEN,instruction word? opcode?
+rvfi_trap ,NRET       ,set for instructions that cannot be decoded; memory access violations; misaligned instructions
+rvfi_halt ,NRET       ,set for the last instruction retired before halting; not set when CPU reacts to a trap with a trap handler
+rvfi_intr ,NRET       ,first instruction that is part of a trap handler
+rvfi_mode ,NRET * 2   ,priviledge level: 0=U-Mode; 1=S-Mode; 2=Reserved; 3=M-Mode
+rvfi_ixl  ,NRET * 2   ,MXL/SXL/UXL of the current privilege level: 1=32; 2=64
+
+,,
+rvfi_rs1_addr ,NRET *    5,register address
+rvfi_rs2_addr ,NRET *    5,
+rvfi_rs1_rdata,NRET * XLEN,value of the register
+rvfi_rs2_rdata,NRET * XLEN,
+rvfi_rd_addr  ,NRET *    5,rd register address
+rvfi_rd_wdata ,NRET * XLEN,value of the rd register
+rvfi_pc_rdata ,NRET * XLEN,pc of retired instruction
+rvfi_pc_wdata ,NRET * XLEN,pc of next instruction
+
+EOF
+
