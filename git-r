@@ -11,7 +11,8 @@ reset="$(printf "\033[0m")"
 yellow="$(printf "\033[33m")"
 
 # Run git command
-cd "$(git top)"
+top="$(git-top)" || exit $?
+cd "$top" || exit $?
 git "${args[@]}"
 
 while IFS= read -r -d '' file; do
