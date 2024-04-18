@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+city="$(curl 'https://ipinfo.io/city' 2>/dev/null)"
+printf "$city %s\n" "$(curl -sL "wttr.in/$city?format=1&u" 2>/dev/null)"
