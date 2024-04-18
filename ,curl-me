@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-print-run curl http://ip-api.com/json
+exec print-run curl 'http://ip-api.com/json'

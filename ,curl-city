@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+city="$(curl 'https://ipinfo.io/city' 2>/dev/null)"
+region="$(curl 'https://ipinfo.io/region' 2>/dev/null)"
+echo "$city, $region"
