@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+print-header 'SQL'
+
+cat <<-EOF
+
+MySQL:
+SHOW VARIABLES LIKE "%version%"
+
+EOF
