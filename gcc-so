@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# USAGE: gcc-so
+# DESCRIPTION: Compile C files into a .so file
+
+cfiles=("$@")
+
+first_file="${cfiles[0]}"
+name="$(basename "$first_file")"
+name="${name%.*}"
+lib="$(dirname "$first_file")/lib${name}.so"
+
+print-run gcc -shared -o "$lib" -fPIC "${cfiles[@]}"
+

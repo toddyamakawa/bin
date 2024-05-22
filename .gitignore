@@ -165,6 +165,7 @@
 !/format-sv
 !/forkbomb
 !/ftrace
+!/gcc-so
 !/getch.*
 !/getch2.sh
 !/getenv
