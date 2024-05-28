@@ -1,2 +1,5 @@
 #!/usr/bin/env bash
-exec tail -f "$@"
+# -f, --follow[={name|descriptor}]
+#   output appended data as the file grows;
+#   an absent option argument means 'descriptor'
+exec tail -f --retry --follow=name "$@"
