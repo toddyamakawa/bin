@@ -2,7 +2,7 @@
 # USAGE: mkpy <name>
 # DESCRIPTION: Create a Python script
 
-filename="$1"
+filename="${1:-a.py}"
 [[ -f "${filename:?}" ]] && { print-error "File '$filename' already exists"; exit 1; }
 
 cat > "$filename" << EOF
