@@ -222,6 +222,7 @@
 !/realdir.py
 !/realpath.py
 !/relpath.py
+!/repl
 !/rmrf
 !/run.py
 !/sbash
