@@ -12,8 +12,23 @@ These are changes from the current branch.
 \e[33m||||||| <common-ancestor>\e[0m
 These are changes from the common ancestor.
 \e[33m=======\e[0m
-These are changes from the incoming branch.
-\e[33m>>>>>>> feature2
+These are changes from the incoming branch or stash.
+\e[33m>>>>>>> feature2\e[0m
+EOF
+)"
+
+
+echo
+echo -e "$(cat << EOF
+.git/HEAD
+.git/refs/heads/main
+.git/objects/<commit>
+.git/logs/refs/heads/main
+.git/refs/remotes/origin/main
+
+.git/config
+.git/hooks
+.git/index
 EOF
 )"
 
