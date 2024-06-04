@@ -6,6 +6,14 @@ prev_mtime=0
 
 while true; do
 	sleep 0.1
+
+	if [[ -n "$pid" ]]; then
+		if ! kill -0 "$pid" 2>/dev/null; then
+			echo -e "\e[32m(done)\e[0m"
+			pid=''
+		fi
+	fi
+
 	latest_file="$(ls -1 -rt ./* | tail -n 1)"
 	[[ -x "$latest_file" ]] && script="$latest_file"
 	[[ -x "$script" ]] || continue
@@ -16,6 +24,11 @@ while true; do
 	fi
 	((mtime==prev_mtime)) && continue
 
+	if [[ -n "$pid" ]]; then
+		kill "$pid"
+		wait "$pid"
+	fi
+
 	width="$(tput cols)"
 	height="$(tput lines)"
 
@@ -25,7 +38,8 @@ while true; do
 	printf "\e[37;44;1m"
 	printf "%0.s " $(seq 1 "$width")
 	printf "\r[$(date +'%Y-%m-%d %T')] $script\e[0m\n"
-	"$script"
+	"$script" &
+	pid="$!"
 
 	prev_mtime="$mtime"
 done
