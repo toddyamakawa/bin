@@ -54,6 +54,7 @@
 !/lsf-*
 !/mac
 !/mac-*
+!/mk*
 !/my-*
 !/nnn-*
 !/print-*
@@ -198,9 +199,6 @@
 !/mktmpfs
 !/mon
 !/mon-res
-!/mkrb
-!/mkpy
-!/mksh
 !/mtime
 !/my
 !/noansi

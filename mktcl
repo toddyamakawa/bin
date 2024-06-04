@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# USAGE: mktcl <name>
+# DESCRIPTION: Create tcl script
+
+filename="${1:-a.tcl}"
+[[ -f "${filename:?}" ]] && { print-error "File '$filename' already exists"; exit 1; }
+
+cat > "$filename" << EOF
+#!/usr/bin/env tclsh
+# USAGE: $(basename "$filename")
+# DESCRIPTION: TODO
+
+EOF
+chmod +x "$filename"
+
