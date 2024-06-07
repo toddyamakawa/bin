@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git safe <command>
+# DESCRIPTION: Temporarily mark current git directory as "safe"
+print-run git -c 'safe.directory=*' "$@"
