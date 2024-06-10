@@ -25,6 +25,8 @@ cmd=''
 case $file in
 	# TODO: Fix this giant mess
 	#*.t@(gz|lz|xz|b@(2|z?(2))|a@(z|r?(.@(Z|bz?(2)|gz|lzma|xz)))))
+	*.tar.gz) cmd=($tar -xf);;
+
 	*.7z)  cmd=(7z x);;
 	*.bz2) cmd=(bunzip2);;
 	*.exe) cmd=(cabextract);;
