@@ -31,5 +31,6 @@ sed \
 	-e "s/\(^\w\+Error: .*\)/${BOLD_RED}ERROR: $RESET\\1/" \
 	-e "s/^[# ]*\(Exception occurred: \)/${BOLD_RED}ERROR: $RESET\\1/" \
 	-e "s/\(.*: error: .*\)/${BOLD_RED}ERROR: $RESET\\1/" \
-	-e "s/\(.*: warning: .*\)/${BOLD_YELLOW}WARNING: $RESET\\1/"
+	-e "s/\(.*: warning: .*\)/${BOLD_YELLOW}WARNING: $RESET\\1/" \
+	"$@"
 
