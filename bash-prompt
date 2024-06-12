@@ -92,6 +92,9 @@ if [[ ! -e ${TMUX%%,*} ]]; then
 	[[ -n $LSB_BATCH_JID ]] && lsf=1 || lsf=0
 	[[ $lsf == 1 ]] && prompt+=":$yellow$LSB_BATCH_JID$blue" || prompt+="@\h"
 fi
+if [[ -n "$SINGULARITY_CONTAINER" ]]; then
+	prompt+="$yellow <singularity>$blue"
+fi
 
 
 # ==============================================================================
