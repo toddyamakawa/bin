@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git-ls-me
+# DESCRIPTION: List all commits by me
+git ls --author="$(git author)" "$@"
