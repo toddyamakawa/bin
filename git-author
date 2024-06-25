@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git-author
+# DESCRIPTION: Prints user.name
+git config user.name
