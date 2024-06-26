@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-nvim -u NONE --cmd ':set clipboard=unnamedplus' -s <(echo 'ggyG:q!') -
+#nvim -u NONE --cmd ':set clipboard=unnamedplus' -s <(echo 'ggyG:q!') -
+exec nvim -u NONE --cmd ':set clipboard=unnamedplus' -c %y -c 'q!'
