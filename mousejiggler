@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+while true; do
+	"$HOME/venv/bin/python" -c 'import pyautogui; pyautogui.move(1,0,duration=.01)'
+	sleep 60
+done
+
