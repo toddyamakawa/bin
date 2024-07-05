@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 declare -r top=$(git rev-parse --show-toplevel 2>/dev/null)
 cd $top
-git ls-files --modified | ,fzf git-diff | xargs git add
+(
+	#git ls-files --modified | sed 's/^/modified   /'
+	#git ls-files --others --directory | sed 's/^/others     /'
+	git ls-files --modified
+	git ls-files --others --directory
+) | ,fzf git-diff | xargs git add
 cecho --fg yellow --bold '$> git diff --staged --numstat'
 git diff --staged --numstat
