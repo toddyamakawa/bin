@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 # USAGE: ,ts
 # DESCRIPTION: Adds a timestamp to each line
-ts -i '%.s' | \
 awk '
-	BEGIN {start = systime()}
+	BEGIN {start = systime(); prev = start}
 	{
-		s = systime() - start
+		now = systime()
+		s = now - start
+		diff = now - prev
 		elapsed = sprintf("%02d:%02d:%02d", s/3600, s/60%60, s%60)
-		$1 = sprintf("| %s | %06.2f |", elapsed, $1)
+		printf("| %s | %04d | ", elapsed, diff)
+		#printf("| %s | ", elapsed)
+		prev = now
 		print
 	}
 '
