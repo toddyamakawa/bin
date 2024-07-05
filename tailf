@@ -2,4 +2,8 @@
 # -f, --follow[={name|descriptor}]
 #   output appended data as the file grows;
 #   an absent option argument means 'descriptor'
-exec tail -f --retry --follow=name "$@"
+if is-macos; then
+	exec tail -n 100 -f --follow=name "$@"
+else
+	exec tail -n 100 -f --retry --follow=name "$@"
+fi
