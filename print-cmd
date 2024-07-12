@@ -1,5 +1,22 @@
 #!/usr/bin/env bash
-char='»'
-#char='$'
-printf "\e[34;1m%s\e[0m %s\n" "$char" \
-	"$(printf '%q ' "$@")" 1>&2
+prompt='»'
+#prompt='$'
+
+printf "\e[34;1m%s\e[0m " "$prompt"
+
+for arg in "$@"; do
+	clean_arg="$(printf '%q' "$arg")"
+	if [[ "$arg" == "$clean_arg" ]]; then
+		echo -n "$arg "
+		continue
+	fi
+
+	if [[ $arg != *"'"* ]]; then
+		clean_arg="'$arg'"
+	elif [[ $arg != *'"'* ]]; then
+		clean_arg="\"$arg\""
+	fi
+	echo -n "$clean_arg "
+done
+echo
+
