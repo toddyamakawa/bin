@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# USAGE: git-unified-diff
+# DESCRIPTION: Run a "unified diff"
+print-url https://matklad.github.io/2023/10/23/unified-vs-split-diff.html
+print-cmd git fetch upstream refs/pull/1234/head
+print-cmd git switch --detach FETCH_HEAD
+print-cmd git reset '$(git merge-base HEAD main)'
+
