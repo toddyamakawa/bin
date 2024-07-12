@@ -2,6 +2,18 @@
 # USAGE: ,bhists <jobid>
 # DESCRIPTION: Print a history of jobs and write it to a file
 jobid="$1"
-print-run bhist -UF -n 0 "${jobid:?}" \
+
+work="$(dirname "$LSF_ENVDIR")/work"
+site="$(basename "$(dirname "$LSF_ENVDIR")")"
+matches="$(grep -l "${jobid:?}" "$work/$site/logdir"/lsb.events.???)"
+echo "$matches"
+events="$(grep -Eo '[0-9]+$' <<< "$matches" | sort -n)"
+start_event="$(head -n1 <<< "$events")"
+end_event="$(tail -n1 <<< "$events")"
+
+n="$start_event,$end_event"
+#n=0
+
+print-run bhist -UF "-n$n" "$jobid" \
 	| tee "$jobid.log"
 
