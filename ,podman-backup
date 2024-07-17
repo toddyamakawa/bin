@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 # USAGE: ,podman-backup
 # DESCRIPTION: TODO
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
 id="$1"
-name="$(podman inspect --format '{{.Name}}' "$id")"
+name="$(,podman-name "$id")" || exit $?
 
 backup="${name}_backup"
 tag="latest"
