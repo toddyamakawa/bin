@@ -2,6 +2,7 @@
 prompt='»'
 #prompt='$'
 
+exec 1>&2
 printf "\e[34;1m%s\e[0m " "$prompt"
 
 for arg in "$@"; do
