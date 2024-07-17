@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: ,podman-name <id>
+# DESCRIPTION: Prints name of id
+id="${1:?id not set}"
+exec podman inspect --format '{{.Name}}' "$id"
