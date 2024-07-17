@@ -5,7 +5,7 @@ if [[ -z "$dir" ]]; then
 	printf "$USAGE\n" 1>&2
 	exit 2
 fi
-git_args="$@"
+git_args=("$@")
 if [[ -z "$@" ]]; then
 	git_args=(status)
 fi
