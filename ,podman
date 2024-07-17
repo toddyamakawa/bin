@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+if command -v ",podman-$1" &>/dev/null; then
+	SUPERCMD=,podman exec supercmd "$@"
+fi
+exec podman "$@"
