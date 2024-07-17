@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# USAGE: ,podman-backup
+# DESCRIPTION: TODO
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+id="$1"
+name="$(podman inspect --format '{{.Name}}' "$id")"
+
+backup="${name}_backup"
+tag="latest"
+now="$(date +'%Y%m%d-%H%M%S')"
+tar="${backup}-${now}.tar"
+
+print-run podman commit "$name" "$backup:$tag"
+print-run podman save -o "$tar" "$backup:$tag"
+
