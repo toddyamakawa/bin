@@ -9,6 +9,7 @@ TIG_VERSION := 2.4.1
 targets += abduco
 targets += devour
 #targets += diagon
+targets += dtach
 targets += fzf
 targets += nnn
 
