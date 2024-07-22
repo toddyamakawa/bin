@@ -65,6 +65,17 @@ devour.git/devour: devour.git
 devour.git:
 	git clone --depth 1 https://github.com/salman-abedin/devour $@
 
+# --- dtach ---
+dtach: dtach.git/dtach
+	cp $^ $@
+dtach.git/dtach: dtach.git/config.h
+	make -C dtach.git
+dtach.git/config.h: dtach.git
+	cd $^ && ./configure
+dtach.git:
+	# REVISIT: Check out a specific commit
+	git clone --depth 1 https://github.com/crigler/dtach.git $@
+
 # --- fzf ---
 # TODO: Make this into order only pre-req
 # https://www.gnu.org/software/make/manual/html_node/Prerequisite-Types.html
