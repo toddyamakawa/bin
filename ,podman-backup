@@ -9,6 +9,6 @@ tag="latest"
 now="$(date +'%Y%m%d-%H%M%S')"
 tar="${backup}-${now}.tar"
 
-print-run podman commit "$name" "$backup:$tag"
+print-run podman commit "$name" "$backup:$tag" || exit $?
 print-run podman save -o "$tar" "$backup:$tag"
 
