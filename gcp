@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# USAGE: gcp
+# DESCRIPTION: GitHub Copilot CLI
+if ! command -v gh &>/dev/null; then
+	url="$(print-url 'https://github.com/cli/cli#installation')"
+	print-error "\`gh\` not installed, go to $url"
+	exit 1
+fi
+
+exec gh copilot "$@"
+
