@@ -169,6 +169,7 @@
 !/forkbomb
 !/ftrace
 !/gcc-so
+!/gcp
 !/getch.*
 !/getch2.sh
 !/getenv
