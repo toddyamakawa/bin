@@ -10,4 +10,4 @@ if [[ -z "$@" ]]; then
 	git_args=(status)
 fi
 cd "$dir" || exit $?
-exec git "${git_args[@]}"
+exec git safe "${git_args[@]}"
