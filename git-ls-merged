@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: git ls-merged
+# DESCRIPTION: List branches that are merged
+print-cmd git branch --format='%(refname:short)' --merged "$@"
+exec git branch --format='%(refname:short)' --merged "$@"
