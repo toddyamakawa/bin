@@ -244,6 +244,7 @@
 !/sqlite-schema
 !/ssh.rb
 !/ssh2ssh
+!/streamlit-demo
 !/supercmd
 !/svn-url
 !/swigi
