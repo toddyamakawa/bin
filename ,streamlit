@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: ,streamlit
+# DESCRIPTION: streamlit <args>
+exec ,_python3 streamlit "$@"
