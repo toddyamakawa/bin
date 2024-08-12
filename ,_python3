@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# USAGE: ,_python3
+# DESCRIPTION: Set up python env
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+venv="$SCRIPT_DIR/.venv"
+source "$venv/bin/activate" || exit $?
+exec "$@"
