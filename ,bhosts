@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # USAGE: ,bhosts
 # DESCRIPTION: Show LSF hosts
-bhosts "$@" \
-	| hl --blue '^HOST_NAME.*' --green ok --red closed unreach
+bhosts -w "$@" \
+	| hl --blue '^HOST_NAME.*' --green ok --red closed_Adm 'closed ' unreach --yellow closed_Full
 
