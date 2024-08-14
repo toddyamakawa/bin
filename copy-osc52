@@ -25,11 +25,11 @@ fi
 # Encode string from stdin
 to_copy="$(base64 | tr -d '\n')"
 
-# Set tmux clipboard
-is-tmux && tmux set -g set-clipboard on
-
 # Run OSC 52 escape sequence
-printf "\033]52;c;$to_copy"
-# REVISIT: Escaping tmux no longer necessary?
-#print-dcs "52;c;$to_copy"
+if [[ -e "${TMUX%%,*}" ]]; then
+	tmux set -g set-clipboard on
+	printf "\033]52;c;$to_copy"
+else
+	printf "\033]52;c;$to_copy\a"
+fi
 
