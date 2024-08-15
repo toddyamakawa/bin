@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# USAGE: [[[
+# DESCRIPTION: TODO
+
+exit_code=0
+
+while [[ $# -ge 1 ]]; do
+	arg="$1" && shift
+	case "$arg" in
+		-d)
+			[[ -f "$1" ]] || { print-error "Directory not found: '$1'"; exit_code=1; }
+			shift
+			;;
+		-e)
+			[[ -e "$1" ]] || { print-error "Not found: '$1'"; exit_code=1; }
+			shift
+			;;
+		-f)
+			[[ -f "$1" ]] || { print-error "File not found: '$1'"; exit_code=1; }
+			shift
+			;;
+
+		\]\]\]) exit "$exit_code";;
+
+		*) print-error "'$arg' not recognized"; exit 1;;
+	esac
+done
+
