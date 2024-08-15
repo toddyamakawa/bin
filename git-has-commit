@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: git-has-commit <commit>
+# DESCRIPTION: Check if current branch has the commit
+commit="$1"
+exec git merge-base --is-ancestor "${commit:?}" HEAD
