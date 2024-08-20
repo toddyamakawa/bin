@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# USAGE: ,help c
+# DESCRIPTION: Help with C stuff
+print-header '.so files'
+cat <<-EOF
+nm -D --defined-only <library.so>
+readelf -Ws <library.so>
+objdump -T <library.so>
+
+EOF
+
