@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# Add tui to $PATH
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+tui_bin="$CURRENT_DIR/tui"
+PATH="$CURRENT_DIR/tui:$PATH"
+
+dir="${1:-$PWD}"
+dir="${dir%\/}"
+
+left="$dir"
+right=''
+
+exec 3>&1 1>&2
+
+printf "0 \e[34;1m%s\e[0m/%s\n" "$left" "$right"
+
+while read -r line; do
+	if [[ "$line" == 'q' ]]; then
+		exit 1
+	elif [[ "$line" == 'h' ]]; then
+		# /a/b c/d
+		tmp="${left%/*}"
+		# /a/b c/d /a
+		right="${left#$tmp}/$right"
+		# /a/b b/c/d /a
+		right="${right#\/}"
+		# /a b/c/d /a
+		left="$tmp"
+		printf "h \e[34;1m%s\e[0m/%s\n" "$left" "$right"
+	elif [[ "$line" == 'l' ]]; then
+		# /a/b/c /d -> /a/b /c/d
+		#[[ -z "$right" ]] && continue
+
+		# /a/b c/d
+		tmp="${right#*/}"
+		# /a/b c/d d
+		append="${right%$tmp}"
+		#echo "tmp '$tmp' '$right' '$append'"
+		#left="$left/${right#$tmp/}"
+		left="$left/$append"
+		left="${left%\/}"
+		# /a/b/c c/d d
+		right="$tmp"
+		printf "l \e[34;1m%s\e[0m/%s\n" "$left" "$right"
+	elif [[ "$line" == 'enter' ]]; then
+		echo "DONE '$left'"
+		exit 0
+	fi
+done < <(getch.sh 2>/dev/null)
+
