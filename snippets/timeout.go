@@ -11,10 +11,9 @@ import (
 )
 
 func main() {
-	done := make(chan int, 10)    // Buffer to ensure all goroutines can signal without blocking
-	timeout := make(chan struct{}) // Channel to signal timeout
+	rand.Seed(time.Now().UnixNano())
 
-	rand.Seed(time.Now().UnixNano()) // Seed the random number generator
+	done := make(chan int, 10)    // Buffer to ensure all goroutines can signal without blocking
 
 	// Start 10 goroutines
 	for i := 1; i <= 10; i++ {
@@ -26,11 +25,7 @@ func main() {
 		}(i)
 	}
 
-	// Start a goroutine to signal timeout after 5 seconds
-	go func() {
-		time.Sleep(5 * time.Second)
-		timeout <- struct{}{}
-	}()
+	timeout := time.After(5000 * time.Millisecond)
 
 	// Listen for goroutine completions or timeout
 	for i := 0; i < 10; i++ {
@@ -43,7 +38,6 @@ func main() {
 		}
 	}
 
-	// If we get here, it means all goroutines completed before the timeout
 	fmt.Println("All goroutines completed successfully.")
 }
 
