@@ -9,27 +9,35 @@ left="$dir"
 right=''
 
 printf "\r\e[34;1m%s\e[0m/%s" "$left" "$right"
-while read -r line; do
-	if [[ "$line" == 'q' ]]; then
-		printf "\e[2K\r"
-		exit 1
-	elif [[ "$line" == 'h' ]]; then
-		tmp="${left%/*}"
-		right="${left#$tmp}/$right"
-		right="${right#\/}"
-		left="$tmp"
-		printf "\r\e[34;1m%s\e[0m/%s" "$left" "$right"
-	elif [[ "$line" == 'l' ]]; then
-		tmp="${right#*/}"
-		append="${right%$tmp}"
-		left="$left/$append"
-		left="${left%\/}"
-		right="$tmp"
-		printf "\r\e[34;1m%s\e[0m/%s" "$left" "$right"
-	elif [[ "$line" == 'enter' ]]; then
-		printf "\e[2K\r"
-		echo "$left" 1>&3
-		exit 0
-	fi
-done < <(getch.sh 2>/dev/null)
+while true; do
+	key="$(getch.sh)"
+
+	case "$key" in
+		q)
+			printf "\e[2K\r"
+			exit 1
+			;;
+		h)
+			tmp="${left%/*}"
+			right="${left#$tmp}/$right"
+			right="${right#\/}"
+			left="$tmp"
+			printf "\r\e[34;1m%s\e[0m/%s" "$left" "$right"
+			;;
+		l)
+			tmp="${right#*/}"
+			append="${right%$tmp}"
+			left="$left/$append"
+			left="${left%\/}"
+			right="$tmp"
+			printf "\r\e[34;1m%s\e[0m/%s" "$left" "$right"
+			;;
+		enter)
+			printf "\e[2K\r"
+			echo "$left" 1>&3
+			exit 0
+			;;
+	esac
+
+done
 
