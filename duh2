@@ -3,15 +3,16 @@
 du 2>/dev/null | while read -r size dir; do
 	size_mb="$((size/1024))"
 	((size_mb<100)) && continue
-	[[ "$dir" == */.git/* ]] && continue
-	[[ "$dir" == */.venv/* ]] && continue
-	[[ "$dir" == */logs/* ]] && continue
-	[[ "$dir" == */lib/* ]] && continue
 
-	[[ "$dir" == *.zCui.work/* ]] && continue
-
-	[[ "$dir" == */external/* ]] && continue
-	[[ "$dir" == */execroot/* ]] && continue
+	case "$dir" in
+		*/.git/*)      continue;;
+		*/.venv/*)     continue;;
+		*/logs/*)      continue;;
+		*/lib/*)       continue;;
+		*/external/*)  continue;;
+		*/execroot/*)  continue;;
+		*.zCui.work/*) continue;;
+	esac
 
 	printf '%-10s %s\n' "$size_mb" "$dir"
 done
