@@ -9,6 +9,13 @@ BOLD_BLUE="$(   echo -e "\033[34;1m")"
 BOLD_MAGENTA="$(echo -e "\033[35;1m")"
 BOLD_CYAN="$(   echo -e "\033[36;1m")"
 
+RED="$(    echo -e "\033[31m")"
+GREEN="$(  echo -e "\033[32m")"
+YELLOW="$( echo -e "\033[33m")"
+BLUE="$(   echo -e "\033[34m")"
+MAGENTA="$(echo -e "\033[35m")"
+CYAN="$(   echo -e "\033[36m")"
+
 BOLD_UNDERLINE_CYAN="$(echo -e "\033[36;4;1m")"
 BOLD="$(echo -e "\033[1m")"
 
@@ -25,6 +32,13 @@ for arg in "$@"; do
 		--blue)    color="$BOLD_BLUE"    && continue;;
 		--magenta) color="$BOLD_MAGENTA" && continue;;
 		--cyan)    color="$BOLD_CYAN"    && continue;;
+
+		--normal-red)     color="$RED"     && continue;;
+		--normal-green)   color="$GREEN"   && continue;;
+		--normal-yellow)  color="$YELLOW"  && continue;;
+		--normal-blue)    color="$BLUE"    && continue;;
+		--normal-magenta) color="$MAGENTA" && continue;;
+		--normal-cyan)    color="$CYAN"    && continue;;
 	esac
 	sed_args+=(-e "s|\($arg\)|$color\\1$RESET|g")
 done
