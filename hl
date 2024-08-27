@@ -19,29 +19,34 @@ CYAN="$(   echo -e "\033[36m")"
 BOLD_UNDERLINE_CYAN="$(echo -e "\033[36;4;1m")"
 BOLD="$(echo -e "\033[1m")"
 
-BAR='────────────────────────────────────────────────────────────────────────────────'
+WIDTH="$(tput cols)"
+BAR="$(printf "%${WIDTH}s" ' ' | sed 's/ /─/g')"
+#BAR='────────────────────────────────────────────────────────────────────────────────'
 
 color="$BOLD_YELLOW"
 
 sed_args=(-u)
 for arg in "$@"; do
 	case "$arg" in
-		--red)     color="$BOLD_RED"     && continue;;
-		--green)   color="$BOLD_GREEN"   && continue;;
-		--yellow)  color="$BOLD_YELLOW"  && continue;;
-		--blue)    color="$BOLD_BLUE"    && continue;;
-		--magenta) color="$BOLD_MAGENTA" && continue;;
-		--cyan)    color="$BOLD_CYAN"    && continue;;
 
-		--normal-red)     color="$RED"     && continue;;
-		--normal-green)   color="$GREEN"   && continue;;
-		--normal-yellow)  color="$YELLOW"  && continue;;
-		--normal-blue)    color="$BLUE"    && continue;;
-		--normal-magenta) color="$MAGENTA" && continue;;
-		--normal-cyan)    color="$CYAN"    && continue;;
+		--red)            pre="$BOLD_RED"    ; post="$RESET"; continue;;
+		--green)          pre="$BOLD_GREEN"  ; post="$RESET"; continue;;
+		--yellow)         pre="$BOLD_YELLOW" ; post="$RESET"; continue;;
+		--blue)           pre="$BOLD_BLUE"   ; post="$RESET"; continue;;
+		--magenta)        pre="$BOLD_MAGENTA"; post="$RESET"; continue;;
+		--cyan)           pre="$BOLD_CYAN"   ; post="$RESET"; continue;;
+
+		--normal-red)     pre="$RED"         ; post="$RESET"; continue;;
+		--normal-green)   pre="$GREEN"       ; post="$RESET"; continue;;
+		--normal-yellow)  pre="$YELLOW"      ; post="$RESET"; continue;;
+		--normal-blue)    pre="$BLUE"        ; post="$RESET"; continue;;
+		--normal-magenta) pre="$MAGENTA"     ; post="$RESET"; continue;;
+		--normal-cyan)    pre="$CYAN"        ; post="$RESET"; continue;;
+
+		--header)         pre="$pre$BAR\n"   ; post="\n$BAR$post"; continue;;
 	esac
-	sed_args+=(-e "s|\($arg\)|$color\\1$RESET|g")
+	sed_args+=(-e "s|\($arg\)|$pre\\1$post|g")
 done
 
-sed "${sed_args[@]}"
+exec sed "${sed_args[@]}"
 
