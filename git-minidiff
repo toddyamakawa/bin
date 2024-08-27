@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# USAGE: git-minidiff
+git diff "$@" \
+	| grep -v '^ ' \
+	| grep -v '^+++' \
+	| grep -v '^\-\-\-' \
+	| grep -v '^index' \
+	| hl --normal-red '^-.*' --normal-green '^\+.*' --yellow --header '^diff.*' --normal-cyan '^@@.*'
+
