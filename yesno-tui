@@ -41,8 +41,8 @@ function restore() {
 }
 trap restore EXIT
 
-# Loop
-while read -r line; do
+while true; do
+	line="$(getch.sh)"
 	if [[ "$line" == 'q' ]]; then
 		exit 1
 	elif [[ "$line" == 'h' ]]; then
@@ -52,6 +52,5 @@ while read -r line; do
 	elif [[ "$line" == 'enter' ]]; then
 		exit $((!yes))
 	fi
-done < <(getch.sh 2>/dev/null)
-
+done
 
