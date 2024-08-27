@@ -11,27 +11,23 @@ function getkey() {
 	return $RETVAL
 }
 
-while true; do
-	key="$(getkey)"
+key="$(getkey)"
 
-	# TODO: Figure out how to handle <ESC> key
-	if [[ "$key" == $'\e' ]]; then
-		key+="$(getkey)"
-		key+="$(getkey)"
-	fi
+# TODO: Figure out how to handle <ESC> key
+if [[ "$key" == $'\e' ]]; then
+	key+="$(getkey)"
+	key+="$(getkey)"
+fi
 
-	case "$key" in
-		# Arrow keys
-		$'\e[A') echo 'up'    ;;
-		$'\e[B') echo 'down'  ;;
-		$'\e[C') echo 'left'  ;;
-		$'\e[D') echo 'right' ;;
-		$'\0a' ) echo 'enter' ;;
-		' '    ) echo 'space' ;;
-		$'\t'  ) echo 'tab'   ;;
-		q) echo "q"; exit ;;
-		*) echo "$key" ;;
-	esac
-
-done
+case "$key" in
+	# Arrow keys
+	$'\e[A') echo 'up'    ;;
+	$'\e[B') echo 'down'  ;;
+	$'\e[C') echo 'left'  ;;
+	$'\e[D') echo 'right' ;;
+	$'\0a' ) echo 'enter' ;;
+	' '    ) echo 'space' ;;
+	$'\t'  ) echo 'tab'   ;;
+	*      ) echo "$key"  ;;
+esac
 
