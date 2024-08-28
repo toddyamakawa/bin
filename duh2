@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-exec &> >(tee duh.log)
+exec &> >(tee du.txt)
 
 du 2>/dev/null | while read -r size dir; do
 	size_mb="$((size/1024))"
