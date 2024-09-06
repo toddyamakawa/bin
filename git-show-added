@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git-show-added [SHA]
+# DESCRIPTION: Show added files in commit
+print-run git show --diff-filter=A --name-only  --no-commit-id "$@"
