@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
-branch="$1"
+branch="${1:-$(git branch-name)}"
 if [[ -z "$branch" ]]; then
 	print-usage "git mr <branch>"
 	exit 1
 fi
 
-print-run git checkout -b "$branch" || exit $?
+current_branch="$(git branch-name)"
+
+if [[ "$branch" != "$current_branch" ]]; then
+	print-run git checkout -b "$branch" || exit $?
+fi
 print-run git push origin -u "$branch"
 
