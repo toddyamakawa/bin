@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# USAGE: ,bjobs [args]
+# DESCRIPTION: 
+
+format=()
+format+=('jobid:10')
+format+=('stat:5')
+format+=('user:10')
+format+=('queue:9')
+format+=('exec_host:15')
+format+=('group')
+
+declare -A opts=(
+	['-o']="${format[*]}"
+)
+
+bjobs_args=()
+
+while [[ $# -ge 1 ]]; do
+	arg="$1" && shift
+	case "$arg" in
+		-o)
+			opts["$arg"]="$1"
+			shift
+			;;
+		*)
+			bjobs_args+=("$arg")
+			;;
+	esac
+done
+
+for arg in "${!opts[@]}"; do
+	#echo "$arg: ${opts[$arg]}"
+	bjobs_args+=("$arg" "${opts[$arg]}")
+done
+
+exec bjobs "${bjobs_args[@]}"
+
