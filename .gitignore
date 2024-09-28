@@ -12,6 +12,8 @@
 !/examples/*
 !/gerrit
 !/gerrit/*
+!/javascript
+!/javascript/*
 !/lib
 !/lib/*
 !/list
