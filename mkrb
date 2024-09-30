@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# USAGE: mksh <name>
-# DESCRIPTION: Create shell script
+# USAGE: mkrb <name>
+# DESCRIPTION: Create ruby script
 
-filename="$1"
+filename="${1:-a.rb}"
 [[ -f "${filename:?}" ]] && { print-error "File '$filename' already exists"; exit 1; }
 
 cat > "$filename" << EOF
 #!/usr/bin/env ruby
-# vim: ft=sh noet ts=4 sw=0 sts
-file = ARGV[0] || 'input.txt'
+# vim: ft=ruby noet ts=4 sw=0 sts
+input = ARGF
 EOF
 chmod +x "$filename"
 
