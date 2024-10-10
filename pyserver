@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+# USAGE: pyserver
+# DESCRIPTION: TODO
+
+
+# ==============================================================================
+# IMPORT
+# ==============================================================================
+import datetime
+import http.server
+import os
+import socketserver
+import subprocess
+import sys
+from urllib.parse import urlparse
+
+
+# ==============================================================================
+# ARGS
+# ==============================================================================
+# Get port
+DEFAULT_PORT = 3001
+port = int(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_PORT
+
+
+# ==============================================================================
+# HANDLER
+# ==============================================================================
+class Handler(http.server.SimpleHTTPRequestHandler):
+
+    def do_GET(self):
+
+        super().do_GET()
+
+        if self.path == '/':
+            super().do_GET()
+            return
+
+        ## Send response
+        #self.send_response(200)
+        #self.send_header('Content-type', 'text/html')
+        #self.end_headers()
+
+        ## Run webpage.py with query string
+        #query_string = urlparse(self.path).query
+        #script_dir = os.path.dirname(os.path.realpath(__file__))
+        #cmd = [f'{script_dir}/webpage.py', query_string]
+
+        ## Write output to webpage
+        #result = subprocess.run(cmd, capture_output=True)
+        #stdout = result.stdout.decode('utf-8')
+        #self.wfile.write(stdout.encode('utf-8'))
+        #stderr = result.stderr.decode('utf-8')
+        #if stderr:
+            #print(stderr, file=sys.stderr)
+
+handler = Handler
+
+
+# ==============================================================================
+# START TCP SERVER
+# ==============================================================================
+httpd = None
+try:
+    httpd = socketserver.TCPServer(("", port), handler)
+    print(f'Starting server at localhost:{port}')
+    httpd.serve_forever()
+except OSError as e:
+    print(f'ERROR: Port {port} already in use', file=sys.stderr)
+    pass
+except KeyboardInterrupt:
+    pass
+finally:
+    if httpd:
+        httpd.server_close()
+        print("\nServer stopped.")
+
+

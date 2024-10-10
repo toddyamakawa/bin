@@ -226,6 +226,7 @@
 !/pyflags
 !/pyinfo
 !/pymath
+!/pyserver
 !/realdir.py
 !/realpath.py
 !/relpath.py
