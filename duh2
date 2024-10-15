@@ -17,7 +17,8 @@ du 2>/dev/null | while read -r size dir; do
 		*.zCui.work/*) continue;;
 	esac
 
-	printf '%8s  %s\n' "$size_mb" "$dir"
+	printf '%8s  %s\n' "$size" "$dir" | numfmt --from-unit=1024 --to iec
+	#printf '%8s  %s\n' "$size_mb" "$dir"
 	[[ "$(dirname "$dir")" == '.' ]] && echo
 	[[ -d "$dir/.git" ]] && echo
 done
