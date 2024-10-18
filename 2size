@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: du | 2size
+# DESCRIPTION: Converts number into file size
+numfmt --from-unit=1024 --to iec
