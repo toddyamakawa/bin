@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-print-header 'SQL'
+print-header 'COMMANDS'
 
 cat <<-EOF
+# MySQL:
+SHOW VARIABLES LIKE "%version%";
 
-MySQL:
-SHOW VARIABLES LIKE "%version%"
-
+DESCRIBE <table>;
 EOF
+
