@@ -6,17 +6,57 @@ exec 3>&1 1>&2
 
 # Make temp file
 tempfile="$(mktemp)"
-function cleanup() {
+function on_exit() {
 	rm "$tempfile"
+
+	# Scroll back to top
+	# Clear screen from current position to bottom
+	#printf "\033[${lines}A\033[0J"
+	printf "\033[0J"
+
+	[[ -t 0 ]] && stty echo
 }
-trap cleanup EXIT
+trap on_exit EXIT
 cat > "$tempfile"
 
 lines="$(wc -l "$tempfile" | cut -d' ' -f1)"
-cat "$tempfile"
-sleep 1
 
-# Scroll back to top
-# Clear screen from current position to bottom
-printf "\033[${lines}A\033[0J"
+
+function redraw {
+	cat "$tempfile" | awk -v pos="$pos" '
+		(NR == pos) {printf "\033[1;7m"}
+		1
+		(NR == pos) {printf "\033[0m"}
+	'
+	# move cursor up "lines" lines
+	printf "\033[${lines}A"
+}
+
+
+
+# All of the logic needs to be fixed, but it is starting to work
+
+pos=1
+
+while true; do
+	# Move cursor start_row lines up
+	#printf "\033[${start_row}A"
+	redraw
+	#exit 1
+	ch="$(getch.sh </dev/tty)"
+	#echo "input: $ch"
+	#read -n 1 -p "Press a key: " key_input < /dev/tty
+	if [[ "$ch" == 'q' ]]; then
+		exit 1
+	elif [[ "$ch" == 'j' ]]; then
+		((pos++))
+		#((pos > lines)) && pos="$lines"
+	elif [[ "$ch" == 'k' ]]; then
+		((pos--))
+		#((pos < 1)) && pos=1
+	fi
+done
+
+
+
 
