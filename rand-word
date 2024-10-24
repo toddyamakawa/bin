@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# USAGE: rand-word [length]
+# DESCRIPTION: Randomly pick a word of length <length>
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+length="${1:-5}"
+egrep "^[a-z]{$length}\$" /usr/share/dict/words | shuf -n 1
