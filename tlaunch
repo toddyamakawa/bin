@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# USAGE: tlaunch <command>
+# DESCRIPTION: Launch a new command in tmux
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+umask 077
+
+socket_dir="/tmp/.tmux-$USER"
+mkdir -p "$socket_dir" || exit $?
+chmod 700 "$socket_dir" || exit $?
+
+tmux_conf="$socket_dir/.tmux.conf"
+cat > "$tmux_conf" <<-EOF
+set-option -g status off
+EOF
+
+socket="$(mktemp -p "$socket_dir" -u 'tmux-XXXXXX')"
+
+unset TMUX
+tmux -f "$tmux_conf" -S "$socket" "$@"
+
