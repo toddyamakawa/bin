@@ -2,7 +2,7 @@
 # USAGE: mksh <name>
 # DESCRIPTION: Create shell script
 
-filename="$1"
+filename="${1:-a.sh}"
 [[ -f "${filename:?}" ]] && { print-error "File '$filename' already exists"; exit 1; }
 
 cat > "$filename" << EOF
