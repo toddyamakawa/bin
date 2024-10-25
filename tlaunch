@@ -14,8 +14,9 @@ cat > "$tmux_conf" <<-EOF
 set-option -g status off
 EOF
 
-socket="$(mktemp -p "$socket_dir" -u 'tmux-XXXXXX')"
+socket="$socket_dir/$(rand-word)"
 
 unset TMUX
-tmux -f "$tmux_conf" -S "$socket" "$@"
+tmux -f "$tmux_conf" -S "$socket" new-session "$@"
+tmux -S "$socket" ls &>/dev/null || rm -f "$socket"
 
