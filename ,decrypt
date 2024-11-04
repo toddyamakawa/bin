@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# USAGE: ,decrypt <file.enc>
+# DESCRIPTION: Decrypt <file.enc>
+input="${1:?}"
+iter="${2:-1048576}"
+exec openssl enc -d -aes-256-cbc -pbkdf2 -iter "$iter" -in "$input" -out -
