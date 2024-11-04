@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# USAGE: ,encrypt <file.txt> [iter]
+# DESCRIPTION: Encryps <file.txt>
+input="${1:?}"
+iter="${2:-1048576}"
+output="${input}.enc"
+exec openssl enc -aes-256-cbc -pbkdf2 -iter "$iter" -in "$input" -out "$output"
+
