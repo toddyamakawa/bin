@@ -169,6 +169,7 @@
 !/file-yank
 !/flattenf
 !/flush-dns
+!/format-cmd
 !/format-sv
 !/forkbomb
 !/ftrace

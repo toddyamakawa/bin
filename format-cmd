@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: echo <command> [args] | format-cmd
+# DESCRIPTION: Format a command
+sed 's/\s\+\-/ \\\n\t-/g'
