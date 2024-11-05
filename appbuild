@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+def="${1:?}"
+sif="$(basename "$def" .def).sif"
+exec apptainer build "$sif" "$def"
