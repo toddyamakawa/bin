@@ -1,0 +1,10 @@
+Bootstrap: docker
+From: alpine:latest
+
+%post
+	apk update
+	apk add openssl
+
+%runscript
+	exec openssl "$@"
+
