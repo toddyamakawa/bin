@@ -1,9 +1,28 @@
 Bootstrap: docker
-From: centos/devtoolset-7-toolchain-centos7
+From: ubuntu:22.04
 
 %post
-	yum install -y gcc-c++
-	yum --enablerepo=extras install -y epel-release
-	yum --enablerepo=epel install -y fuse-sshfs
-	#usermod -a -G fuse "$(whoami)"
+    apt-get update && apt-get install -y \
+        wget \
+        curl \
+        git \
+        build-essential \
+        libtool-bin \
+        cmake \
+        pkg-config \
+        unzip \
+        ninja-build
 
+    # Install Neovim 0.10.2
+    wget https://github.com/neovim/neovim/releases/download/v0.10.2/nvim-linux64.tar.gz
+    tar xzvf nvim-linux64.tar.gz
+    mv nvim-linux64 /opt/nvim
+
+    # Add Neovim to PATH
+    ln -s /opt/nvim/bin/nvim /usr/local/bin/nvim
+
+%environment
+    export PATH=/usr/local/bin:$PATH
+
+%runscript
+    exec nvim "$@"
