@@ -48,6 +48,7 @@
 /fzf
 /fzf.git
 !/git-*
+!/gitlab-*
 !/grep-*
 !/is-*
 !/install-*

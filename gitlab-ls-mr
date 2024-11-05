@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+# USAGE: gitlab-ls-mr
+# DESCRIPTION: TODO
+
+import json
+import os
+import requests
+import sys
+
+home = os.path.expanduser("~")
+gitlab_key_file = os.path.join(home, '.gitlab_key')
+with open(gitlab_key_file, 'r') as f:
+    ACCESS_TOKEN = f.read().strip()
+
+gitlab_url_file = os.path.join(home, '.gitlab_url')
+with open(gitlab_url_file, 'r') as f:
+    GITLAB_URL = f.read().strip()
+
+url = f"{GITLAB_URL}/api/v4/merge_requests?state=opened&scope=assigned_to_me"
+headers = {
+    'Private-Token': ACCESS_TOKEN
+}
+response = requests.get(url, headers=headers)
+
+if response.status_code != 200:
+    print(f"Failed to retrieve merge requests: {response.status_code}", file=sys.stderr)
+    sys.exit(1)
+
+
+columns = ['ID', 'Proj', 'Title', 'Assignee', 'Web URL']
+print(','.join(columns))
+
+merge_requests = response.json()
+for mr in merge_requests:
+    mr_id        = mr['id']
+    project_id   = mr['project_id']
+    state        = mr['state']
+    title        = mr['title']
+    assignee     = mr['assignee']['name']
+    web_url      = mr['web_url']
+    #print(json.dumps(mr, indent=2))
+    print(f"{mr_id},{project_id},{title},{assignee},{web_url}")
+    sys.exit(0)
+
