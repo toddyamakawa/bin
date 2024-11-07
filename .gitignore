@@ -21,6 +21,8 @@
 !/preview
 !/preview_scripts
 !/preview_scripts/*
+!/python_lib
+!/python_lib/*
 !/setup/
 !/setup/*
 !/snippets/
