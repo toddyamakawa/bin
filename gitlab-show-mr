@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+# USAGE: gitlab show-mr <URL>
+# DESCRIPTION: Show dtails of MR
+
+import json
+import os
+import requests
+import sys
+
+from python_lib import gitlab
+
+ACCESS_TOKEN = gitlab.get_key()
+GITLAB_URL = gitlab.get_url()
+
+mr_url = sys.argv[1]
+
+# Clean up URL
+mr_url = mr_url.replace(GITLAB_URL, '')
+mr_url = mr_url.lstrip('/')
+
+# Split the URL to get the project ID and MR IID
+project_name, mr_iid = mr_url.split('merge_requests/')
+project_name = project_name.rstrip('/-')
+
+project = gitlab.get_project(GITLAB_URL, ACCESS_TOKEN, project_name)
+if project is None:
+    print(f"Project '{project_name}' not found")
+    sys.exit(1)
+
+mr = gitlab.get_mr(GITLAB_URL, ACCESS_TOKEN, project['id'], mr_iid)
+print(json.dumps(mr, indent=2))
+
