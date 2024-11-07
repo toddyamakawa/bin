@@ -19,7 +19,7 @@ def get_url():
     with open(gitlab_url_file, 'r') as f:
         return f.read().strip()
 
-def project_id(gitlab_url, private_token, project_name):
+def get_project(gitlab_url, private_token, project_name):
     headers = {'PRIVATE-TOKEN': private_token}
     params = {
         'search': os.path.basename(project_name),
