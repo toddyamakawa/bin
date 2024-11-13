@@ -14,10 +14,19 @@ du 2>/dev/null | while read -r size dir; do
 		*/lib/*)       continue;;
 		*/external/*)  continue;;
 		*/execroot/*)  continue;;
+
+		*/frame_0/*)  continue;;
+		*/zrci_run/*)  continue;;
+		*/backend_default/*)  continue;;
+
+		# Directory extension
+		*.vdb/*)      continue;;
 		*.zCui.work/*) continue;;
 	esac
 
-	printf '%8s  %s\n' "$size" "$dir" | numfmt --from-unit=1024 --to iec
+	size="$(numfmt --from-unit=1024 --to iec $size)"
+
+	printf '%8s  %s\n' "$size" "$dir"
 	#printf '%8s  %s\n' "$size_mb" "$dir"
 	[[ "$(dirname "$dir")" == '.' ]] && echo
 	[[ -d "$dir/.git" ]] && echo
