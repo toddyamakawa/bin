@@ -7,21 +7,25 @@ du 2>/dev/null | while read -r size dir; do
 	((size_mb<100)) && continue
 
 	case "$dir" in
-		*/.git/*)      continue;;
-		*/.venv/*)     continue;;
-		*/venv/*)      continue;;
-		*/logs/*)      continue;;
-		*/lib/*)       continue;;
-		*/external/*)  continue;;
-		*/execroot/*)  continue;;
+		*/.git/*)                    continue;;
+		*/.venv/*)                   continue;;
+		*/venv/*)                    continue;;
+		*/logs/*)                    continue;;
+		*/lib/*)                     continue;;
 
-		*/frame_0/*)  continue;;
-		*/zrci_run/*)  continue;;
-		*/backend_default/*)  continue;;
+		# Bazel
+		*/external/*)                continue;;
+		*/execroot/*)                continue;;
+		*/bazel_output_user_root/*)  continue;;
+
+		# Zebu
+		*/frame_0/*)                 continue;;
+		*/zrci_run/*)                continue;;
+		*/backend_default/*)         continue;;
 
 		# Directory extension
-		*.vdb/*)      continue;;
-		*.zCui.work/*) continue;;
+		*.vdb/*)                     continue;;
+		*.zCui.work/*)               continue;;
 	esac
 
 	size="$(numfmt --from-unit=1024 --to iec $size)"
