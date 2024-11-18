@@ -1,0 +1,10 @@
+Bootstrap: docker
+From: ubuntu:latest
+
+%post
+	apt update -y
+	apt install -y bat
+
+%runscript
+	exec batcat "$@"
+
