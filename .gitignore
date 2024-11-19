@@ -42,6 +42,7 @@
 !/bz
 !/bz-*
 !/cat-*
+!/chmod*
 !/chrome-*
 !/cp-*
 !/du*
@@ -139,11 +140,6 @@
 !/cecho
 !/check-display
 !/chi
-!/chmod-uid
-!/chmodd
-!/chmodg
-!/chmodw
-!/chmodx
 !/clip
 !/colorize
 !/copy-nvim
