@@ -55,6 +55,7 @@
 !/grep-*
 !/is-*
 !/install-*
+!/jira-*
 !/jq-*
 !/jq2*
 !/lp*
