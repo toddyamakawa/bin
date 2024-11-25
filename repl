@@ -9,7 +9,7 @@ while true; do
 
 	if [[ -n "$pid" ]]; then
 		if ! kill -0 "$pid" 2>/dev/null; then
-			echo -e "\e[32m(done)\e[0m"
+			printf "\e[32m(done)\e[0m"
 			pid=''
 		fi
 	fi
