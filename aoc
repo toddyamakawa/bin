@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+# USAGE: aoc [year] [day]
+# DESCRIPTION: Create a new AoC day directory with a template file
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# ==============================================================================
+# GET YEAR AND DAY
+# ==============================================================================
+year="$1"
+day="$2"
+
+#current="$(date +'%Y%d')"
+current="$(TZ=America/New_York date +%Y%d)"
+
+[[ -z "$year" ]] && year="${current:0:4}"
+[[ -z "$day" ]] && day="${current:4:2}"
+
+year="$((year % 100 + 2000))"
+day="$(printf "%02d" "$day")"
+
+
+# ==============================================================================
+# GET SESSION
+# ==============================================================================
+cd "$(git-top)" || exit $?
+session="$(cat .session.txt 2>/dev/null)" || printf "\e[33;1mWARNING:\e[0m session.txt file found\n" >&2
+
+
+# ==============================================================================
+# SET UP DIRECTORY
+# ==============================================================================
+mkdir -p "$year"
+cd "$year" || exit $?
+mkdir -p "$day"
+cd "$day" || exit $?
+cp -n ../../template.rb a.rb
+touch example.txt
+
+# Check if input.txt is valid
+if [[ -f input.txt ]]; then
+	contents="$(cat input.txt)"
+	if [[ -z "$contents" ]]; then
+		echo "input.txt is empty"
+		rm input.txt
+
+	elif [[ "$contents" == '404 Not Found' ]]; then
+		echo "input.txt is 404 Not Found"
+		rm input.txt
+
+	elif [[ "$contents" =~ "^Please don't repeatedly request this endpoint before it unlocks" ]]; then
+		echo "input.txt is rate limited"
+		rm input.txt
+	fi
+fi
+
+# Download input.txt
+if [[ ! -f input.txt ]] && [[ -n "$session" ]]; then
+	echo
+	url="https://adventofcode.com/${year}/day/$((10#${day}))/input"
+	echo "Downloading input.txt from $url"
+	curl --cookie "session=$session" "$url" > input.txt
+fi
+
+
+# ==============================================================================
+# OPEN TMUX
+# ==============================================================================
+dir="$(pwd)"
+echo
+echo 'Directory:'
+echo "$dir"
+if [[ -e ${TMUX%%,*} ]]; then
+	tmux new-window -c "$dir" -n "aoc-${year:2:2}$day"
+	tmux split-window -h -c "$dir"
+fi
+
