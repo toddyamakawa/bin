@@ -71,6 +71,8 @@ echo 'Directory:'
 echo "$dir"
 if [[ -e ${TMUX%%,*} ]]; then
 	tmux new-window -c "$dir" -n "aoc-${year:2:2}$day"
-	tmux split-window -h -c "$dir"
+	tmux split-window -h -c "$dir" repl
+	tmux split-window -v -l 2 -c "$dir"
+	tmux select-pane -t 1
 fi
 
