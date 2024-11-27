@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
-# USAGE: age <file>
+# USAGE: age <file1> [file2...]
 # DESCRIPTION: Get age of file
+if is-macos; then
+	mtime=$(stat -f %m "$1") || exit $?
+else
+	mtime="$(stat -c %Y "$1")" || exit $?
+fi
 now="$(date +%s)"
-mtime="$(stat -c %Y "$1")" || exit $?
 echo "$((now-mtime))"
+shift
+((${#@})) && "$0" "$@"
