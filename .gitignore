@@ -34,6 +34,8 @@
 !/wordle_src
 !/wordle_src/*
 
+!/aoc
+!/aoc-*
 !/awk-*
 !/bash-*
 !/bjobs*
@@ -119,8 +121,6 @@
 !/abduco-ls
 !/age
 !/ansi
-!/aoc
-!/aoc-submit
 !/appbuild
 !/arm
 !/ascii2hex
