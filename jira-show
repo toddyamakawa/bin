@@ -6,9 +6,9 @@ import argparse
 from python_lib import myjira
 
 parser = argparse.ArgumentParser()
-parser.add_argument("jira_issue", help="Jira ticket")
-parser.add_argument("--email", required=True, help="Email address")
-parser.add_argument("--comments", action="store_true", help="Show comments")
+parser.add_argument('jira_issue', help='JIRA issue key')
+parser.add_argument('-e', '--email', help='Email address to use for authentication')
+parser.add_argument('-c', '--comments', action='store_true', help='Show comments')
 args = parser.parse_args()
 
 jira = myjira.get_client(args.email)
@@ -25,6 +25,7 @@ reset  = '\033[0m'
 
 print(f"{bold}{blue}{issue.key}{reset} {bold}{yellow}{issue.fields.summary}{reset}")
 #print(f"{bold}{yellow}{issue.fields.summary}{reset}")
+print(f"{bold}{blue}Type:    {reset} {issue.fields.issuetype.name}")
 print(f"{bold}{blue}Status:  {reset} {issue.fields.status.name}")
 print(f"{bold}{blue}Assignee:{reset} {issue.fields.assignee.displayName if issue.fields.assignee else 'Unassigned'}")
 print(f"{bold}{blue}Reporter:{reset} {issue.fields.reporter.displayName}")
@@ -45,7 +46,7 @@ if args.comments:
         author = comment.author.displayName
         created = comment.created
         body = comment.body
-        print(f"{bold}{blue}{created}{reset} {bold}{yellow}{author}{reset}")
+        print(f"{bold}{blue}[Comment] {created}{reset} {bold}{yellow}{author}{reset}")
         print(f"{body}")
         print()
 
