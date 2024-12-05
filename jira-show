@@ -21,15 +21,15 @@ yellow = '\033[33m'
 blue   = '\033[34m'
 cyan   = '\033[36m'
 reset  = '\033[0m'
-# Print all information about the issue
+
+priority = issue.fields.priority.name if 'priority' in issue.fields.__dict__ else 'None'
 
 print(f"{bold}{blue}{issue.key}{reset} {bold}{yellow}{issue.fields.summary}{reset}")
-#print(f"{bold}{yellow}{issue.fields.summary}{reset}")
 print(f"{bold}{blue}Type:    {reset} {issue.fields.issuetype.name}")
 print(f"{bold}{blue}Status:  {reset} {issue.fields.status.name}")
 print(f"{bold}{blue}Assignee:{reset} {issue.fields.assignee.displayName if issue.fields.assignee else 'Unassigned'}")
 print(f"{bold}{blue}Reporter:{reset} {issue.fields.reporter.displayName}")
-print(f"{bold}{blue}Priority:{reset} {issue.fields.priority.name}")
+print(f"{bold}{blue}Priority:{reset} {priority}")
 print(f"{bold}{blue}Created: {reset} {issue.fields.created}")
 print(f"{bold}{blue}Updated: {reset} {issue.fields.updated}")
 print(f"{bold}{blue}Labels:  {reset} {issue.fields.labels}")
