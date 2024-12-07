@@ -23,7 +23,7 @@ day="$(printf "%02d" "$day")"
 # GET SESSION
 # ==============================================================================
 cd "$(git-top)" || exit $?
-session="$(cat .session.txt 2>/dev/null)" || printf "\e[33;1mWARNING:\e[0m session.txt file found\n" >&2
+session="$(cat .session.txt)" || exit $?
 
 
 # ==============================================================================
@@ -70,9 +70,11 @@ echo
 echo 'Directory:'
 echo "$dir"
 if [[ -e ${TMUX%%,*} ]]; then
-	tmux new-window -c "$dir" -n "aoc-${year:2:2}$day"
-	tmux split-window -h -c "$dir" repl
+	tmux new-window -c "$dir" -n "$year-$day"
+	tmux split-window -h -c "$dir" aoc-repl
 	tmux split-window -v -l 2 -c "$dir"
+	tmux select-pane -t 2
 	tmux select-pane -t 1
+	tmux send-keys 'vi *' C-m
 fi
 
