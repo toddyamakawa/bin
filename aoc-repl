@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# USAGE: aoc-repl
+# DESCRIPTION: Run latest executable if it detects a change
+
+function getch() {
+	stty -icanon time 1 min 0
+	char="$(dd bs=1 count=1 2>/dev/null)"
+	stty icanon
+	echo "$char"
+}
+
+[[ -x a.rb ]] && touch a.rb
+stty -echo
+
+prev_mtime=0
+script_args=()
+rerun=1
+
+while true; do
+	sleep 0.1
+
+	# Get char
+	char="$(getch)"
+	case "$char" in
+		r)     rerun=1; script_args=();;
+		0)     rerun=1; script_args=();;
+		[1-9]) rerun=1; script_args=("$char");;
+		q)     break;;
+	esac
+
+	# Check if script is done
+	if [[ -n "$pid" ]]; then
+		if ! kill -0 "$pid" 2>/dev/null; then
+			printf "\e[32m(done)\e[0m"
+			pid=''
+		fi
+	fi
+
+	# Get latest file
+	latest_file="$(ls -1 -rt ./* ../../todd.rb 2>/dev/null | tail -n 1)"
+	[[ -x "$latest_file" ]] && script="$latest_file"
+	[[ -x "$script" ]] || continue
+
+	# Get mtime of file
+	if [[ "$OSTYPE" =~ .*darwin.* ]]; then
+		mtime="$(stat -f %m "$latest_file")"
+	else
+		mtime="$(stat -c %Y "$latest_file")"
+	fi
+
+	if ! ((rerun)); then
+		((mtime==prev_mtime)) && continue
+	fi
+
+	# Kill script if running
+	if [[ -n "$pid" ]]; then
+		kill "$pid"
+		wait "$pid"
+	fi
+
+	# Print top header
+	width="$(tput cols)"
+	height="$(tput lines)"
+	echo ' '
+	clear
+	printf "\e[37;44;1m"
+	printf "%0.s " $(seq 1 "$width")
+	printf "\r[$(date +'%Y-%m-%d %T')] $script\e[0m\n"
+
+	# Run
+	"$script" "${script_args[@]}" &
+	pid="$!"
+
+	# Update results
+	prev_mtime="$mtime"
+	rerun=0
+done
+
+stty echo
+
