@@ -7,7 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # GET YEAR AND DAY
 # ==============================================================================
 year="$1"
-day="$2"
+day="$((10#$2))"
 
 #current="$(date +'%Y%d')"
 current="$(TZ=America/New_York date +%Y%d)"
