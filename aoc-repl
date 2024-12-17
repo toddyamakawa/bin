@@ -2,6 +2,10 @@
 # USAGE: aoc-repl
 # DESCRIPTION: Run latest executable if it detects a change
 
+# Deeper stack for this error:
+# stack level too deep (SystemStackError)
+export RUBY_THREAD_VM_STACK_SIZE=10000000
+
 function getch() {
 	stty -icanon time 1 min 0
 	char="$(dd bs=1 count=1 2>/dev/null)"
