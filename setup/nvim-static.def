@@ -1,0 +1,52 @@
+Bootstrap: docker
+From: ubuntu:20.04
+
+%post
+
+    # Set timezone to Chicago non-interactively
+    export DEBIAN_FRONTEND=noninteractive
+    ln -fs /usr/share/zoneinfo/America/Chicago /etc/localtime
+    apt-get update && apt-get install -y tzdata
+
+    # Install required dependencies
+    apt-get update && apt-get install -y \
+    libtool-bin \
+    gettext \
+    autoconf \
+    automake \
+    cmake \
+    g++ \
+    pkg-config \
+    unzip \
+    curl \
+    ninja-build \
+    build-essential \
+    git \
+    doxygen \
+    libuv1-dev \
+    libmsgpack-dev \
+    libvterm-dev \
+    libtermkey-dev \
+    libluajit-5.1-dev \
+    libunibilium-dev \
+    lua5.1
+
+%post
+    # Clone and build Neovim with static linking
+    git clone https://github.com/neovim/neovim.git
+    cd neovim
+    git checkout stable
+
+    # Use static flags for libraries
+    make CMAKE_BUILD_TYPE=Release \
+         CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=/nvim \
+                            -DCMAKE_EXE_LINKER_FLAGS='-static' \
+                            -DCMAKE_FIND_LIBRARY_SUFFIXES=.a \
+                            -DCLANG_ASAN=OFF" \
+         install
+
+%environment
+    export PATH="/nvim/bin:$PATH"
+
+%runscript
+    nvim "$@
