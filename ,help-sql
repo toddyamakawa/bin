@@ -5,6 +5,13 @@ cat <<-EOF
 # MySQL:
 SHOW VARIABLES LIKE "%version%";
 
+SHOW DATABASES;
+USE <database>;
+
+SHOW TABLES;
 DESCRIBE <table>;
+
+SELECT * FROM <table> WHERE <column> LIKE '%todd%';
+SELECT * FROM <table> LIMIT 10;
 EOF
 
