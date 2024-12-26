@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# USAGE: yabai-move-window <DIR>
+# DESCRIPTION: TODO
+
+if [[ "$1" == 'left' ]]; then
+	window_dir='west'
+	display_dir='prev'
+elif [[ "$1" == 'right' ]]; then
+	window_dir='east'
+	display_dir='next'
+fi
+
+# Move window left and exit
+yabai -m window --warp "$window_dir" &>/dev/null && exit
+
+# Get window ID and move window to left display
+window_info="$(yabai -m query --windows --window)"
+window_id="$(echo "$window_info" | jq .id)"
+yabai -m window --display "$display_dir"
+yabai -m window --focus "$window_id"
+
