@@ -8,6 +8,8 @@ if [[ "$1" == 'left' ]]; then
 elif [[ "$1" == 'right' ]]; then
 	window_dir='east'
 	display_dir='next'
+else
+	exit 1
 fi
 
 # Move window left and exit
