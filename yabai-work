@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# USAGE: yabai-work
+# DESCRIPTION: TODO
+#SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+initial_id="$(yabai -m query --windows --window | jq .id)"
+
+while read line; do
+	#echo "line: $line"
+	id="$(echo "$line" | jq -r .id 2>/dev/null)"
+	app="$(echo "$line" | jq -r .app 2>/dev/null)"
+	title="$(echo "$line" | jq -r .title 2>/dev/null)"
+	[[ -z "$id" ]] && continue
+	#echo "id:$id app:$app title:$title"
+
+	if [[ "$app" == 'Gmail' ]]; then
+		yabai -m window --focus "$id"
+		yabai -m window --space 7
+		continue
+	elif [[ "$app" == "Google Chrome" ]]; then
+		space_id="$(sed -n 's/\([1-9]\):.*/\1/p' <<<"$title")"
+		if [[ -n "$space_id" ]]; then
+			yabai -m window --focus "$id"
+			yabai -m window --space "$space_id"
+			continue
+		fi
+	fi
+	#echo "id:$id app:$app title:$title"
+
+done < <(yabai-ls-windows)
+
+yabai -m window --focus "$initial_id"
+
