@@ -5,6 +5,17 @@
 
 initial_id="$(yabai -m query --windows --window | jq .id)"
 
+declare -A apps
+apps['iTerm2']=4
+apps['ChatGPT']=7
+apps['Gmail']=7
+apps['Slack']=7
+apps['Spotify']=8
+apps['WhatsApp Web']=9
+
+# Key to check
+key_to_check="key2"
+
 while read line; do
 	#echo "line: $line"
 	id="$(echo "$line" | jq -r .id 2>/dev/null)"
@@ -13,9 +24,9 @@ while read line; do
 	[[ -z "$id" ]] && continue
 	#echo "id:$id app:$app title:$title"
 
-	if [[ "$app" == 'Gmail' ]]; then
+	if [[ -v apps[$app] ]]; then
 		yabai -m window --focus "$id"
-		yabai -m window --space 7
+		yabai -m window --space "${apps[$app]}"
 		continue
 	elif [[ "$app" == "Google Chrome" ]]; then
 		space_id="$(sed -n 's/\([1-9]\):.*/\1/p' <<<"$title")"
