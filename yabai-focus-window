@@ -5,50 +5,37 @@
 dir="$1"
 case "$dir" in
 	left|west)
-		window_dir='west'
-		display_dir='prev'
-		display_wrap='last'
 		lr=1
+		dir='west'
 		;;
 
 	right|east)
-		window_dir='east'
-		display_dir='next'
-		display_wrap='first'
 		lr=1
+		dir='east'
 		;;
 
 	up|north)
-		window_dir='north'
-		stack_dir='stack.next'
-		stack_wrap='stack.first'
 		lr=0
+		dir='north'
 		;;
 
 	down|south)
-		window_dir='south'
-		stack_dir='stack.prev'
-		stack_wrap='stack.last'
 		lr=0
+		dir='south'
 		;;
 
 	*)
-		echo "unknown option" 1>&2
+		print-error "unknown direction '$dir'"
 		exit 1
 		;;
 esac
 
-yabai -m window --focus "$window_dir" &>/dev/null && exit 0
+yabai -m window --focus "$dir" &>/dev/null && exit 0
 
-# Left/right
 if ((lr)); then
-	# REVISIT: Select left-most/right-most window
-	yabai -m display --focus "$display_dir" && exit 0
-	yabai -m display --focus "$display_wrap" && exit 0
-
+	yabai-focus-display "$dir"
 else
-	yabai -m window --focus "$stack_dir" &>/dev/null && exit 0
-	yabai -m window --focus "$stack_wrap" &>/dev/null && exit 0
+	yabai-focus-stack "$dir"
 fi
 
 
