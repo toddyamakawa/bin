@@ -4,12 +4,12 @@
 
 dir="$1"
 case "$dir" in
-	up|next)
+	up|north|next)
 		dir='next'
 		wrap='first'
 		;;
 
-	down|prev)
+	down|south|prev)
 		dir='prev'
 		wrap='last'
 		lr=0
