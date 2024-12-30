@@ -1,0 +1,6 @@
+#!/bin/bash
+sketchybar \
+	--set "$NAME" \
+	update_freq=1 \
+	icon= \
+	label="$(date +'%H:%M:%S')"
