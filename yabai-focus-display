@@ -22,6 +22,6 @@ case "$dir" in
 esac
 
 # REVISIT: Select left-most/right-most window
-yabai -m display --focus "$dir" && exit 0
-yabai -m display --focus "$wrap"
+yabai -m display --focus "$dir" &>/dev/null && exit 0
+yabai -m display --focus "$wrap" &>dev/null
 
