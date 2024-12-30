@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# USAGE: yabai-focus-window <DIR>
+# DESCRIPTION: Focus on window in <DIR>
+
+dir="$1"
+case "$dir" in
+	left|west)
+		window_dir='west'
+		display_dir='prev'
+		display_wrap='last'
+		lr=1
+		;;
+
+	right|east)
+		window_dir='east'
+		display_dir='next'
+		display_wrap='first'
+		lr=1
+		;;
+
+	up|north)
+		window_dir='north'
+		stack_dir='stack.next'
+		stack_wrap='stack.first'
+		lr=0
+		;;
+
+	down|south)
+		window_dir='south'
+		stack_dir='stack.prev'
+		stack_wrap='stack.last'
+		lr=0
+		;;
+
+	*)
+		echo "unknown option" 1>&2
+		exit 1
+		;;
+esac
+
+yabai -m window --focus "$window_dir" &>/dev/null && exit 0
+
+# Left/right
+if ((lr)); then
+	# REVISIT: Select left-most/right-most window
+	yabai -m display --focus "$display_dir" && exit 0
+	yabai -m display --focus "$display_wrap" && exit 0
+
+else
+	yabai -m window --focus "$stack_dir" &>/dev/null && exit 0
+	yabai -m window --focus "$stack_wrap" &>/dev/null && exit 0
+fi
+
+
