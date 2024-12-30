@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# USAGE: yabai-focus-stack <DIR>
+# DESCRIPTION: Focus on window in stack <DIR>
+
+dir="$1"
+case "$dir" in
+	up|next)
+		dir='next'
+		wrap='first'
+		;;
+
+	down|prev)
+		dir='prev'
+		wrap='last'
+		lr=0
+		;;
+
+	*)
+		print-error "unknown direction '$dir'"
+		exit 1
+		;;
+esac
+
+yabai -m window --focus "stack.$dir" &>/dev/null && exit 0
+yabai -m window --focus "stack.$wrap" &>/dev/null
+
