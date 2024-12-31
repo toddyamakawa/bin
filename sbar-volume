@@ -10,10 +10,16 @@ case "$VOLUME" in
 	[1-9]|[1-2][0-9]) ICON="󰕿";;
 	*)
 		ICON="󰖁"
-		COLOR='0xffffffff'
+		DEFAULT_COLOR="$(sketchybar --query defaults | jq -r .label.color)"
+		COLOR="$DEFAULT_COLOR"
 		;;
 esac
 
 label="$(printf '%02d%%' "$VOLUME")"
-sketchybar --set "$NAME" icon="$ICON" icon.color="$COLOR" label="$label" label.color="$COLOR"
+args=()
+args+=(--set "$NAME")
+args+=(icon="$ICON" icon.color="$COLOR")
+args+=(label="$label")
+[[ -n "$COLOR" ]] && args+=(label.color="$COLOR")
+sketchybar "${args[@]}"
 
