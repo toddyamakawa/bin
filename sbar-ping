@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+host="$1"
+theme="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/theme"
+icon='●'
+
+# Get ping
+result="$(ping -c 2 -n -q "$host")"
+retval=$?
+
+# No ping
+if ((retval)); then
+	color="0xff$("$theme" red)"
+	label=''
+
+else
+
+	# Get ping
+	ping="$(echo "$result" | awk -F '/' 'END {printf "%.0f\n", $5}')"
+
+	if ((ping < 200)); then
+		theme_color='green'
+	elif ((ping < 1000)); then
+		theme_color='yellow'
+	else
+		theme_color='red'
+	fi
+	color="0xff$("$theme" "$theme_color")"
+	label="${ping}ms"
+fi
+#label="1 $1"
+
+args=()
+args+=(--set "$NAME")
+args+=(update_freq=15)
+args+=(icon="$icon" icon.color="$color")
+args+=(label="$label" label.color="$color")
+sketchybar "${args[@]}"
+
