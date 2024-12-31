@@ -12,10 +12,12 @@ case "${PERCENTAGE}" in
 	[1-2][0-9]) ICON="";;
 	*) ICON=""
 esac
+ICON_COLOR='0xffff0000'
 
 if [[ "$CHARGING" != "" ]]; then
 	ICON=""
+	ICON_COLOR='0xffffff00'
 fi
 
-sketchybar --set "$NAME" icon="$ICON" label="${PERCENTAGE}%"
+sketchybar --set "$NAME" icon="$ICON" icon.color="$ICON_COLOR" label="${PERCENTAGE}%"
 

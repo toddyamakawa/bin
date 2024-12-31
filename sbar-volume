@@ -1,14 +1,19 @@
 #!/usr/bin/env bash
 [[ "$SENDER" = "volume_change" ]] || exit 0
 
+COLOR='0xffff0000'
+
 VOLUME="$INFO"
 case "$VOLUME" in
 	[6-9][0-9]|100)   ICON="󰕾";;
 	[3-5][0-9])       ICON="󰖀";;
 	[1-9]|[1-2][0-9]) ICON="󰕿";;
-	*) ICON="󰖁"
+	*)
+		ICON="󰖁"
+		COLOR='0xffffffff'
+		;;
 esac
 
 label="$(printf '%02d%%' "$VOLUME")"
-sketchybar --set "$NAME" icon="$ICON" label="$label"
+sketchybar --set "$NAME" icon="$ICON" icon.color="$COLOR" label="$label" label.color="$COLOR"
 
