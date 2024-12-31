@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 [[ "$SENDER" = "volume_change" ]] || exit 0
 
-COLOR='0xffff0000'
+theme="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/theme"
+color="0xff$("$theme" red)"
 
 VOLUME="$INFO"
 case "$VOLUME" in
@@ -10,15 +11,16 @@ case "$VOLUME" in
 	[1-9]|[1-2][0-9]) ICON="󰕿";;
 	*)
 		ICON="󰖁"
-		DEFAULT_COLOR="$(sketchybar --query defaults | jq -r .label.color)"
-		COLOR="$DEFAULT_COLOR"
+		default_color="$(sketchybar --query defaults | jq -r .label.color)"
+		color="$default_color"
 		;;
 esac
 
 label="$(printf '%02d%%' "$VOLUME")"
+
 args=()
-args+=(--set "$NAME")
-args+=(icon="$ICON" icon.color="$COLOR")
+args+=(--set "${NAME:-volume}")
+args+=(icon="$ICON" icon.color="$color")
 args+=(label="$label")
 [[ -n "$COLOR" ]] && args+=(label.color="$COLOR")
 sketchybar "${args[@]}"
