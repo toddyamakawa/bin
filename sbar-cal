@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
-exec sketchybar \
-	--set "$NAME" \
-	icon=󰃭 \
-	label="$(date +'%a %b %d')"
+theme="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/theme"
+color="0xff$("$theme" lavender)"
+
+icon='󰃭'
+label="$(date +'%a %b %d')"
+
+args=()
+args+=(--set "${NAME:-cal}")
+args+=(update_freq=15)
+args+=(icon="$icon" icon.color="$color")
+args+=(label="$label" label.color="$color")
+sketchybar "${args[@]}"
+
