@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+exec sketchybar \
+	--set "$NAME" \
+	icon=󰃭 \
+	label="$(date +'%a %b %d')"

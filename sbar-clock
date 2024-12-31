@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-sketchybar \
+exec sketchybar \
 	--set "$NAME" \
 	update_freq=1 \
 	icon= \
