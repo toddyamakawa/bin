@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# USAGE: theme <color>
+# DESCRIPTION: Returns RGB for <color>
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Catpuccin Macchiato
+color="$1"
+case "$color" in
+	rosewater)   echo f4dbd6;;
+	flamingo)    echo f0c6c6;;
+	pink)        echo f5bde6;;
+	mauve)       echo c6a0f6;;
+	red)         echo ed8796;;
+	maroon)      echo ee99a0;;
+	peach)       echo f5a97f;;
+	yellow)      echo eed49f;;
+	green)       echo a6da95;;
+	teal)        echo 8bd5ca;;
+	sky)         echo 91d7e3;;
+	sapphire)    echo 7dc4e4;;
+	blue)        echo 8aadf4;;
+	lavender)    echo b7bdf8;;
+	text)        echo cad3f5;;
+	subtext1)    echo b8c0e0;;
+	subtext0)    echo a5adcb;;
+	overlay2)    echo 939ab7;;
+	overlay1)    echo 8087a2;;
+	overlay0)    echo 6e738d;;
+	surface2)    echo 5b6078;;
+	surface1)    echo 494d64;;
+	surface0)    echo 363a4f;;
+	base)        echo 24273a;;
+	mantle)      echo 1e2030;;
+	crust)       echo 181926;;
+	transparent) echo ff000000;;
+esac
+
