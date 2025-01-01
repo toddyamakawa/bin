@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
+theme="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/theme"
+color="0xff$("$theme" red)"
+
 stack_index="$(yabai -m query --windows --window | jq '."stack-index"')"
 
 args=()
-args+=(--set "$NAME")
+args+=(--set "${NAME:-stack}")
 
 # If not in stack, turn off item
 if ! ((stack_index)); then
@@ -11,13 +14,12 @@ if ! ((stack_index)); then
 
 # If in stack, turn on item
 else
-	ICON='≡'
-	COLOR='0xffff0000'
+	icon='≡'
 	args+=(drawing=on)
 	args+=(label="$stack_index")
-	args+=(label.color="$COLOR")
-	args+=(icon="$ICON")
-	args+=(icon.color="$COLOR")
+	args+=(label.color="$color")
+	args+=(icon="$icon")
+	args+=(icon.color="$color")
 fi
 
 exec sketchybar "${args[@]}"
