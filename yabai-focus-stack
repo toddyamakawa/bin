@@ -21,6 +21,17 @@ case "$dir" in
 		;;
 esac
 
-yabai -m window --focus "stack.$dir" &>/dev/null && exit 0
-yabai -m window --focus "stack.$wrap" &>/dev/null
+yabai -m window --focus "stack.$dir" &>/dev/null
+retval=$?
+
+if ((retval)); then
+	# Handle wraparound
+	yabai -m window --focus "stack.$wrap" &>/dev/null
+	retval=$?
+fi
+
+# Best effort to update sketchybar stack item
+sbar-stack &>/dev/null || true
+
+exit $retval
 
