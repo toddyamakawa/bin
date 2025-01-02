@@ -2,22 +2,43 @@
 # USAGE: yabai-move-window <DIR>
 # DESCRIPTION: TODO
 
-if [[ "$1" == 'left' ]]; then
-	window_dir='west'
-	display_dir='prev'
-elif [[ "$1" == 'right' ]]; then
-	window_dir='east'
-	display_dir='next'
-else
-	exit 1
+if yabai-is-floating; then
+	exec yabai-move-floating-window "$@"
 fi
 
+dir="$1"
+case "$dir" in
+	left|west)
+		window_dir='west'
+		display_dir='prev'
+		;;
+	right|east)
+		window_dir='east'
+		display_dir='next'
+		;;
+	up|north)
+		window_dir='north'
+		display_dir=''
+		;;
+	down|south)
+		window_dir='south'
+		display_dir=''
+		;;
+
+	*)
+		print-error "unknown direction '$dir'"
+		exit 1
+		;;
+esac
+
 # Move window left and exit
-yabai -m window --warp "$window_dir" &>/dev/null && exit
+yabai -m window --warp "$window_dir" &>/dev/null && exit 0
 
 # Get window ID and move window to left display
-window_info="$(yabai -m query --windows --window)"
-window_id="$(echo "$window_info" | jq .id)"
-yabai -m window --display "$display_dir"
-yabai -m window --focus "$window_id"
+if [[ -n "$display_dir" ]]; then
+	window_info="$(yabai -m query --windows --window)"
+	window_id="$(echo "$window_info" | jq .id)"
+	yabai -m window --display "$display_dir"
+	yabai -m window --focus "$window_id"
+fi
 
