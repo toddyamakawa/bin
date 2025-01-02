@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+
+# Mute when clicked
+if [[ "$SENDER" = "mouse.clicked" ]]; then
+	exec "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/mac-mute"
+	exit 0
+fi
+
 [[ "$SENDER" = "volume_change" ]] || exit 0
 
 theme="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/theme"
