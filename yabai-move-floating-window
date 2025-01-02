@@ -10,8 +10,8 @@ dir="$1"
 case "$dir" in
 	left|west)  move="rel:-$step:0";;
 	right|east) move="rel:$step:0";;
-	up|north)   move="rel:0:$step";;
-	down|south) move="rel:0:-$step";;
+	up|north)   move="rel:0:-$step";;
+	down|south) move="rel:0:$step";;
 	*)
 		print-error "unknown direction '$dir'"
 		exit 1
