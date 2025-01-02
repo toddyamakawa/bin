@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# USAGE: yabai-resize-floating <width%> [height%]
+# DESCRIPTION: Resize floating window according to width/height
+#
+config="$(yabai -m query --windows --window)"
+floating="$(jq '."is-floating"' <<<"$config")"
+[[ "$floating" != 'true' ]] && exit
+
+width="${1:-50}"
+height="${2:-$width}"
+
+start_row="$(((100-height)/2))"
+start_col="$(((100-width)/2))"
+
+yabai -m window --grid "100:100:$start_col:$start_row:$width:$height"
+
