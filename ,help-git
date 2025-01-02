@@ -4,6 +4,7 @@ print-header 'GIT'
 cat <<-EOF
 EOF
 print-url 'https://github.com/GitAlias/gitalias'
+print-url 'https://wizardzines.com/comics/inside-git'
 
 echo
 echo -e "$(cat << EOF
@@ -19,12 +20,15 @@ EOF
 
 
 echo
+print-header '.git'
 echo -e "$(cat << EOF
 .git/HEAD
 .git/refs/heads/main
-.git/objects/<commit>
 .git/logs/refs/heads/main
 .git/refs/remotes/origin/main
+
+# git cat-file -p <blob>
+.git/objects/<blob>
 
 .git/config
 .git/hooks
