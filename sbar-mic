@@ -8,19 +8,19 @@ if [[ "$SENDER" = "mouse.clicked" ]]; then
 	mac-mic-toggle
 fi
 
-#icon=''
-icon=''
-
 mic_volume="$(osascript -e 'input volume of (get volume settings)')"
 if ((mic_volume==0)); then
+	icon='󰍭'
 	default_color="$(sketchybar --query defaults | jq -r .label.color)"
 	color="$default_color"
 else
+	icon=''
 	color="0xff$(theme red)"
 fi
 
 args=()
 args+=(--set "${NAME:-mic}")
 args+=(icon="$icon" icon.color="$color")
+args+=(label.drawing=off)
 sketchybar "${args[@]}"
 
