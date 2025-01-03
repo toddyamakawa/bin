@@ -2,4 +2,4 @@
 # USAGE: yabai-ls-spaces
 # DESCRIPTION: Print all spaces
 #exec yabai -m query --spaces | jq .
-exec yabai -m query --spaces | jq -c '.[] | {id,index,display,windows,"first-window","last-window","is-native-fullscren","stack-index"}'
+exec yabai -m query --spaces | jq -c '.[] | {id,index,display,type,windows,"first-window","last-window","is-native-fullscren","stack-index"}'
