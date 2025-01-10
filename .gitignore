@@ -6,6 +6,8 @@
 
 !/sourceme
 !/sourceme/*
+!/config
+!/config/*
 !/cube
 !/cube/*
 !/examples
