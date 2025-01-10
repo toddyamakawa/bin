@@ -1,0 +1,24 @@
+
+" vim: ft=vim
+
+"set termguicolors
+set t_Co=256
+
+"autocmd VimEnter * colorscheme desert
+colorscheme desert
+
+nnoremap <Enter> :
+
+nnoremap H ^
+nnoremap L $
+
+"nnoremap <Space>h <C-w>h
+"nnoremap <Space>j <C-w>j
+"nnoremap <Space>k <C-w>k
+"nnoremap <Space>l <C-w>l
+
+"set cursorline
+set hlsearch
+set nowrap
+set number
+
