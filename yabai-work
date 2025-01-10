@@ -1,42 +1,47 @@
 #!/usr/bin/env bash
 # USAGE: yabai-work
 # DESCRIPTION: TODO
-#SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 initial_id="$(yabai -m query --windows --window | jq .id)"
 
+# Map specifc apps to specific spaces
 declare -A apps
+#apps['1Password']=1
 apps['iTerm2']=4
 apps['ChatGPT']=7
 apps['Gmail']=7
 apps['Slack']=7
+apps['Google Calendar']=7
 apps['Spotify']=8
 apps['WhatsApp Web']=9
 
-# Key to check
-key_to_check="key2"
-
 while read line; do
 	#echo "line: $line"
-	id="$(echo "$line" | jq -r .id 2>/dev/null)"
-	app="$(echo "$line" | jq -r .app 2>/dev/null)"
-	title="$(echo "$line" | jq -r .title 2>/dev/null)"
+	id="$(   jq -r '.id'    <<<"$line")"
+	space="$(jq -r '.space' <<<"$line")"
+	app="$(  jq -r '.app'   <<<"$line")"
+	title="$(jq -r '.title' <<<"$line")"
 	[[ -z "$id" ]] && continue
-	#echo "id:$id app:$app title:$title"
+	#echo "id:$id space:$space app:$app title:$title"; continue
+
+	new_space='1'
 
 	if [[ -v apps[$app] ]]; then
-		yabai -m window --focus "$id"
-		yabai -m window --space "${apps[$app]}"
-		continue
+		new_space="${apps[$app]}"
 	elif [[ "$app" == "Google Chrome" ]]; then
-		space_id="$(sed -n 's/\([1-9]\):.*/\1/p' <<<"$title")"
-		if [[ -n "$space_id" ]]; then
-			yabai -m window --focus "$id"
-			yabai -m window --space "$space_id"
-			continue
+		chrome_space="$(sed -n 's/\([1-9]\):.*/\1/p' <<<"$title")"
+		if [[ -n "$chrome_space" ]]; then
+			new_space="$chrome_space"
 		fi
 	fi
-	#echo "id:$id app:$app title:$title"
+
+	#echo
+	#echo "new space ($space) $new_space"
+	#echo "id:$id space:$space app:$app title:$title"; continue
+	[[ "$space" == "$new_space" ]] && continue
+
+	yabai -m window --focus "$id"
+	yabai -m window --space "$new_space"
 
 done < <(yabai-ls-windows)
 
