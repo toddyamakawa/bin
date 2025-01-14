@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+reset="$(printf "\033[0m")"
+yellow="$(printf "\033[33m")"
+
+for p in $(echo "$LD_LIBRARY_PATH" | tr ':' '\n'); do
+	for f in "$p"/*; do
+		[[ "$f" == *.so* ]] || continue
+		nm -D "$f" | sed -e "s|^|$yellow$f$reset |"
+	done
+done
+
