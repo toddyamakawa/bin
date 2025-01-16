@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: mac-display-count
+system_profiler SPDisplaysDataType 2>/dev/null | grep -c "Display Type"
+
