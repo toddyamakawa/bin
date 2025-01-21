@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# USAGE: yabai-focus-space
+# DESCRIPTION: TODO
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Focus on a space without SIP:
+# https://github.com/koekeishiya/yabai/issues/205#issuecomment-520027557
+
+# This feels hacky
+space="${1:?}"
+skhd --key "ctrl - $space"
