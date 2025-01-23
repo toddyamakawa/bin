@@ -9,6 +9,8 @@ SHOW DATABASES;
 USE <database>;
 
 SHOW TABLES;
+SHOW TABLES LIKE '%todd%';
+SHOW TABLES FROM <database> LIKE '%todd%';
 SHOW FULL TABLES;
 DESCRIBE <table>;
 
