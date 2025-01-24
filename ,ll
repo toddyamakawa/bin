@@ -7,8 +7,7 @@ if ! (exa --help &> /dev/null); then
 		-F \
 		-lrth \
 		--color=auto \
-		--group-directories-first \
-		$@
+		"$@"
 	exit $?
 fi
 
