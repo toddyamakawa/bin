@@ -11,7 +11,10 @@ trap atexit EXIT
 
 # Raw mode
 stty raw
-stty -echo
+#stty -echo -icanon time 0 min 1
+stty -echo -icanon time 0 min 0
+
+
 
 # Run command
 "$@"
