@@ -11,6 +11,7 @@ trap atexit EXIT
 
 # Raw mode
 stty raw
+stty -echo
 
 # Run command
 "$@"
