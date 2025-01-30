@@ -197,6 +197,8 @@
 !/hwinfo
 !/isfile.py
 !/job-wrapper
+!/lab
+!/lab-edit
 !/launch
 !/lld
 !/llup
