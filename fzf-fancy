@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+declare -A colors
+
+colors['fg']=7
+colors['fg+']=81
+colors['bg']=236
+colors['bg+']=238
+colors['hl']=173
+colors['hl+']=173
+colors['preview-fg']=7
+colors['preview-bg']=236
+
+colors['spinner']=166
+colors['pointer']=166
+colors['gutter']=236
+colors['marker']=214
+
+colors['prompt']=123
+colors['info']=123
+colors['border']=251
+
+colors_arg=''
+for key in "${!colors[@]}"; do
+	colors_arg+="${key}:${colors[$key]},"
+done
+colors_arg=${colors_arg%,*}
+
+# Catpuccin Macchiato
+if ((0)); then
+	colors_arg=''
+	colors_arg+='bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796,'
+	colors_args+='fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6,'
+	colors_arg+='marker:#b7bdf8,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796,'
+	colors_arg+='selected-bg:#494d64'
+fi
+
+# Catpuccin Mocha
+if ((0)); then
+	colors_arg=''
+	colors_arg+='bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8,'
+	colors_arg+='fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc,'
+	colors_arg+='marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8,'
+	colors_arg+='selected-bg:#45475a'
+fi
+
+exec fzf --color "$colors_arg" --style full "$@"
+
