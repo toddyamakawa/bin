@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo -e "Yes\nNo" \
+	| fzf-fancy --height=~100% --no-input --reverse --style minimal
+
