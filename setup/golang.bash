@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-apptainer pull golang.sif docker://golang:latest
+[[ -f golang.sif ]] || apptainer pull golang.sif docker://golang:latest
+print-cmd apptainer exec --bind "\$PWD/go-cache:/go/pkg" golang.sif bash
