@@ -86,7 +86,7 @@ fzf.git/bin/fzf: fzf.git
 	fzf.git/install --no-key-bindings --no-completion --no-update-rc
 	touch $@
 fzf.git:
-	git clone --depth 1 https://github.com/junegunn/fzf $@
+	git clone --depth 1 --branch v0.59.0 https://github.com/junegunn/fzf $@
 
 # --- Gum ---
 gum: gum.git/gum
