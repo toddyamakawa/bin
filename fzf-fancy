@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# ==============================================================================
+# MY THEME
+# ==============================================================================
 declare -A colors
 
 colors['fg']=7
@@ -16,16 +19,23 @@ colors['pointer']=166
 colors['gutter']=236
 colors['marker']=214
 
+colors['border']=251
+
 colors['prompt']=123
 colors['info']=123
-colors['border']=251
+colors['input-label']=123
+colors['input-border']=123
 
 colors_arg=''
 for key in "${!colors[@]}"; do
 	colors_arg+="${key}:${colors[$key]},"
 done
-colors_arg=${colors_arg%,*}
+colors_arg="${colors_arg%,*}"
 
+
+# ==============================================================================
+# OTHER THEMES
+# ==============================================================================
 # Catpuccin Macchiato
 if ((0)); then
 	colors_arg=''
@@ -44,5 +54,15 @@ if ((0)); then
 	colors_arg+='selected-bg:#45475a'
 fi
 
-exec fzf --color "$colors_arg" --style full "$@"
+
+# ==============================================================================
+# MAIN
+# ==============================================================================
+fzf_args=()
+fzf_args+=(--color "$colors_arg")
+fzf_args+=(--style full)
+fzf_args+=(--input-label ' Input ')
+
+#exec fzf --color "$colors_arg" --style full "$@"
+exec fzf "${fzf_args[@]}" "$@"
 
