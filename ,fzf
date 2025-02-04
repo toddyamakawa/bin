@@ -23,6 +23,11 @@ height=$(tput lines)
 # Filter command
 filter='cat'
 
+
+# ==============================================================================
+# ARGS
+# ==============================================================================
+
 # Default args
 declare -A args
 args['multi']="--multi"
@@ -53,15 +58,10 @@ args['query']="--query='$@ '"
 # TODO: Add header
 #args['header']="--header '(default)'"
 
-# Custom colorscheme
-args['color']='--color '
-args['color']+='fg:7,bg:233,fg+:39,bg+:236'
-args['color']+=',hl:172,hl+:172'
-args['color']+=',spinner:166,pointer:166,gutter:236,marker:214'
-args['color']+=',prompt:123,info:123'
-args['color']+=',border:33,preview-fg:7,preview-bg:235'
 
-# Actions
+# ==============================================================================
+# ACTIONS
+# ==============================================================================
 # abort
 # accept / accept-non-empty
 # backward-char / backward-delete-char / backward-delete-char/eof
@@ -114,6 +114,9 @@ args['color']+=',border:33,preview-fg:7,preview-bg:235'
 	#--preview "'my-fzf-preview-git-diff {}'" \
 	#--preview "'git show --color=always --numstat {1}'" \
 
+# ==============================================================================
+# CONFIG
+# ==============================================================================
 case "$config" in
 	default);;
 	d|dir*) args['preview']="--preview '$preview/dir {}'";;
@@ -142,5 +145,5 @@ fzf_args+=("--bind=$(IFS=,; echo "${binds[*]}")")
 
 # Print and run
 ((verbosity)) && echo "COMMAND: fzf $cmd"
-eval exec fzf "${fzf_args[@]}" | eval $filter
+eval exec fzf-fancy "${fzf_args[@]}" | eval $filter
 
