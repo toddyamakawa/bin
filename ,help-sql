@@ -22,5 +22,12 @@ SELECT * FROM <table> ORDER BY <column1> ASC, <column2> DESC;
 SELECT a.column1, b.column2 FROM table1 a JOIN table2 b ON a.common_column = b.common_column;
 
 INSERT INTO <table> (<column1>, <column2>) VALUES ('value1', 'value2');
+
 EOF
+
+
+print-header 'EXPLAIN'
+print-url https://www.postgresql.org/docs/current/sql-explain.html
+print-url https://explain.dalibo.com/
+echo
 
