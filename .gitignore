@@ -119,6 +119,9 @@
 !/xml2json.py
 
 !/\[\[\[
+!/-h
+!/--help
+
 !/2size
 !/2svg
 !/a
