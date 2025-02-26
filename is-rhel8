@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec grep -q "Red Hat Enterprise Linux release 8" /etc/redhat-release &>/dev/null
