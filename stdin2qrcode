@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# USAGE: echo "Hello world!" | stdin2qrcode
+# DESCRIPTION: Print qrcode to stdout
+
+if ! command -v qrencode &>/dev/null; then
+	print-error qrencode not installed
+	exit 1
+fi
+
+qrencode -t ANSI256 -o -
+

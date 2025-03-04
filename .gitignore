@@ -264,6 +264,7 @@
 !/sqlite-schema
 !/ssh.rb
 !/ssh2ssh
+!/stdin2qrcode
 !/streamlit-demo
 !/supercmd
 !/svn-url
