@@ -14,6 +14,8 @@ SHOW TABLES FROM <database> LIKE '%todd%';
 SHOW FULL TABLES;
 DESCRIBE <table>;
 
+SHOW COLUMNS FROM <table> LIKE '%todd%';
+
 SELECT <column1>,<column2> FROM <table>;
 SELECT * FROM <table> WHERE <column> LIKE '%todd%';
 SELECT * FROM <table> LIMIT 10;
