@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# USAGE: ls-nerdfonts
+# DESCRIPTION: List Nerd Fonts
+
+URL='https://github.com/ryanoasis/nerd-fonts/releases/expanded_assets/v3.3.0'
+curl -sL "$URL" | grep -Poi 'href="/ryanoasis/nerd-fonts/releases/download/v3.3.0/\K\w+\.zip'
+
