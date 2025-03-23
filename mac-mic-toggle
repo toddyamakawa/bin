@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# USAGE: mac-mic-toggle
+# DESCRIPTION: Toggle mic mute
+mic_volume="$(osascript -e 'input volume of (get volume settings)')"
+if ((mic_volume==0)); then
+	exec mac-mic-unmute
+else
+	exec mac-mic-mute
+fi

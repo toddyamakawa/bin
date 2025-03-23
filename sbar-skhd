@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="$SCRIPT_DIR:$PATH"
+
+
+if ! pgrep -qx skhd; then
+	color="0xff$(theme red)"
+	icon=''
+	label='skhd is not running'
+
+# skhd: secure keyboard entry is enabled
+elif ioreg -l -w 0 |& grep -q SecureInput; then
+	color="0xff$(theme red)"
+	icon=''
+	label='secure keyboard entry is enabled'
+
+else
+	color="0xff$(theme green)"
+	icon=''
+	label='skhd'
+fi
+
+args=()
+args+=(--set "${NAME:-skhd}")
+args+=(icon="$icon" icon.color="$color")
+args+=(label="$label" label.color="$color")
+sketchybar "${args[@]}"
+

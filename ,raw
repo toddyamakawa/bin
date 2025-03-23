@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# USAGE: ,raw <command>
+# DESCRIPTION: Enter raw mode, restore settings on exit
+
+# Restore settings on exit
+stty_orig="$(stty -g)"
+function atexit {
+	stty "$stty_orig"
+}
+trap atexit EXIT
+
+# Raw mode
+stty raw
+#stty -echo -icanon time 0 min 1
+stty -echo -icanon time 0 min 0
+
+
+
+# Run command
+"$@"
+

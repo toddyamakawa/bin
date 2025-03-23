@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: yabai-ls-windows
+# DESCRIPTION: Print all windows
+exec yabai -m query --windows | jq -c '.[] | {id,app,title}'

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+fzf_args=()
+fzf_args+=(--header-lines 1)
+fzf_args+=(--height=~100%)
+fzf_args+=(--reverse)
+fzf_args+=(--multi)
+#fzf_args+=(--bind '1:change-nth(1)')
+#fzf_args+=(--bind '2:change-nth(2)')
+#fzf_args+=(--bind '3:change-nth(3)')
+#fzf_args+=(--bind '4:change-nth(4)')
+#fzf_args+=(--bind '5:change-nth(5)')
+#fzf_args+=(--bind '6:change-nth(6)')
+#fzf_args+=(--bind '7:change-nth(7)')
+#fzf_args+=(--bind '8:change-nth(8)')
+#fzf_args+=(--bind '9:change-nth(9)')
+#fzf_args+=(--bind '0:change-nth(..)')
+pseo | fzf-fancy "${fzf_args[@]}"
+

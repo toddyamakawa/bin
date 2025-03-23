@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# USAGE: yabai-focus-stack <DIR>
+# DESCRIPTION: Focus on window in stack <DIR>
+
+dir="$1"
+case "$dir" in
+	up|north|next)
+		dir='next'
+		wrap='first'
+		;;
+
+	down|south|prev)
+		dir='prev'
+		wrap='last'
+		lr=0
+		;;
+
+	*)
+		print-error "unknown direction '$dir'"
+		exit 1
+		;;
+esac
+
+yabai -m window --focus "stack.$dir" &>/dev/null
+retval=$?
+
+if ((retval)); then
+	# Handle wraparound
+	yabai -m window --focus "stack.$wrap" &>/dev/null
+	retval=$?
+fi
+
+# Best effort to update sketchybar stack item
+sbar-stack &>/dev/null || true
+
+exit $retval
+

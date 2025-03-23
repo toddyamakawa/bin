@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git-ff
+# DESCRIPTION: git fetch; git ff
+exec git merge --ff-only

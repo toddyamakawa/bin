@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# USAGE: lab
+# DESCRIPTION: Opens a new tmux window to test code
+if ! [[ -e ${TMUX%%,*} ]]; then
+	print-error Must run in tmux
+	exit 1
+fi
+
+lab_dir="$(mktemp -d)" || exit $?
+
+tmux new-window -c "$lab_dir" -n "lab" lab-edit
+tmux split-window -h -c "$lab_dir" repl
+tmux split-window -v -l 2 -c "$lab_dir"
+tmux select-pane -t 2
+tmux select-pane -t 1
+

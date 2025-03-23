@@ -105,33 +105,39 @@ fi
 
 # Directory permissions
 [[ "$OSTYPE" =~ .*darwin.* ]] && ismac=1 || ismac=0
-((ismac)) && permission="$(stat -f %Lp . 2>/dev/null)" || permission="$(stat -c %a . 2>/dev/null)"
-bad_dir=$?
-if ((bad_dir)); then
-	prompt+=" ${red}???"
-
+if ((ismac)); then
+	permission="$(stat -f %Lp . 2>/dev/null)"
 else
+	permission="$(stat -c %a . 2>/dev/null)"
+fi
+
+if [[ -n "$permission" ]]; then
 	p1="${permission:(-3):1}"
 	p2="${permission:(-2):1}"
 	p3="${permission:(-1):1}"
-	prompt+=" "
+
 	if ((ismac)); then
 		owner="$(stat -f %Su .)"
 		group="$(stat -f %Sg .)"
 	else
 		owner="$(stat -c %U .)"
-		group="$(stat -c %G .)" 
+		group="$(stat -c %G .)"
 	fi
 
+	prompt+=" "
 	[[ "$(whoami)" == "$owner" ]] && prompt+="$green$p1" || prompt+="$red$p1"
 	groups | grep -q "$group" && prompt+="$green$p2" || prompt+="$red$p2"
 	prompt+="$green$p3"
-
-	# Check PWD for user
-	base="$(basename "$(pwd)")"
-	#base='\W'
-	pwd | grep -q $(whoami) && prompt+=" $green$base" || prompt+=" $yellow$base"
 fi
+
+base="$(basename "$PWD")"
+if ! [[ -d "$PWD" ]]; then
+	base_color="$red"
+else
+	base_color="$yellow"
+	grep -q "$(whoami)" <<<"$PWD" && base_color="$green"
+fi
+prompt+=" $base_color$base"
 
 
 # ==============================================================================
@@ -154,7 +160,7 @@ else
 	# https://unix.stackexchange.com/questions/43340/how-to-introduce-timeout-for-shell-scripting
 	#stat="$(git status -sb -uno 2>/dev/null | head -1)"
 	#git_slow=$?
-	
+
 	[[ -f "$(git rev-parse --show-toplevel 2>/dev/null)/.git/index.lock" ]] && prompt+=" ${red}<locked>"
 	#[[ -f "$(git rev-parse --show-toplevel 2>/dev/null)/.git/index.lock" ]] && prompt+=" 🔒"
 

@@ -5,6 +5,31 @@ cat <<-EOF
 # MySQL:
 SHOW VARIABLES LIKE "%version%";
 
+SHOW DATABASES;
+USE <database>;
+
+SHOW TABLES;
+SHOW TABLES LIKE '%todd%';
+SHOW TABLES FROM <database> LIKE '%todd%';
+SHOW FULL TABLES;
 DESCRIBE <table>;
+
+SHOW COLUMNS FROM <table> LIKE '%todd%';
+
+SELECT <column1>,<column2> FROM <table>;
+SELECT * FROM <table> WHERE <column> LIKE '%todd%';
+SELECT * FROM <table> LIMIT 10;
+SELECT * FROM <table> ORDER BY <column1> ASC, <column2> DESC;
+
+SELECT a.column1, b.column2 FROM table1 a JOIN table2 b ON a.common_column = b.common_column;
+
+INSERT INTO <table> (<column1>, <column2>) VALUES ('value1', 'value2');
+
 EOF
+
+
+print-header 'EXPLAIN'
+print-url https://www.postgresql.org/docs/current/sql-explain.html
+print-url https://explain.dalibo.com/
+echo
 

@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+# USAGE: jira-show <ISSUE_KEY>
+# DESCRIPTION: Show details of a JIRA issue
+
+import argparse
+from python_lib import myjira
+
+parser = argparse.ArgumentParser()
+parser.add_argument('jira_issue', help='JIRA issue key')
+parser.add_argument('-e', '--email', help='Email address to use for authentication')
+parser.add_argument('-c', '--comments', action='store_true', help='Show comments')
+args = parser.parse_args()
+
+jira = myjira.get_client(args.email)
+issue = myjira.get_issue(jira, args.jira_issue)
+
+bold   = '\033[1m'
+red    = '\033[31m'
+green  = '\033[32m'
+yellow = '\033[33m'
+blue   = '\033[34m'
+cyan   = '\033[36m'
+reset  = '\033[0m'
+
+priority = issue.fields.priority.name if 'priority' in issue.fields.__dict__ else 'N/A'
+has_parent = 'parent' in issue.fields.__dict__
+parent = f'[{issue.fields.parent.key}] {issue.fields.parent.fields.summary}' if has_parent else f'N/A'
+
+print(f"{bold}{blue}{issue.key}{reset} {bold}{yellow}{issue.fields.summary}{reset}")
+print(f"{bold}{blue}Type:    {reset} {issue.fields.issuetype.name}")
+print(f"{bold}{blue}Status:  {reset} {issue.fields.status.name}")
+print(f"{bold}{blue}Priority:{reset} {priority}")
+print(f"{bold}{blue}Assignee:{reset} {issue.fields.assignee.displayName if issue.fields.assignee else 'Unassigned'}")
+print(f"{bold}{blue}Reporter:{reset} {issue.fields.reporter.displayName}")
+print(f"{bold}{blue}Parent:  {reset} {parent}")
+print(f"{bold}{blue}Created: {reset} {issue.fields.created}")
+print(f"{bold}{blue}Updated: {reset} {issue.fields.updated}")
+print(f"{bold}{blue}Labels:  {reset} {issue.fields.labels}")
+print(f"{bold}{blue}URL:     {reset} {bold}{cyan}{issue.permalink()}{reset}")
+print()
+
+print(f"{bold}{blue}Description:{reset}")
+print(f"{issue.fields.description}")
+print()
+
+if args.comments:
+    #print(f"{bold}{blue}Comments:{reset}")
+    for comment in issue.fields.comment.comments:
+        author = comment.author.displayName
+        created = comment.created
+        body = comment.body
+        print(f"{bold}{blue}[Comment] {created}{reset} {bold}{yellow}{author}{reset}")
+        print(f"{body}")
+        print()
+

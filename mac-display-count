@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: mac-display-count
+system_profiler SPDisplaysDataType 2>/dev/null \
+	| awk '($1 == "Resolution:") {count++} END {print count}'
+

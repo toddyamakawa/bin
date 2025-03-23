@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# USAGE: ,bat
+# DESCRIPTION: Use batcat
+
+export BAT_PAGER="less -RF"
+
+bat_cmd=('cat')
+
+if command -v batcat &>/dev/null; then
+	bat_cmd=('batcat')
+elif command -v bat &>/dev/null; then
+	bat_cmd=('bat')
+fi
+
+# --plain --language=help
+exec "${bat_cmd[@]}" "$@"
+

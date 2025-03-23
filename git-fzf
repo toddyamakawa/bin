@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: git-fzf
+# DESCRIPTION: Select git files with fzf
+git ls-files | ,fzf

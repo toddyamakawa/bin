@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# USAGE: nvim-terminal
+# DESCRIPTION: TODO
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export XDG_CONFIG_HOME="$SCRIPT_DIR/config"
+export NVIM_APPNAME='nvim-terminal'
+exec nvim "$@"
+

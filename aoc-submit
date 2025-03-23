@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+if ((${#@} != 4)); then
+	echo "USAGE: aoc-submit <year> <day> <level> <answer>"
+fi
+
+year="$1"
+day="$2"
+level="$3"
+answer="$4"
+session="$(cat "$(git-top)/.session.txt")" || exit $?
+
+url="https://adventofcode.com/$year/day/$day/answer"
+# Uncomment for debug
+echo curl --cookie "session=$session" --data-raw "level=$level&answer=$answer" "$url"; exit
+curl --cookie "session=$session" --data-raw "level=$level&answer=$answer" "$url"
+
+# <main>
+# <article><p>That's not the right answer; your answer is too low.  If you're stuck, make sure you're using the full input data; there are also some general tips on the <a href="/2022/about">about page</a>, or you can ask for hints on the <a href="https://www.reddit.com/r/adventofcode/" target="_blank">subreddit</a>.  Please wait one minute before trying again. <a href="/2022/day/4">[Return to Day 4]</a></p></article>
+# </main>
+
+# <main>
+# <article><p>That's the right answer!  You are <span class="day-success">one gold star</span> closer to collecting enough star fruit. <a href="/2022/day/4#part2">[Continue to Part Two]</a></p></article>
+# </main>
+

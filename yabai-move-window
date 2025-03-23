@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# USAGE: yabai-move-window <DIR>
+# DESCRIPTION: TODO
+
+if yabai-is-floating; then
+	exec yabai-move-floating-window "$@"
+fi
+
+dir="$1"
+case "$dir" in
+	left|west)
+		window_dir='west'
+		display_dir='prev'
+		;;
+	right|east)
+		window_dir='east'
+		display_dir='next'
+		;;
+	up|north)
+		window_dir='north'
+		display_dir=''
+		;;
+	down|south)
+		window_dir='south'
+		display_dir=''
+		;;
+
+	*)
+		print-error "unknown direction '$dir'"
+		exit 1
+		;;
+esac
+
+# Move window left and exit
+yabai -m window --warp "$window_dir" &>/dev/null && exit 0
+
+# Get window ID and move window to left display
+if [[ -n "$display_dir" ]]; then
+	window_info="$(yabai -m query --windows --window)"
+	window_id="$(echo "$window_info" | jq .id)"
+	yabai -m window --display "$display_dir"
+	yabai -m window --focus "$window_id"
+fi
+

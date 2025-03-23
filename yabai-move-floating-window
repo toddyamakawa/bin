@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# USAGE: yabai-move-floating-window <DIR>
+# DESCRIPTION: TODO
+
+yabai-is-floating || exit
+
+step="${2:-10}"
+
+dir="$1"
+case "$dir" in
+	left|west)  move="rel:-$step:0";;
+	right|east) move="rel:$step:0";;
+	up|north)   move="rel:0:-$step";;
+	down|south) move="rel:0:$step";;
+	*)
+		print-error "unknown direction '$dir'"
+		exit 1
+		;;
+esac
+
+exec yabai -m window --move "$move"
+

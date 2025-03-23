@@ -2,5 +2,10 @@
 # USAGE: ,bhosts
 # DESCRIPTION: Show LSF hosts
 bhosts -w "$@" \
-	| hl --blue '^HOST_NAME.*' --green ok --red closed_Adm 'closed ' unreach --yellow closed_Full
+	| hl \
+		--blue '^HOST_NAME.*' \
+		--green ok \
+		--red closed_Adm 'closed ' unreach \
+		--yellow closed_Full \
+		--cyan closed_LIM
 

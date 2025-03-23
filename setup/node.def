@@ -1,0 +1,10 @@
+Bootstrap: docker
+From: node:latest
+
+%post
+    apt-get update
+    apt-get install -y curl
+
+%runscript
+    exec node "$@"
+

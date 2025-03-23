@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# Mute when clicked
+if [[ "$SENDER" = "mouse.clicked" ]]; then
+	exec "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/mac-mute"
+	exit 0
+fi
+
+[[ "$SENDER" = "volume_change" ]] || exit 0
+
+theme="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/theme"
+color="0xff$("$theme" red)"
+
+VOLUME="$INFO"
+case "$VOLUME" in
+	[6-9][0-9]|100)   ICON="󰕾";;
+	[3-5][0-9])       ICON="󰖀";;
+	[1-9]|[1-2][0-9]) ICON="󰕿";;
+	*)
+		ICON="󰖁"
+		default_color="$(sketchybar --query defaults | jq -r .label.color)"
+		color="$default_color"
+		;;
+esac
+
+label="$(printf '%02d%%' "$VOLUME")"
+
+args=()
+args+=(--set "${NAME:-volume}")
+args+=(icon="$ICON" icon.color="$color")
+args+=(label="$label")
+[[ -n "$COLOR" ]] && args+=(label.color="$COLOR")
+sketchybar "${args[@]}"
+

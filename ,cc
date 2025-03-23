@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: ,cc ${CFLAGS[@]}
+# DESCRIPTION: 
+exec print-run "${CC:-cc}" -Wall -Wextra -pedantic -std=c99 "$@"

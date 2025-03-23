@@ -7,17 +7,30 @@ du 2>/dev/null | while read -r size dir; do
 	((size_mb<100)) && continue
 
 	case "$dir" in
-		*/.git/*)      continue;;
-		*/.venv/*)     continue;;
-		*/venv/*)      continue;;
-		*/logs/*)      continue;;
-		*/lib/*)       continue;;
-		*/external/*)  continue;;
-		*/execroot/*)  continue;;
-		*.zCui.work/*) continue;;
+		*/.git/*)                    continue;;
+		*/.venv/*)                   continue;;
+		*/venv/*)                    continue;;
+		*/logs/*)                    continue;;
+		*/lib/*)                     continue;;
+
+		# Bazel
+		*/external/*)                continue;;
+		*/execroot/*)                continue;;
+		*/bazel_output_user_root/*)  continue;;
+
+		# Zebu
+		*/frame_0/*)                 continue;;
+		*/zrci_run/*)                continue;;
+		*/backend_default/*)         continue;;
+
+		# Directory extension
+		*.vdb/*)                     continue;;
+		*.zCui.work/*)               continue;;
 	esac
 
-	printf '%8s  %s\n' "$size" "$dir" | numfmt --from-unit=1024 --to iec
+	size="$(numfmt --from-unit=1024 --to iec $size)"
+
+	printf '%8s  %s\n' "$size" "$dir"
 	#printf '%8s  %s\n' "$size_mb" "$dir"
 	[[ "$(dirname "$dir")" == '.' ]] && echo
 	[[ -d "$dir/.git" ]] && echo

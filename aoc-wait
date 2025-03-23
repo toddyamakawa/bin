@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# USAGE: aoc-wait <year> <day>
+# DESCRIPTION: 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+function now {
+	TZ=America/New_York date +%Y%m%d
+}
+
+year="${1:?}"
+day="${2:?}"
+day="$((10#$2))"
+
+year="$((year % 100 + 2000))"
+month=12
+day="$(printf "%02d" "$day")"
+
+wait_date="$year$month$day"
+
+current_date="$(now)"
+while [[ "$wait_date" != "$current_date" ]]; do
+	echo -en "\rwaiting $(TZ=America/New_York date +"%Y-%m-%d %T")..."
+	sleep 0.02
+	current_date="$(now)"
+done
+
+echo
+sleep 1
+aoc "$year" "$day"
+

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# USAGE: yabai-focus-display <DIR>
+# DESCRIPTION: Focus on display in <DIR>
+
+dir="$1"
+case "$dir" in
+	left|west|prev)
+		dir='prev'
+		wrap='last'
+		lr=0
+		;;
+
+	right|east|next)
+		dir='next'
+		wrap='first'
+		;;
+
+	*)
+		print-error "unknown direction '$dir'"
+		exit 1
+		;;
+esac
+
+# REVISIT: Select left-most/right-most window
+yabai -m display --focus "$dir" &>/dev/null && exit 0
+yabai -m display --focus "$wrap" &>dev/null
+

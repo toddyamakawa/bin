@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# USAGE: -h <command>
+# DESCRIPTION: Appends -h to command
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+"$@" -h |& ,bat --language=help --plain

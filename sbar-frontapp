@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+[[ "$SENDER" = "front_app_switched" ]] || exit 0
+APPNAME="$INFO"
+sketchybar --set "$NAME" label="$APPNAME"
+

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+theme="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/theme"
+color="0xff$("$theme" lavender)"
+
+icon='󰃭'
+#icon='⏱️'
+#icon='🕰️'
+#icon='⌚️'
+label="$(date +'%H:%M:%S')"
+
+args=()
+args+=(--set "${NAME:-clock}")
+args+=(update_freq=1)
+args+=(icon="$icon" icon.color="$color")
+args+=(label="$label" label.color="$color")
+sketchybar "${args[@]}"
+

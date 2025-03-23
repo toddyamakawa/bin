@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# USAGE: curl-nerdfonts
+# DESCRIPTION: Download nerdfont
+# https://www.reddit.com/r/neovim/comments/1j6eiec/comment/mgo51kq
+print-cmd mkdir -p ~/.local/share/fonts/JetBrainsMono
+print-cmd 'curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz | tar --extract --xz --directory ~/.local/share/fonts/JetBrainsMono'
+

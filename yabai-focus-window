@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# USAGE: yabai-focus-window <DIR>
+# DESCRIPTION: Focus on window in <DIR>
+
+dir="$1"
+case "$dir" in
+	left|west)
+		lr=1
+		dir='west'
+		;;
+
+	right|east)
+		lr=1
+		dir='east'
+		;;
+
+	up|north)
+		lr=0
+		dir='north'
+		;;
+
+	down|south)
+		lr=0
+		dir='south'
+		;;
+
+	*)
+		print-error "unknown direction '$dir'"
+		exit 1
+		;;
+esac
+
+yabai -m window --focus "$dir" &>/dev/null && exit 0
+
+if ((lr)); then
+	yabai-focus-display "$dir"
+else
+	yabai-focus-stack "$dir"
+fi
+
+

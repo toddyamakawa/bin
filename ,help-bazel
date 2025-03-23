@@ -29,4 +29,18 @@ cat << 'EOF'
 load(":internal_defs.bzl", _helper="helper")
 EOF
 
+echo
+print-header 'TARGETS'
+cat << 'EOF'
+# List all targets
+bazel query 'kind(".*_test rule", //...)'
+EOF
+
+echo
+print-header 'PROFILE'
+cat << 'EOF'
+bazel build --profile="$PWD/profile.gz" <target>
+bazel analyze-profile profile.gz
+EOF
+
 

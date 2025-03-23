@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# USAGE: lab-edit
+# DESCRIPTION: Creates scripts to test
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+mksh lab.sh
+mkpy lab.py
+e lab.*
+bash -i
+

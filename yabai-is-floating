@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# USAGE: yabai-is-floating
+# DESCRIPTION: Exits 0 if floating, non-zero otherwise
+config="$(yabai -m query --windows --window 2>/dev/null)"
+floating="$(jq '."is-floating"' <<<"$config" 2>/dev/null)"
+[[ "$floating" == 'true' ]] && exit 0 || exit 1

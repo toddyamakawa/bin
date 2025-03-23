@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+theme="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/theme"
+
+icon=''
+label="$(top -l 2 | awk '($1 == "CPU") { percent = $3 + $5 } END {print percent"%"}')"
+
+# REVISIT: Add color if usage is too high
+color="0xff$("$theme" lavender)"
+
+args=()
+args+=(--set "${NAME:-cpu}")
+args+=(update_freq=15)
+args+=(icon="$icon" icon.color="$color")
+args+=(label="$label" label.color="$color")
+args+=(--subscribe cpu mouse.clicked)
+sketchybar "${args[@]}"
+

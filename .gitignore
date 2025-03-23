@@ -6,6 +6,8 @@
 
 !/sourceme
 !/sourceme/*
+!/config
+!/config/*
 !/cube
 !/cube/*
 !/examples
@@ -34,6 +36,8 @@
 !/wordle_src
 !/wordle_src/*
 
+!/aoc
+!/aoc-*
 !/awk-*
 !/bash-*
 !/bjobs*
@@ -42,6 +46,7 @@
 !/bz
 !/bz-*
 !/cat-*
+!/chmod*
 !/chrome-*
 !/cp-*
 !/du*
@@ -54,6 +59,7 @@
 !/grep-*
 !/is-*
 !/install-*
+!/jira-*
 !/jq-*
 !/jq2*
 !/lp*
@@ -66,6 +72,7 @@
 !/nnn-*
 !/print-*
 !/rand*
+!/sbar-*
 !/test-*
 !/tr-*
 !/tree*
@@ -73,6 +80,7 @@
 !/untar*
 !/volume-*
 !/vnc-*
+!/yabai-*
 
 # git
 !/gitb
@@ -111,6 +119,9 @@
 !/xml2json.py
 
 !/\[\[\[
+!/-h
+!/--help
+
 !/2size
 !/2svg
 !/a
@@ -139,7 +150,6 @@
 !/cecho
 !/check-display
 !/chi
-!/chmod-uid
 !/chmodd
 !/chmodg
 !/chmodw
@@ -156,6 +166,7 @@
 !/csv2table.py
 !/curlo
 !/curl-me
+!/curl-nerdfonts
 !/cutw
 !/dad-joke
 !/ddstat
@@ -194,6 +205,8 @@
 !/hwinfo
 !/isfile.py
 !/job-wrapper
+!/lab
+!/lab-edit
 !/launch
 !/lld
 !/llup
@@ -219,6 +232,7 @@
 !/now
 !/nvimdiff
 !/nvim-profile
+!/nvim-terminal
 !/open-xls
 !/path-tui
 !/pnginfo
@@ -264,6 +278,7 @@
 !/tax
 !/tclsh-info
 !/tcpserver.py
+!/theme
 !/tig*
 !/timeout.pl
 !/timer-bg

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# USAGE: mac-mic-mute
+# DESCRIPTION: Mute mic
+exec osascript -e 'set volume input volume 0'

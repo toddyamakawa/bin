@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# USAGE: yabai-work
+# DESCRIPTION: TODO
+
+initial_id="$(yabai -m query --windows --window | jq .id)"
+
+# Map specifc apps to specific spaces
+declare -A apps
+#apps['1Password']=1
+apps['iTerm2']=4
+apps['ChatGPT']=7
+apps['Gmail']=7
+apps['Slack']=7
+apps['Google Calendar']=7
+apps['Spotify']=8
+apps['WhatsApp Web']=9
+
+while read line; do
+	#echo "line: $line"
+	id="$(   jq -r '.id'    <<<"$line")"
+	space="$(jq -r '.space' <<<"$line")"
+	app="$(  jq -r '.app'   <<<"$line")"
+	title="$(jq -r '.title' <<<"$line")"
+	[[ -z "$id" ]] && continue
+	#echo "id:$id space:$space app:$app title:$title"; continue
+
+	new_space='1'
+
+	if [[ -v apps[$app] ]]; then
+		new_space="${apps[$app]}"
+	elif [[ "$app" == "Google Chrome" ]]; then
+		chrome_space="$(sed -n 's/\([1-9]\):.*/\1/p' <<<"$title")"
+		if [[ -n "$chrome_space" ]]; then
+			new_space="$chrome_space"
+		fi
+	fi
+
+	#echo
+	#echo "new space ($space) $new_space"
+	#echo "id:$id space:$space app:$app title:$title"; continue
+	[[ "$space" == "$new_space" ]] && continue
+
+	yabai -m window --focus "$id"
+	yabai -m window --space "$new_space"
+
+done < <(yabai-ls-windows)
+
+yabai -m window --focus "$initial_id"
+
