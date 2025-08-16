@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# USAGE: mv-ext
+# DESCRIPTION: TODO
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+find . -type f | while read -r file; do
+	dir="$(dirname "$file")"
+	base="$(basename "$file")"
+	ext="${base##*.}"
+
+	[[ "$ext" == "$base" ]] && continue
+	[[ "$(basename "$dir")" = "$ext" ]] && continue
+
+	ext_dir="$dir/$ext"
+	mkdir -p "$ext_dir"
+	echo mv "$file" "$ext_dir"
+	mv "$file" "$ext_dir"
+done
+
